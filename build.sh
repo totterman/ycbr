@@ -68,9 +68,18 @@ npm i
 npm run build
 cd ..
 
-cd tanstack-nextjs/
+cd nextjs-ui/
 rm .env.development
-cp ../tanstack-nextjs.env.development .env.development
+cp ../nextjs-ui.env.development .env.development
+$SED "s/LOCALHOST_NAME/${host}/g" .env.development
+rm ".env.development''"
+npm i
+npm run build
+cd ..
+
+cd native-ui/
+rm .env.development
+cp ../native-ui.env.development .env.development
 $SED "s/LOCALHOST_NAME/${host}/g" .env.development
 rm ".env.development''"
 npm i
@@ -85,7 +94,8 @@ cd ..
 
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
 docker build -t ycbr/react-ui ./react-ui
-docker build -t ycbr/tanstack-nextjs ./tanstack-nextjs
+docker build -t ycbr/nextjs-ui ./nextjs-ui
+docker build -t ycbr/native-ui ./native-ui
 
 docker compose -f compose-${host}.yml up -d
 
