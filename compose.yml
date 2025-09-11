@@ -76,6 +76,15 @@ services:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
 
+  native-ui:
+    container_name: ycbr.native-ui
+    image: ycbr/native-ui
+    ports:
+      - 4204:4204
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "LOCALHOST_NAME:host-gateway"
+
   nextjs-ui:
     container_name: ycbr.nextjs-ui
     image: ycbr/nextjs-ui
@@ -85,11 +94,11 @@ services:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"
 
-  native-ui:
-    container_name: ycbr.native-ui
-    image: ycbr/native-ui
+  tanstack-ui:
+    container_name: ycbr.tanstack-ui
+    image: ycbr/tanstack-ui
     ports:
-      - 4204:4204
+      - 4206:80
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"

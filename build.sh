@@ -86,6 +86,15 @@ npm i
 npm run build
 cd ..
 
+cd tanstack-ui/
+rm .env
+cp ../tanstack-ui.env .env
+$SED "s/LOCALHOST_NAME/${host}/g" .env
+rm ".env"
+npm i
+npm run build
+cd ..
+
 cd nginx-reverse-proxy/
 rm nginx.conf
 cp ../nginx.conf ./
