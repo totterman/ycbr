@@ -27,7 +27,6 @@ com:
         resourceserver:
           permit-all:
           - /me
-          - /ycbr
           - /v3/api-docs/**
           - /swagger-ui/**
           - /actuator/health/readiness

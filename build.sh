@@ -47,6 +47,16 @@ echo "sh ./mvnw -pl bff spring-boot:build-image -Dspring-boot.build-image.imageN
 echo "*****************************************************************************************************************"
 echo ""
 sh ./mvnw -pl bff spring-boot:build-image -Dspring-boot.build-image.imageName=ycbr/bff $MAVEN_PROFILE_ARG
+
+cd api-server
+echo ""
+echo "*****************************************************************************************************************************************"
+echo "./gradlew bootBuildImage"
+echo "*****************************************************************************************************************************************"
+echo ""
+./gradlew bootBuildImage --imageName=ycbr/api-server
+cd ..
+
 cd ..
 
 rm -f "compose-${host}.yml"
@@ -59,23 +69,23 @@ cp ycbr-realm.json keycloak/import/ycbr-realm.json
 $SED "s/LOCALHOST_NAME/${host}/g" keycloak/import/ycbr-realm.json
 rm "keycloak/import/ycbr-realm.json''"
 
-cd react-ui/
-rm .env.development
-cp ../react-ui.env.development .env.development
-$SED "s/LOCALHOST_NAME/${host}/g" .env.development
-rm ".env.development''"
-npm i
-npm run build
-cd ..
+# cd react-ui/
+# rm .env.development
+# cp ../react-ui.env.development .env.development
+# $SED "s/LOCALHOST_NAME/${host}/g" .env.development
+# rm ".env.development''"
+# npm i
+# npm run build
+# cd ..
 
-cd nextjs-ui/
-rm .env.development
-cp ../nextjs-ui.env.development .env.development
-$SED "s/LOCALHOST_NAME/${host}/g" .env.development
-rm ".env.development''"
-npm i
-npm run build
-cd ..
+# cd nextjs-ui/
+# rm .env.development
+# cp ../nextjs-ui.env.development .env.development
+# $SED "s/LOCALHOST_NAME/${host}/g" .env.development
+# rm ".env.development''"
+# npm i
+# npm run build
+# cd ..
 
 cd native-ui/
 rm .env.development
@@ -90,7 +100,7 @@ cd tanstack-ui/
 rm .env
 cp ../tanstack-ui.env .env
 $SED "s/LOCALHOST_NAME/${host}/g" .env
-rm ".env"
+rm ".env''"
 npm i
 npm run build
 cd ..
@@ -102,9 +112,10 @@ $SED "s/LOCALHOST_NAME/${host}/g" nginx.conf
 cd ..
 
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
-docker build -t ycbr/react-ui ./react-ui
-docker build -t ycbr/nextjs-ui ./nextjs-ui
+# docker build -t ycbr/react-ui ./react-ui
+# docker build -t ycbr/nextjs-ui ./nextjs-ui
 docker build -t ycbr/native-ui ./native-ui
+docker build -t ycbr/tanstack-ui ./tanstack-ui
 
 docker compose -f compose-${host}.yml up -d
 
@@ -117,4 +128,4 @@ echo "http://${host}:7080/auth/admin/master/console/#/ycbr"
 
 echo ""
 echo "Sample frontends as user / user"
-echo http://${host}:7080/react-ui/
+echo http://${host}:7080/tanstack-ui/

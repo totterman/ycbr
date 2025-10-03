@@ -1,4 +1,5 @@
-import viteReact from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react'
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { defineConfig } from 'vite'
 import tsConfigPaths from 'vite-tsconfig-paths'
 
@@ -10,10 +11,13 @@ export default defineConfig({
   ssr: {
     noExternal: ['@mui/*'],
   },
-  plugins: [
+  plugins: [tanstackRouter({
+    target: 'react',
+      autoCodeSplitting: true,
+  }), 
     tsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
-    viteReact()
+    react()
   ],
 })

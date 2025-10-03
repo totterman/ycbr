@@ -1,0 +1,11 @@
+{
+	"iss":  "http://localhost:7080/auth/realms/ycbr",
+	"sub": "123-456-789",
+	"preferred_username": "p3t",
+	"email": "petri@smartbass.fi",
+	"realm_access": {
+		"roles": [
+			"guest"
+		]
+	}
+}

@@ -33,23 +33,23 @@ $SED "s/LOCALHOST_NAME/${host}/g" "compose-${host}.yml"
 rm -f "compose-${host}.yml''"
 
 
-cd react-ui/
-rm .env.development
-cp ../react-ui.env.development .env.development
-$SED "s/LOCALHOST_NAME/${host}/g" .env.development
-rm ".env.development''"
-npm i
-npm run build
-cd ..
+# cd react-ui/
+# rm .env.development
+# cp ../react-ui.env.development .env.development
+# $SED "s/LOCALHOST_NAME/${host}/g" .env.development
+# rm ".env.development''"
+# npm i
+# npm run build
+# cd ..
 
-cd nextjs-ui/
-rm .env.development
-cp ../nextjs-ui.env.development .env.development
-$SED "s/LOCALHOST_NAME/${host}/g" .env.development
-rm ".env.development''"
-npm i
-npm run build
-cd ..
+# cd nextjs-ui/
+# rm .env.development
+# cp ../nextjs-ui.env.development .env.development
+# $SED "s/LOCALHOST_NAME/${host}/g" .env.development
+# rm ".env.development''"
+# npm i
+# npm run build
+# cd ..
 
 cd native-ui/
 rm .env.development
@@ -78,8 +78,8 @@ $SED "s/LOCALHOST_NAME/${host}/g" nginx.conf
 cd ..
 
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
-docker build -t ycbr/react-ui ./react-ui
-docker build -t ycbr/nextjs-ui ./nextjs-ui
+# docker build -t ycbr/react-ui ./react-ui
+# docker build -t ycbr/nextjs-ui ./nextjs-ui
 docker build -t ycbr/native-ui ./native-ui
 docker build -t ycbr/tanstack-ui ./tanstack-ui
 

@@ -1,0 +1,11 @@
+{
+	"iss":  "http://localhost:7080/auth/realms/ycbr",
+	"sub": "123-456-789",
+	"preferred_username": "kalle",
+	"email": "kalle@yachtcl.ub",
+	"realm_access": {
+		"roles": [
+			"staff"
+		]
+	}
+}

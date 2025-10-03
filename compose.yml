@@ -12,6 +12,31 @@ services:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
 
+  postgres:
+    container_name: ycbr.db
+    image: postgres:18-alpine
+    restart: always
+    ports:
+      - 6543:5432
+    environment:
+      - POSTGRES_DB=ycbr
+      - POSTGRES_PASSWORD=ycbr-secret
+      - POSTGRES_USER=ycbr
+      - PGUSER=ycbr
+      - LANG=sv_FI.utf8
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ycbr -U ycbr"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    volumes:
+    - ${PWD}/db-data/:/var/lib/postgresql
+#    - ${PWD}/init.sql:/docker-entrypoint-initdb.d/init.sql
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    - "LOCALHOST_NAME:host-gateway"
+
 #  postgres-keycloak:
 #    container_name: postgres-keycloak
 #    image: postgres:latest
@@ -67,14 +92,14 @@ services:
       timeout: 5s
       retries: 20
 
-  react-ui:
-    container_name: ycbr.react-ui
-    image: ycbr/react-ui
-    ports:
-    - 4203:4203
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
+#  react-ui:
+#    container_name: ycbr.react-ui
+#    image: ycbr/react-ui
+#    ports:
+#    - 4203:4203
+#    extra_hosts:
+#    - "host.docker.internal:host-gateway"
+#    - "LOCALHOST_NAME:host-gateway"
 
   native-ui:
     container_name: ycbr.native-ui
@@ -85,14 +110,14 @@ services:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"
 
-  nextjs-ui:
-    container_name: ycbr.nextjs-ui
-    image: ycbr/nextjs-ui
-    ports:
-      - 4205:4205
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-      - "LOCALHOST_NAME:host-gateway"
+#  nextjs-ui:
+#    container_name: ycbr.nextjs-ui
+#    image: ycbr/nextjs-ui
+#    ports:
+#      - 4205:4205
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#      - "LOCALHOST_NAME:host-gateway"
 
   tanstack-ui:
     container_name: ycbr.tanstack-ui
@@ -113,6 +138,23 @@ services:
       SERVER_ADDRESS: 0.0.0.0
     depends_on:
       keycloak:
+        condition: service_healthy
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    - "LOCALHOST_NAME:host-gateway"
+
+  api-server:
+    container_name: ycbr.api-server
+    image: ycbr/api-server
+    ports:
+    - 7085:7085
+    environment:
+      HOSTNAME: LOCALHOST_NAME
+      SERVER_ADDRESS: 0.0.0.0
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
     extra_hosts:
     - "host.docker.internal:host-gateway"

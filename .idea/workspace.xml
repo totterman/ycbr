@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3a272d3d-3a37-4086-a679-0f8de3964452" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/markdown.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ycbr.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ycbr.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resource-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/MeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/MeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/YcbrController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/YcbrController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/register/Boat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/register/BoatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/register/BoatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/register/BoatRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/register/BoatService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resource-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resource-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build-front.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build-front.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/lib/auth/authentication.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/lib/auth/login.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/lib/auth/logout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/lib/auth/useUser.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/reportWebVitals.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routeTree.gen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/routeTree.gen.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/router.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routes/__root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/routes/__root.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routes/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/routes/about.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routes/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/routes/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/setup/theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/setup/theme.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/vite.config.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/backend/resource-server/src/main/java/fi/smartbass/ycbr/register/BoatController.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="32hA3km5k2gzsXsCYyrXYfjXL2m" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/pbt/src/ycbr/backend/api-server/src/test",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/api-server/src/test" />
+      <recent name="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/api_server" />
+      <recent name="$PROJECT_DIR$/backend/api-server/src/main/resources" />
+      <recent name="$PROJECT_DIR$/backend/bff" />
+    </key>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3a272d3d-3a37-4086-a679-0f8de3964452" name="Changes" comment="" />
+      <created>1757862233612</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1757862233612</updated>
+    </task>
+    <servers />
+  </component>
+</project>
