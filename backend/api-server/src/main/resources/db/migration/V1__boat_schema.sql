@@ -1,4 +1,9 @@
 DROP TABLE IF EXISTS boat;
+DROP INDEX IF EXISTS idx_boat_name;
+DROP INDEX IF EXISTS idx_boat_owner;
+DROP INDEX IF EXISTS idx_boat_make;
+DROP INDEX IF EXISTS idx_boat_created_at;
+
 CREATE TABLE boat (
     id SERIAL PRIMARY KEY,
     owner VARCHAR(50) NOT NULL,
@@ -18,6 +23,7 @@ CREATE TABLE boat (
     modified_by VARCHAR(50) NOT NULL,
     version INT NOT NULL
 );
+
 CREATE INDEX idx_boat_name ON boat(name);
 CREATE INDEX idx_boat_owner ON boat(owner);
 CREATE INDEX idx_boat_make ON boat(make);

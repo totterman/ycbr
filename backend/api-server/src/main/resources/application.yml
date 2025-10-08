@@ -8,7 +8,7 @@ username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
 resource-server-port: 7084
 api-server-port: 7085
-dbhost: 172.17.0.1:6543
+# dbhost: 172.17.0.1:6543
 audience:
 
 server:
@@ -20,14 +20,13 @@ spring:
   datasource:
     username: ycbr
     password: ycbr-secret
-    url: jdbc:postgresql://localhost:6543/ycbr
+    url: jdbc:postgresql://${hostname}:6543/ycbr
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 30
 #  sql:
 #    init:
 #      mode: always
-
 
 com:
   c4-soft:
@@ -71,6 +70,17 @@ logging:
         security: INFO
         web: INFO
         
+---
+spring:
+  config:
+    activate:
+      on-profile: "docker"
+  datasource:
+    url: jdbc:postgresql://${hostname}:5432/ycbr
+server:
+  port: 7085
+
+
 ---
 spring:
   config:

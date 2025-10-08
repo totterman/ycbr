@@ -46,7 +46,7 @@ class BoatControllerTest {
     @WithMockAuthentication(authType = JwtAuthenticationToken.class, name = "p3t", authorities = { "guest" })
     void testGetAllBoats() throws Exception {
         when(boatService.getAllBoats()).thenReturn(Collections.emptyList());
-        mockMvc.perform(get("/boats/").principal(authentication))
+        mockMvc.perform(get("/boats").principal(authentication))
                 .andExpect(status().isOk());
         verify(boatService).getAllBoats();
     }

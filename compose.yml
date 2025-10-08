@@ -37,21 +37,6 @@ services:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
 
-#  postgres-keycloak:
-#    container_name: postgres-keycloak
-#    image: postgres:latest
-#    environment:
-#    - POSTGRES_DB=keycloak
-#    - POSTGRES_PASSWORD=secret
-#    - POSTGRES_USER=keycloak
-#    volumes:
-#    -  baeldung_bff_keycloak_postgres_data:/var/lib/postgresql/data
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready", "-d", "keycloak", "-U", "keycloak"]
-#      interval: 3s
-#      timeout: 60s
-#      retries: 20
-  
   keycloak:
     container_name: ycbr.auth
     image: quay.io/keycloak/keycloak:24.0.0
@@ -92,15 +77,6 @@ services:
       timeout: 5s
       retries: 20
 
-#  react-ui:
-#    container_name: ycbr.react-ui
-#    image: ycbr/react-ui
-#    ports:
-#    - 4203:4203
-#    extra_hosts:
-#    - "host.docker.internal:host-gateway"
-#    - "LOCALHOST_NAME:host-gateway"
-
   native-ui:
     container_name: ycbr.native-ui
     image: ycbr/native-ui
@@ -110,15 +86,6 @@ services:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"
 
-#  nextjs-ui:
-#    container_name: ycbr.nextjs-ui
-#    image: ycbr/nextjs-ui
-#    ports:
-#      - 4205:4205
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#      - "LOCALHOST_NAME:host-gateway"
-
   tanstack-ui:
     container_name: ycbr.tanstack-ui
     image: ycbr/tanstack-ui
@@ -127,21 +94,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"
-
-  resource-server:
-    container_name: ycbr.resource-server
-    image: ycbr/resource-server
-    ports:
-    - 7084:7084
-    environment:
-      HOSTNAME: LOCALHOST_NAME
-      SERVER_ADDRESS: 0.0.0.0
-    depends_on:
-      keycloak:
-        condition: service_healthy
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
 
   api-server:
     container_name: ycbr.api-server
@@ -160,9 +112,9 @@ services:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
 
-  bff:
-    container_name: ycbr.bff
-    image: ycbr/bff
+  bff-server:
+    container_name: ycbr.bff-server
+    image: ycbr/bff-server
     ports:
     - 7081:7081
     environment:

@@ -28,6 +28,6 @@ public record Boat(
         @Version int version
 ) {
     public static Boat of(Long id, String owner, String name, String sign, String make, String model, Double loa, Double draft, Double beam, Double deplacement, String engines, String year) {
-        return new Boat(id, owner, name, sign, make, model, loa, draft, beam, deplacement, engines, year, null, null, null, null, 0);
+        return new Boat(id, owner, name, sign, make, model, loa, draft, beam, deplacement, engines, year, null, "root", null, "root", 0);
     }
 }

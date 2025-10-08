@@ -1,12 +1,13 @@
 package fi.smartbass.ycbr.register;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class BoatService {
 
+    private final Log LOGGER = LogFactory.getLog(BoatService.class);
     private final BoatRepository boatRepository;
 
     public BoatService(BoatRepository boatRepository) {
@@ -27,6 +28,7 @@ public class BoatService {
 
     public Boat addBoatToRegister(Boat boat) {
         if (boat.id() != null && boatRepository.existsById(boat.id())) {
+            LOGGER.warn("Boat with id " + boat.id() + " already exists.");
             throw new BoatAlreadyExistsException(boat.id());
         }
         return boatRepository.save(boat);
@@ -34,6 +36,7 @@ public class BoatService {
 
     public void deleteBoatFromRegister(Long id) {
         if (!boatRepository.existsById(id)) {
+            LOGGER.warn("Boat with id " + id + " not found for deletion.");
             throw new BoatNotFoundException(id);
         }
         boatRepository.deleteById(id);
