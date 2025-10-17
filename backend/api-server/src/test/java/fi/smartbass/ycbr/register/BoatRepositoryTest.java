@@ -1,78 +1,172 @@
-// backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatRepositoryTest.java
 package fi.smartbass.ycbr.register;
 
-import fi.smartbass.ycbr.config.DataConfig;
+import io.r2dbc.spi.ConnectionFactory;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
+import org.springframework.core.io.Resource;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.r2dbc.connection.init.ScriptUtils;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.context.annotation.Import;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
-import java.util.Optional;
-import java.util.List;
+import java.time.Instant;
 
-import static org.assertj.core.api.Assertions.assertThat;
+@DataR2dbcTest
+@ActiveProfiles("repositorytest")
+public class BoatRepositoryTest {
 
-@DataJdbcTest
-@Import(DataConfig.class)
-@AutoConfigureTestDatabase
-@ActiveProfiles("integration")
-class BoatRepositoryTest {
+    private final BoatRepository boatRepository;
+    private final ConnectionFactory connectionFactory;
 
     @Autowired
-    private BoatRepository boatRepository;
+    public BoatRepositoryTest(BoatRepository boatRepository, ConnectionFactory connectionFactory) {
+        this.boatRepository = boatRepository;
+        this.connectionFactory = connectionFactory;
+    }
+
+    private Boat savedBoat;
+
+    private void executeScriptBlocking(final Resource sqlScript) {
+        Mono.from(connectionFactory.create())
+                .flatMap(connection -> ScriptUtils.executeSqlScript(connection, sqlScript))
+                .block();
+    }
+
+    private void setUp() {
+        Instant createdAt = Instant.now();
+        savedBoat = new Boat(112L, "KnownOwner", "KnownBoat", "KnownSign112", "MakeX", "ModelY", 10.5, 2.5, 3.5, 5000.0, "", "1982", createdAt, "null", null, null, 0);
+        Flux<Boat> deleteAndInsert = boatRepository.deleteAll()
+                .thenMany(boatRepository.saveAll(
+                        Flux.just(
+                                new Boat(null, "OwnerName", "BoatName", "Sign123", "MakeX", "ModelY", 10.5, 2.5, 3.5, 5000.0, "", "1982", createdAt, "null", null, null, 0),
+                                new Boat(null, "AnotherOwner", "AnotherBoat", "Sign456", "MakeA", "ModelB", 12.0, 3.0, 4.0, 6000.0, "", "1990", createdAt, "null", null, null, 0),
+                                new Boat(null, "ThirdOwner", "ThirdBoat", "Sign789", "MakeC", "ModelD", 15.0, 4.0, 5.0, 7000.0, "", "1995", createdAt, "null", null, null, 0),
+                                savedBoat
+                        )));
+        StepVerifier.create(deleteAndInsert)
+                .expectNextCount(4L)
+                .verifyComplete();
+    }
+
+    @BeforeEach
+    public void rollOutTestData(@Value("classpath:/test-schema.sql") Resource script) {
+        executeScriptBlocking(script);
+        setUp();
+    }
+
+    @Test
+    @DisplayName("Find by id")
+    public void findById() {
+        StepVerifier.create(boatRepository.findById(savedBoat.getId()))
+                .expectNextMatches(found -> found.getSign().equals("KnownSign112") && found.getOwner().equals("KnownOwner"))
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("Not found by id")
+    public void notFoundById() {
+        StepVerifier.create(boatRepository.findById(999L))
+                .expectNextCount(0)
+                .verifyComplete();
+    }
 
     @Test
     @DisplayName("Save and find by id")
-    void saveAndFindById() {
-        Boat boat = new Boat(1001L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
-        Boat saved = boatRepository.save(boat);
-
-        Optional<Boat> found = boatRepository.findById(saved.id());
-        assertThat(found).isPresent();
-        assertThat(found.get().name()).isEqualTo("BoatName");
+    public void saveAndFindById() {
+        Boat newBoat = new Boat(null, "owner1", "NewBoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        StepVerifier.create(boatRepository.save(newBoat))
+                .expectNextMatches(created -> created.getSign().equals(newBoat.getSign()) && created.getName().equals("NewBoatName") && created.getId() != null)
+                .verifyComplete();
+        StepVerifier.create(boatRepository.findById(newBoat.getId()))
+                .expectNextMatches(found -> found.getSign().equals(newBoat.getSign()) && found.getOwner().equals("owner1"))
+                .verifyComplete();
+        StepVerifier.create(boatRepository.count())
+                .expectNext(5L)
+                .verifyComplete();
     }
 
     @Test
     @DisplayName("Find by owner")
-    void findByOwner() {
-        Boat boat = new Boat(1002L, "owner2", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
-        boatRepository.save(boat);
-
-        List<Boat> boats = (List<Boat>) boatRepository.findByOwner("owner2");
-        assertThat(boats).extracting(Boat::owner).containsOnly("owner2");
+    public void findByOwner() {
+        StepVerifier.create(boatRepository.findByOwner("AnotherOwner"))
+                .expectNextMatches(found -> found.getSign().equals("Sign456") && found.getName().equals("AnotherBoat"))
+                .verifyComplete();
     }
 
     @Test
-    @DisplayName("Exists by id")
-    void existsById() {
-        Boat boat = new Boat(1003L, "owner3", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
-        Boat saved = boatRepository.save(boat);
-
-        assertThat(boatRepository.existsById(saved.id())).isTrue();
-        assertThat(boatRepository.existsById(99999L)).isFalse();
+    @DisplayName("Not found by owner")
+    public void notFoundByOwner() {
+        StepVerifier.create(boatRepository.findByOwner("UnknownOwner"))
+                .expectNextCount(0)
+                .verifyComplete();
     }
 
     @Test
     @DisplayName("Find by name")
-    void findByName() {
-        Boat boat = new Boat(1004L, "owner4", "UniqueName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
-        boatRepository.save(boat);
+    public void findByName() {
+        StepVerifier.create(boatRepository.findByName("ThirdBoat"))
+                .expectNextMatches(found -> found.getSign().equals("Sign789") && found.getOwner().equals("ThirdOwner"))
+                .verifyComplete();
+    }
 
-        List<Boat> boats = (List<Boat>) boatRepository.findByName("UniqueName");
-        assertThat(boats).hasSize(1);
-        assertThat(boats.get(0).name()).isEqualTo("UniqueName");
+    @Test
+    @DisplayName("Not found by name")
+    public void notFoundByName() {
+        StepVerifier.create(boatRepository.findByName("UnknownBoat"))
+                .expectNextCount(0)
+                .verifyComplete();
     }
 
     @Test
     @DisplayName("Delete by id")
     void deleteById() {
-        Boat boat = new Boat(1013L, "owner13", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
-        Boat saved = boatRepository.save(boat);
+        StepVerifier.create(boatRepository.deleteById(savedBoat.getId()))
+                .verifyComplete();
+        StepVerifier.create(boatRepository.existsById(savedBoat.getId()))
+                .expectNext(false)
+                .verifyComplete();
+    }
 
-        boatRepository.deleteById(saved.id());
-        assertThat(boatRepository.findById(saved.id())).isNotPresent();
+    @Test
+    @DisplayName("Duplicate key error")
+    void duplicateError() {
+        Boat newBoat = new Boat(savedBoat.getId(), "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        StepVerifier.create(boatRepository.save(newBoat))
+                .expectError(DuplicateKeyException.class)
+                .verify();
+    }
+
+    @Test
+    @DisplayName("Optimistic Lock Error")
+    void optimisticLockError() {
+
+        // Store the saved entity in two separate entity objects
+        Boat boat1 = boatRepository.findById(savedBoat.getId()).block();
+        Boat boat2 = boatRepository.findById(savedBoat.getId()).block();
+
+        // Update the entity using the first entity object
+        Assertions.assertNotNull(boat1);
+        boat1.setName("n1");
+        boatRepository.save(boat1).block();
+
+        //  Update the entity using the second entity object.
+        // This should fail since the second entity now holds a old version number, i.e. a Optimistic Lock Error
+        Assertions.assertNotNull(boat2);
+        StepVerifier.create(boatRepository.save(boat2))
+                .expectError(OptimisticLockingFailureException.class)
+                .verify();
+
+        // Get the updated entity from the database and verify its new sate
+        StepVerifier.create(boatRepository.findById(savedBoat.getId()))
+                .expectNextMatches(found -> found.getVersion() == 2 && found.getName().equals("n1"))
+                .verifyComplete();
     }
 }

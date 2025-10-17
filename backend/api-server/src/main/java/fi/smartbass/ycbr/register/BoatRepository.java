@@ -1,12 +1,13 @@
 package fi.smartbass.ycbr.register;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 
 @Repository
-public interface BoatRepository extends CrudRepository<Boat, Long> {
+public interface BoatRepository extends R2dbcRepository<Boat, Long> {
 
-    Iterable<Boat> findByName(String name);
-    Iterable<Boat> findByOwner(String owner);
+    Flux<Boat> findByName(String name);
+    Flux<Boat> findByOwner(String owner);
 
 }

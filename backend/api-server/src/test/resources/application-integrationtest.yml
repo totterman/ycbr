@@ -1,0 +1,10 @@
+spring:
+  r2dbc:
+    url: r2dbc:tc:postgresql:///itdb?TC_IMAGE_TAG=18-alpine
+    username: test
+    password: test
+    host: localhost
+    database: itdb
+server:
+  ssl:
+    enabled: false

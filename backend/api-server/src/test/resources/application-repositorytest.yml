@@ -1,0 +1,8 @@
+spring:
+  r2dbc:
+    url: r2dbc:tc:postgresql:///repodb?TC_IMAGE_TAG=18-alpine
+    username: repouser
+    password: repopass
+server:
+  ssl:
+    enabled: false

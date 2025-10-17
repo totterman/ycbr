@@ -5,7 +5,8 @@
 	"email": "petri@smartbass.fi",
 	"realm_access": {
 		"roles": [
-			"guest"
+			"guest",
+          "boatowner"
 		]
 	}
 }

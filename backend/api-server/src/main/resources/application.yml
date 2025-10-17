@@ -8,7 +8,6 @@ username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
 resource-server-port: 7084
 api-server-port: 7085
-# dbhost: 172.17.0.1:6543
 audience:
 
 server:
@@ -24,9 +23,33 @@ spring:
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 30
+  r2dbc:
+    host: ${hostname}
+    port: 6543
+    database: ycbr
+    username: ycbr
+    password: ycbr-secret
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 60000 # ms
+
+  liquibase:
+    enabled: false
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    url: jdbc:postgresql://${hostname}:6543/ycbr
+    user: ycbr
+    password: ycbr-secret
+
+    # Uncomment to always re-apply changesets (useful during development)
+    # Should be false in production!
+    # should run only on first connection to avoid locking issues when multiple instances start simultaneously
+    # run on startup, not on connection to avoid locking issues when multiple instances start simultaneously
+    #run-on-startup: true
 #  sql:
 #    init:
 #      mode: always
+
 
 com:
   c4-soft:

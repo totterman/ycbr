@@ -7,6 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.time.Instant;
 
 @RestController
 public class BoatController {
@@ -20,21 +24,21 @@ public class BoatController {
 
     @GetMapping("/boats")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
-    public Iterable<Boat> get(Authentication auth) {
+    public Flux<BoatDTO> get(Authentication auth) {
         LOGGER.info("get() called: " + auth);
         return boatService.getAllBoats();
     }
 
     @GetMapping("/boats/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
-    public Boat getById(Authentication auth, @PathVariable("id") Long id) {
+    public Mono<BoatDTO> getById(Authentication auth, @PathVariable("id") Long id) {
         LOGGER.info("getById(" + id + ") called: " + auth);
         return boatService.getBoatById(id);
     }
 
-    @GetMapping("/boats/owner/{owner}")
+    @GetMapping("/boats/owner")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
-    public Iterable<Boat> getByOwner(Authentication auth, @PathVariable("owner") String owner) {
+    public Flux<BoatDTO> getByOwner(Authentication auth, @RequestParam("name") String owner) {
         LOGGER.info("getByOwner(" + owner + ") called: " + auth);
         return boatService.getBoatsByOwner(owner);
     }
@@ -42,23 +46,54 @@ public class BoatController {
     @PostMapping("/boats")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
     @ResponseStatus(HttpStatus.CREATED)
-    public Boat post(Authentication auth, @Valid @RequestBody Boat boat) {
+    public Mono<BoatDTO> post(Authentication auth, @Valid @RequestBody BoatDTO boat) {
         LOGGER.info("post() called: " + auth);
-        return boatService.addBoatToRegister(boat);
+        Boat newBoat = new Boat();
+        newBoat.setOwner(boat.owner());
+        newBoat.setName(boat.name());
+        newBoat.setSign(boat.sign());
+        newBoat.setMake(boat.make());
+        newBoat.setModel(boat.model());
+        newBoat.setLoa(boat.loa());
+        newBoat.setDraft(boat.draft());
+        newBoat.setBeam(boat.beam());
+        newBoat.setDeplacement(boat.deplacement());
+        newBoat.setEngines(boat.engines());
+        newBoat.setYear(boat.year());
+        newBoat.setCreatedBy(auth.getName());
+        newBoat.setCreatedAt(Instant.now());
+        return boatService.addBoatToRegister(newBoat);
     }
 
     @PutMapping("/boats/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
-    public Boat put(Authentication auth, @Valid @PathVariable("id") Long id, @RequestBody Boat boat) {
+    public Mono<BoatDTO> put(Authentication auth, @Valid @PathVariable("id") Long id, @RequestBody BoatDTO boat) {
         LOGGER.info("put(" + id + ") called: " + auth);
-        return boatService.updateBoatInRegister(id, boat);
+        Boat updatedBoat = new Boat();
+        // updatedBoat.setId(id);
+        updatedBoat.setOwner(boat.owner());
+        updatedBoat.setName(boat.name());
+        updatedBoat.setSign(boat.sign());
+        updatedBoat.setMake(boat.make());
+        updatedBoat.setModel(boat.model());
+        updatedBoat.setLoa(boat.loa());
+        updatedBoat.setDraft(boat.draft());
+        updatedBoat.setBeam(boat.beam());
+        updatedBoat.setDeplacement(boat.deplacement());
+        updatedBoat.setEngines(boat.engines());
+        updatedBoat.setYear(boat.year());
+        updatedBoat.setCreatedBy(auth.getName());
+        updatedBoat.setCreatedAt(Instant.now());
+        updatedBoat.setModifiedBy(auth.getName());
+        updatedBoat.setModifiedAt(Instant.now());
+        return boatService.updateBoatInRegister(id, updatedBoat);
     }
 
     @DeleteMapping("/boats/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
-    public void delete(Authentication auth, @PathVariable("id") Long id) {
+    public Mono<Void> delete(Authentication auth, @PathVariable("id") Long id) {
         LOGGER.info("delete() called: " + auth + " with params: " + id);
-        boatService.deleteBoatFromRegister(id);
+        return boatService.deleteBoatFromRegister(id);
     }
 
 }
