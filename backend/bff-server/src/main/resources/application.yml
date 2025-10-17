@@ -12,8 +12,7 @@ username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
 bff-port: 7081
 bff-prefix: /bff
-# resource-server-port: 7084
-resource-server-port: 7085
+api-server-port: 7085
 audience:
 
 server:
@@ -28,7 +27,7 @@ spring:
         webflux:
           routes:
           - id: bff
-            uri: ${scheme}://${hostname}:${resource-server-port}
+            uri: ${scheme}://${hostname}:${api-server-port}
             predicates:
               - Path=/api/**
             filters:
