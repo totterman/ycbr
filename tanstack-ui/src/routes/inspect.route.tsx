@@ -1,0 +1,16 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { InspectionEventPage } from "@/inspections/InspectionEventPage";
+
+export const Route = createFileRoute("/inspect")({
+//  loader: ({ context: { queryClient } }) =>
+//      queryClient.ensureQueryData(ieQueryOptions),
+  component: InspectionEventPage,
+  notFoundComponent: () => {
+    return (
+      <div>
+        <p>This is the notFoundComponent configured on Inspection Events route</p>
+        <Link to="/">Start Over</Link>
+      </div>
+    );
+  },
+});

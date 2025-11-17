@@ -13,7 +13,7 @@ public class YcbrController {
 
     @GetMapping
     public YcbrDto getYcbr() {
-        return new YcbrDto("Hello from YCBR!");
+        return new YcbrDto("Hello starts YCBR!");
     }
 
     @GetMapping("/staff")

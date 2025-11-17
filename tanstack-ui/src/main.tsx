@@ -44,10 +44,10 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Suspense fallback={ null }>
-        <ReactQueryDevtoolsProduction />
-      </Suspense>
+        <RouterProvider router={router} />
+        <Suspense fallback={null}>
+          <ReactQueryDevtoolsProduction />
+        </Suspense>
     </QueryClientProvider>
   );
 }

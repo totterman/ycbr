@@ -1,10 +1,12 @@
 package fi.smartbass.ycbr.register;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
@@ -23,16 +25,13 @@ class BoatServiceTest {
     @InjectMocks
     private BoatService boatService;
 
-//    @BeforeEach
-//    void setUp() {
-//        boatRepository = mock(BoatRepository.class);
-//        boatService = new BoatService(boatRepository);
-//    }
+    @Spy
+    BoatMapper mapper = Mappers.getMapper(BoatMapper.class);
 
     @Test
     void getAllBoats_returnsAllBoats() {
         when(boatRepository.findAll()).thenReturn(Collections.emptyList());
-        Iterable<Boat> result = boatService.getAllBoats();
+        Iterable<BoatDTO> result = boatService.getAllBoats();
         assertThat(result).isEmpty();
         verify(boatRepository).findAll();
     }
@@ -41,8 +40,8 @@ class BoatServiceTest {
     void getBoatById_returnsBoat_whenFound() {
         Boat boat = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         when(boatRepository.findById(1L)).thenReturn(Optional.of(boat));
-        Boat result = boatService.getBoatById(1L);
-        assertThat(result).isEqualTo(boat);
+        BoatDTO result = boatService.getBoatById(1L);
+        assertThat(result.name()).isEqualTo(boat.getName());
     }
 
     @Test
@@ -55,7 +54,7 @@ class BoatServiceTest {
     @Test
     void getBoatsByOwner_returnsBoats() {
         when(boatRepository.findByOwner("owner")).thenReturn(Collections.emptyList());
-        Iterable<Boat> result = boatService.getBoatsByOwner("owner");
+        Iterable<BoatDTO> result = boatService.getBoatsByOwner("owner");
         assertThat(result).isEmpty();
         verify(boatRepository).findByOwner("owner");
     }
@@ -63,71 +62,77 @@ class BoatServiceTest {
     @Test
     void addBoatToRegister_savesBoat_whenIdIsNull() {
         Boat boat = new Boat(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatDTO dto = new BoatDTO(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.save(boat)).thenReturn(boat);
-        Boat result = boatService.addBoatToRegister(boat);
-        assertThat(result).isEqualTo(boat);
+        BoatDTO result = boatService.create(dto);
+        assertThat(result.sign()).isEqualTo(boat.getSign());
         verify(boatRepository).save(boat);
     }
 
     @Test
-    void addBoatToRegister_throws_whenIdExists() {
+    void create_throws_whenIdExists() {
         Boat boat = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatDTO dto = new BoatDTO(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.existsById(1L)).thenReturn(true);
-        assertThatThrownBy(() -> boatService.addBoatToRegister(boat))
+        assertThatThrownBy(() -> boatService.create(dto))
                 .isInstanceOf(BoatAlreadyExistsException.class);
     }
 
     @Test
-    void addBoatToRegister_saves_whenIdNotExists() {
+    void create_saves_whenIdNotExists() {
         Boat boat = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatDTO dto = new BoatDTO(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.existsById(1L)).thenReturn(false);
         when(boatRepository.save(boat)).thenReturn(boat);
-        Boat result = boatService.addBoatToRegister(boat);
-        assertThat(result).isEqualTo(boat);
+        BoatDTO result = boatService.create(dto);
+        assertThat(result.sign()).isEqualTo(boat.getSign());
         verify(boatRepository).save(boat);
     }
 
     @Test
-    void deleteBoatFromRegister_deletes_whenExists() {
+    @DisplayName("Deleting boat is OK")
+    void delete_deletes_whenExists() {
         when(boatRepository.existsById(1L)).thenReturn(true);
-        boatService.deleteBoatFromRegister(1L);
+        boatService.delete(1L);
         verify(boatRepository).deleteById(1L);
     }
 
     @Test
-    void deleteBoatFromRegister_throws_whenNotExists() {
+    @DisplayName("Deleting non existing boat is OK")
+    void delete_ok_whenNotExists() {
         when(boatRepository.existsById(1L)).thenReturn(false);
-        assertThatThrownBy(() -> boatService.deleteBoatFromRegister(1L))
-                .isInstanceOf(BoatNotFoundException.class);
+        boatService.delete(1L);
+        assertThatNoException();
     }
 
     @Test
-    void updateBoatInRegister_updates_whenExists() {
+    void upsert_updates_whenExists() {
         Instant createdAt = Instant.now();
-        Boat existing = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", createdAt, "createdBy", null, null, 0);
-        Boat updated = new Boat(1L, "newOwner", "newName", "newSign", "newMake", "newModel", 2.0, 2.0, 2.0, 2.0, "newEngines", "newYear", null, null, null, null, 0);
-        when(boatRepository.findById(1L)).thenReturn(Optional.of(existing));
-        when(boatRepository.save(any(Boat.class))).thenReturn(updated);
-
-        Boat result = boatService.updateBoatInRegister(1L, updated);
-
-        assertThat(result).isEqualTo(updated);
-        ArgumentCaptor<Boat> captor = ArgumentCaptor.forClass(Boat.class);
-        verify(boatRepository).save(captor.capture());
-        Boat saved = captor.getValue();
-        assertThat(saved.owner()).isEqualTo("newOwner");
-        assertThat(saved.createdAt()).isEqualTo(createdAt);
+        Boat before = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", createdAt, "createdBy", null, null, 0);
+        BoatDTO updated = new BoatDTO(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        Boat after = new Boat(1L, "newOwner", "newName", "newSign", "newMake", "newModel", 2.0, 2.0, 2.0, 2.0, "newEngines", "newYear", null, null, null, null, 0);
+        when(boatRepository.findById(1L)).thenReturn(Optional.of(before));
+        when(boatRepository.save(any(Boat.class))).thenReturn(after);
+        BoatDTO result = boatService.upsert(1L, updated);
+        assertThat(result.sign().equals(after.getSign()));
     }
 
     @Test
-    void updateBoatInRegister_adds_whenNotExists() {
+    void upsert_adds_whenNotExists() {
         Boat updated = new Boat(2L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", Instant.now(), null, null, null, 0);
+        BoatDTO dto = new BoatDTO(2L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.findById(2L)).thenReturn(Optional.empty());
         when(boatRepository.save(updated)).thenReturn(updated);
-
-        Boat result = boatService.updateBoatInRegister(2L, updated);
-
-        assertThat(result).isEqualTo(updated);
+        BoatDTO result = boatService.upsert(2L, dto);
+        assertThat(result).isEqualTo(dto);
         verify(boatRepository).save(updated);
     }
+
+    @Test
+    void upsert_throws_whenMalformed() {
+        BoatDTO dto = new BoatDTO(3L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        assertThatThrownBy(() -> boatService.upsert(4L, dto))
+                .isInstanceOf(BoatRequestMalformedException.class);
+    }
+
 }

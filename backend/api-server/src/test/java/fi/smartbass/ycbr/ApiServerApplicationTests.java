@@ -1,8 +1,10 @@
 package fi.smartbass.ycbr;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.WithJwt;
+import com.c4_soft.springaddons.security.oauth2.test.annotations.WithMockAuthentication;
 import com.c4_soft.springaddons.security.oauth2.test.webmvc.AddonsWebmvcTestConf;
 import com.c4_soft.springaddons.security.oauth2.test.webmvc.MockMvcSupport;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -64,5 +66,21 @@ class ApiServerApplicationTests {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Anonymous user cannot access /actuator/metrics")
+    @WithAnonymousUser
+    void givenRequestIsAnonymous_whenGetMetrics_thenUnauthorized() throws Exception {
+        api.get("/actuator/metrics")
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("Admin user can access /actuator/metrics")
+    @WithMockAuthentication(authorities = {"ROLE_ADMIN"})
+    void givenRequestIsAdmin_whenGetMetrics_thenOk() throws Exception {
+        api.get("/actuator/metrics")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.names").isArray());
+    }
 
 }

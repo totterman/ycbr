@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/boats")
 public class BoatController {
 
     private final Log LOGGER = LogFactory.getLog(BoatController.class);
@@ -18,47 +19,47 @@ public class BoatController {
         this.boatService = boatService;
     }
 
-    @GetMapping("/boats")
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
-    public Iterable<Boat> get(Authentication auth) {
+    public Iterable<BoatDTO> get(Authentication auth) {
         LOGGER.info("get() called: " + auth);
         return boatService.getAllBoats();
     }
 
-    @GetMapping("/boats/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
-    public Boat getById(Authentication auth, @PathVariable("id") Long id) {
+    public BoatDTO getById(Authentication auth, @PathVariable("id") Long id) {
         LOGGER.info("getById(" + id + ") called: " + auth);
         return boatService.getBoatById(id);
     }
 
-    @GetMapping("/boats/owner/{owner}")
+    @GetMapping("/owner")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
-    public Iterable<Boat> getByOwner(Authentication auth, @PathVariable("owner") String owner) {
+    public Iterable<BoatDTO> getByOwner(Authentication auth, @RequestParam("name") String owner) {
         LOGGER.info("getByOwner(" + owner + ") called: " + auth);
         return boatService.getBoatsByOwner(owner);
     }
 
-    @PostMapping("/boats")
+    @PostMapping
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
     @ResponseStatus(HttpStatus.CREATED)
-    public Boat post(Authentication auth, @Valid @RequestBody Boat boat) {
+    public BoatDTO post(Authentication auth, @Valid @RequestBody BoatDTO boat) {
         LOGGER.info("post() called: " + auth);
-        return boatService.addBoatToRegister(boat);
+        return boatService.create(boat);
     }
 
-    @PutMapping("/boats/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
-    public Boat put(Authentication auth, @Valid @PathVariable("id") Long id, @RequestBody Boat boat) {
+    public BoatDTO put(Authentication auth, @Valid @PathVariable("id") Long id, @RequestBody BoatDTO boat) {
         LOGGER.info("put(" + id + ") called: " + auth);
-        return boatService.updateBoatInRegister(id, boat);
+        return boatService.upsert(id, boat);
     }
 
-    @DeleteMapping("/boats/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
     public void delete(Authentication auth, @PathVariable("id") Long id) {
         LOGGER.info("delete() called: " + auth + " with params: " + id);
-        boatService.deleteBoatFromRegister(id);
+        boatService.delete(id);
     }
 
 }

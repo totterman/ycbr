@@ -1,4 +1,4 @@
-import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { keepPreviousData, queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 export type BoatType = {
@@ -13,6 +13,8 @@ export type BoatType = {
   beam: number; // Beam in meters
   deplacement: number; // Displacement in kilograms
   owner: string;
+  engines: string;
+  year: string;
 };
 
 export class BoatNotFoundError extends Error {}
@@ -51,3 +53,119 @@ export const boatQueryOptions = (boatId: string) => queryOptions({
   },
   // placeholderData: keepPreviousData,
 });
+
+export function useGetBoat(boatId: string) {
+  const boatQuery = useQuery(boatQueryOptions(boatId));
+  return boatQuery.data;
+}
+
+export function useCreateBoat() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (boat: BoatType) => {
+      console.log("Creating new boat: ", boat);
+      const response = await axios
+        .post<BoatType>("/bff/api/boats", boat, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          return res.data ?? null;
+        })
+        .catch((err: AxiosError) => {
+          throw err;
+        });
+      console.log("POST response: ", response);
+      return response;
+    },
+
+    //client side optimistic update
+    onMutate: (newBoatInfo: BoatType) => {
+      queryClient.setQueryData(
+        ["boats"],
+        (prevBoats: any) =>
+          [
+            ...prevBoats,
+            {
+              ...newBoatInfo,
+              id: (Math.random() + 1).toString(36).substring(7),
+            },
+          ] as BoatType[]
+      );
+    },
+
+    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['boats'] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+export function useUpdateBoat() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (boat: BoatType) => {
+      console.log("Updating boat: ", boat);
+      const response = await axios
+        .put<BoatType>("/bff/api/boats/" + boat.id, boat, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((res) => {
+          return res.data ?? null;
+        })
+        .catch((err: AxiosError) => {
+          throw err;
+        });
+      console.log("PUT response: ", response);
+      return response;
+    },
+
+    //client side optimistic update
+    onMutate: (newBoatInfo: BoatType) => {
+      queryClient.setQueryData(["boats"], (prevBoats: any) =>
+        prevBoats?.map((prevBoat: BoatType) =>
+          prevBoat.id === newBoatInfo.id ? newBoatInfo : prevBoat
+        )
+      );
+    },
+    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+export function useDeleteBoat() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (boatId: number) => {
+      console.log("Deleting boat with ID: ", boatId);
+      const response = await axios
+        .delete<BoatType>("/bff/api/boats/" + boatId, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((res) => {
+          return res.data ?? null;
+        })
+        .catch((err: AxiosError) => {
+          throw err;
+        });
+      console.log("DELETE response: ", response);
+      return response;
+    },
+
+    //client side optimistic update
+    onMutate: (boatId: number) => {
+      queryClient.setQueryData(["boats"], (prevBoats: any) =>
+        prevBoats?.filter((boat: BoatType) => boat.id !== boatId)
+      );
+    },
+
+    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+const validateRequired = (value: string) => !!value.length;
+
+export function validateBoat(boat: BoatType) {
+  return {
+    name: !validateRequired(boat.name) ? "Boat Name is Required" : "",
+    owner: !validateRequired(boat.owner) ? "Boat Owner is Required" : "",
+    //    email: !validateEmail(boat.email) ? 'Incorrect Email Format' : '',
+  };
+}

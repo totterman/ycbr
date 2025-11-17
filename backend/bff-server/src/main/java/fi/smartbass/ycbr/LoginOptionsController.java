@@ -33,7 +33,7 @@ public class LoginOptionsController {
                 final var label = e.getValue()
                     .getProvider();
                 final var loginUri = "%s/oauth2/authorization/%s".formatted(addonsProperties.getClient()
-                    .getClientUri().orElse(null), e.getKey());
+                    .getClientUri().orElse(URI.create("")), e.getKey());
                 final var providerId = clientProps.getRegistration()
                     .get(e.getKey())
                     .getProvider();

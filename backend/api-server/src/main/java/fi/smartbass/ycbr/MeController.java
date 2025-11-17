@@ -56,7 +56,7 @@ public class MeController {
      * @param firstname resource owner given name
      * @param lastname resource owner family name
      * @param roles Spring authorities resolved for the authentication in the security context
-     * @param exp seconds from 1970-01-01T00:00:00Z UTC until the specified UTC date/time when the access token expires
+     * @param exp seconds starts 1970-01-01T00:00:00Z UTC until the specified UTC date/time when the access token expires
      */
     public static record UserInfoDto(String username, String email, String firstname, String lastname, List<String> roles, Long exp) {
         public static final UserInfoDto ANONYMOUS = new UserInfoDto("", "", "", "", java.util.List.of(), null);

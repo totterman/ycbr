@@ -9,17 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as InspectRouteImport } from './routes/inspect'
 import { Route as DispatchRouteImport } from './routes/dispatch'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as InspectRouteRouteImport } from './routes/inspect.route'
 import { Route as BoatsRouteRouteImport } from './routes/boats.route'
 import { Route as IndexRouteImport } from './routes/index'
 
-const InspectRoute = InspectRouteImport.update({
-  id: '/inspect',
-  path: '/inspect',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DispatchRoute = DispatchRouteImport.update({
   id: '/dispatch',
   path: '/dispatch',
@@ -28,6 +23,11 @@ const DispatchRoute = DispatchRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspectRouteRoute = InspectRouteRouteImport.update({
+  id: '/inspect',
+  path: '/inspect',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BoatsRouteRoute = BoatsRouteRouteImport.update({
@@ -44,50 +44,43 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/boats': typeof BoatsRouteRoute
+  '/inspect': typeof InspectRouteRoute
   '/about': typeof AboutRoute
   '/dispatch': typeof DispatchRoute
-  '/inspect': typeof InspectRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/boats': typeof BoatsRouteRoute
+  '/inspect': typeof InspectRouteRoute
   '/about': typeof AboutRoute
   '/dispatch': typeof DispatchRoute
-  '/inspect': typeof InspectRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/boats': typeof BoatsRouteRoute
+  '/inspect': typeof InspectRouteRoute
   '/about': typeof AboutRoute
   '/dispatch': typeof DispatchRoute
-  '/inspect': typeof InspectRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/boats' | '/about' | '/dispatch' | '/inspect'
+  fullPaths: '/' | '/boats' | '/inspect' | '/about' | '/dispatch'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/boats' | '/about' | '/dispatch' | '/inspect'
-  id: '__root__' | '/' | '/boats' | '/about' | '/dispatch' | '/inspect'
+  to: '/' | '/boats' | '/inspect' | '/about' | '/dispatch'
+  id: '__root__' | '/' | '/boats' | '/inspect' | '/about' | '/dispatch'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BoatsRouteRoute: typeof BoatsRouteRoute
+  InspectRouteRoute: typeof InspectRouteRoute
   AboutRoute: typeof AboutRoute
   DispatchRoute: typeof DispatchRoute
-  InspectRoute: typeof InspectRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/inspect': {
-      id: '/inspect'
-      path: '/inspect'
-      fullPath: '/inspect'
-      preLoaderRoute: typeof InspectRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dispatch': {
       id: '/dispatch'
       path: '/dispatch'
@@ -100,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspect': {
+      id: '/inspect'
+      path: '/inspect'
+      fullPath: '/inspect'
+      preLoaderRoute: typeof InspectRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/boats': {
@@ -122,9 +122,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BoatsRouteRoute: BoatsRouteRoute,
+  InspectRouteRoute: InspectRouteRoute,
   AboutRoute: AboutRoute,
   DispatchRoute: DispatchRoute,
-  InspectRoute: InspectRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

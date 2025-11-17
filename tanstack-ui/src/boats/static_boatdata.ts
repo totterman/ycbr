@@ -12,6 +12,8 @@ export const boats: Array<BoatType> = [
     beam: 3.5,
     deplacement: 5000.0,
     owner: "OwnerName",
+    engines: "VP",
+    year: "1997",
   },
   {
     id: 2,
@@ -24,6 +26,8 @@ export const boats: Array<BoatType> = [
     beam: 4.0,
     deplacement: 6000.0,
     owner: "AnotherOwner",
+    engines: "VP",
+    year: "1997",
   },
   {
     id: 3,
@@ -36,6 +40,8 @@ export const boats: Array<BoatType> = [
     beam: 5.0,
     deplacement: 7000.0,
     owner: "ThirdOwner",
+    engines: "VP",
+    year: "1997",
   },
   {
     id: 4,
@@ -48,6 +54,8 @@ export const boats: Array<BoatType> = [
     beam: 6.0,
     deplacement: 8000.0,
     owner: "FourthOwner",
+    engines: "VP",
+    year: "1997",
   },
   {
     id: 5,
@@ -60,6 +68,8 @@ export const boats: Array<BoatType> = [
     beam: 7.0,
     deplacement: 9000.0,
     owner: "FifthOwner",
+    engines: "VP",
+    year: "1997",
   },
 ];
 

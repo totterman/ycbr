@@ -1,8 +1,6 @@
 import { MRT_Row } from "material-react-table";
-import { InspectionEventType } from "./inspection";
 import React from "react";
 import { useUser } from "@/auth/useUser";
-import { useQueryClient } from "@tanstack/react-query";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import SailingIcon from "@mui/icons-material/SailingSharp";
@@ -13,17 +11,21 @@ import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import { BoatBookingDao, InspectionDao, useAddBoatBooking } from "./inspection";
+import { TextField } from "@mui/material";
 
 type RowProps = {
-  row: MRT_Row<InspectionEventType>;
+  row: MRT_Row<InspectionDao>;
 };
 
 export default function BookingDialog({ row }: RowProps) {
-  console.log("BookingDialog", row.id);
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
-  const timeslot = row.original.from + " - " + row.original.to;
-  const queryClient = useQueryClient();
+  const timeslot = row.original.starts + " - " + row.original.ends;
+
+  const {
+    mutateAsync: createBooking,
+  } = useAddBoatBooking();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,11 +35,23 @@ export default function BookingDialog({ row }: RowProps) {
     setOpen(false);
   };
 
-  const handleRegister = () => {
-    const uri = "/bff/api/i9event/" + row.id + "/boat " + user.name;
-    console.log("Call PUT", uri);
-    queryClient.invalidateQueries({ queryKey: ["i9events"] });
-    setOpen(false);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const id = row.original.id ?? -1;
+    if (id === -1) {
+      handleClose();
+    }
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries((formData as any).entries());
+    const boatname = formJson.boatname;
+    const dao: BoatBookingDao = {
+      boatName: boatname,
+      message: "Sent by " + user.name,
+    };
+    const props = { id: id, dao: dao };
+    console.log("BoatBooking: ", props);
+    await createBooking(props);
+    handleClose();
   };
 
   return (
@@ -50,13 +64,26 @@ export default function BookingDialog({ row }: RowProps) {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="register-dialog-title"
-        aria-describedby="register-dialog-description"
+        aria-labelledby="booking-dialog-title"
+        aria-describedby="booking-dialog-description"
       >
-        <DialogTitle id="register-dialog-title">
+        <DialogTitle id="booking-dialog-title">
           {"Book Boat Inspection"}
         </DialogTitle>
         <DialogContent>
+          <form onSubmit={handleSubmit} id="booking-form">
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="boat"
+              name="boatname"
+              label="Boat name"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
+          </form>
           <List component="div" role="group">
             <ListItemText primary="Boat Owner" secondary={user.name} />
             <ListItemText primary="Location" secondary={row.original.place} />
@@ -66,7 +93,7 @@ export default function BookingDialog({ row }: RowProps) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleRegister} autoFocus>
+          <Button type="submit" form="booking-form" autoFocus>
             Book
           </Button>
         </DialogActions>

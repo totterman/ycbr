@@ -1,5 +1,4 @@
 import { MRT_Row } from "material-react-table";
-import { InspectionEventType } from "./inspection";
 import React from "react";
 import { useUser } from "@/auth/useUser";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,18 +12,23 @@ import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import { InspectionDao, InspectorDao, useAddInspector } from "./inspection";
 
 type RowProps = {
-  row: MRT_Row<InspectionEventType>;
+  row: MRT_Row<InspectionDao>;
 };
 
 export default function RegisterDialog({ row }: RowProps) {
-  console.log("RegisterDialog", row.id);
+  // console.log("RegisterDialog", row.id);
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
-  const timeslot = row.original.from + " - " + row.original.to;
+  const timeslot = row.original.starts + " - " + row.original.ends;
   const queryClient = useQueryClient();
 
+    const {
+      mutateAsync: addInspector,
+    } = useAddInspector();
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -33,11 +37,19 @@ export default function RegisterDialog({ row }: RowProps) {
     setOpen(false);
   };
 
-  const handleRegister = () => {
-    const uri = "/bff/api/i9event/" + row.id + "/inspector " + user.name;
-    console.log("Call PUT", uri);
-    queryClient.invalidateQueries({ queryKey: ["i9events"] });
-    setOpen(false);
+  const handleRegister = async () => {
+    const id = row.original.id ?? -1;
+        if (id === -1) {
+          handleClose();
+        }
+        const dao: InspectorDao = {
+          inspectorName: user.name,
+          message: "Sent by " + user.name,
+        };
+        const props = { id: id, dao: dao };
+        console.log("Inspector Registering: ", props);
+        await addInspector(props);
+        handleClose();
   };
 
   return (

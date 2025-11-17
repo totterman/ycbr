@@ -8,64 +8,57 @@ import org.springframework.stereotype.Service;
 public class BoatService {
 
     private final Log LOGGER = LogFactory.getLog(BoatService.class);
+    private final BoatMapper mapper;
     private final BoatRepository boatRepository;
 
-    public BoatService(BoatRepository boatRepository) {
+    public BoatService(BoatMapper mapper, BoatRepository boatRepository) {
+        this.mapper = mapper;
         this.boatRepository = boatRepository;
     }
 
-    public Iterable<Boat> getAllBoats() {
-        return boatRepository.findAll();
+    public Iterable<BoatDTO> getAllBoats() {
+        return mapper.toDTOs(boatRepository.findAll());
     }
 
-    public Boat getBoatById(Long id) {
-        return boatRepository.findById(id).orElseThrow(() -> new BoatNotFoundException(id));
+    public BoatDTO getBoatById(Long id) {
+        return mapper.toDTO(boatRepository.findById(id).orElseThrow(() -> new BoatNotFoundException(id)));
     }
 
-    public Iterable<Boat> getBoatsByOwner(String owner) {
-        return boatRepository.findByOwner(owner);
+    public Iterable<BoatDTO> getBoatsByOwner(String owner) {
+        return mapper.toDTOs(boatRepository.findByOwner(owner));
     }
 
-    public Boat addBoatToRegister(Boat boat) {
-        if (boat.id() != null && boatRepository.existsById(boat.id())) {
-            LOGGER.warn("Boat with id " + boat.id() + " already exists.");
-            throw new BoatAlreadyExistsException(boat.id());
+    public BoatDTO create(BoatDTO dto) {
+        if (dto.id() != null && boatRepository.existsById(dto.id())) {
+            LOGGER.warn("Boat with id " + dto.id() + " already exists.");
+            throw new BoatAlreadyExistsException(dto.id());
         }
-        return boatRepository.save(boat);
+        return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
     }
 
-    public void deleteBoatFromRegister(Long id) {
+    public void delete(Long id) {
         if (!boatRepository.existsById(id)) {
             LOGGER.warn("Boat with id " + id + " not found for deletion.");
-            throw new BoatNotFoundException(id);
         }
         boatRepository.deleteById(id);
     }
 
-    public Boat updateBoatInRegister(Long id, Boat updatedBoat) {
+    public BoatDTO upsert(Long id, BoatDTO dto) {
+        if (!id.equals(dto.id())) {
+            LOGGER.warn("parameter " + id + " and boatId " + dto.id() + " are not equal");
+            throw new BoatRequestMalformedException(id, dto.id());
+        }
         return boatRepository.findById(id)
                 .map(existingBoat -> {
-                    Boat boatToUpdate = new Boat(
-                            existingBoat.id(),
-                            updatedBoat.owner(),
-                            updatedBoat.name(),
-                            updatedBoat.sign(),
-                            updatedBoat.make(),
-                            updatedBoat.model(),
-                            updatedBoat.loa(),
-                            updatedBoat.draft(),
-                            updatedBoat.beam(),
-                            updatedBoat.deplacement(),
-                            updatedBoat.engines(),
-                            updatedBoat.year(),
-                            existingBoat.createdAt(), // Preserve the original creation timestamp
-                            existingBoat.createdBy(), // Preserve the original creator
-                            null, // modifiedAt will be set automatically
-                            null, // modifiedBy will be set automatically
-                            existingBoat.version() // Preserve the version for optimistic locking
-                    );
-                    return boatRepository.save(boatToUpdate);
+                    Boat boatToUpdate = mapper.toEntity(dto);
+                    boatToUpdate.setId(existingBoat.getId());
+                    boatToUpdate.setCreatedAt(existingBoat.getCreatedAt()); // Preserve the original creation timestamp
+                    boatToUpdate.setCreatedBy(existingBoat.getCreatedBy()); // Preserve the original creator
+                            // modifiedAt will be set automatically
+                            // modifiedBy will be set automatically
+                    boatToUpdate.setVersion(existingBoat.getVersion()); // Preserve the version for optimistic locking
+                    return mapper.toDTO(boatRepository.save(boatToUpdate));
                 })
-                .orElseGet(() -> addBoatToRegister(updatedBoat));
+                .orElseGet(() -> create(dto));
     }
 }

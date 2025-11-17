@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.6'
+	id 'org.springframework.boot' version '3.5.7'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'org.graalvm.buildtools.native' version '0.10.6'
 }
@@ -26,8 +26,10 @@ repositories {
 }
 
 ext {
+    set('mapstructVersion', '1.6.3')
     set('springCloudVersion', "2025.0.0")
-    set('testcontainersVersion', "1.21.3")
+    set('springAddonsVersion', "8.1.24")
+    set('testcontainersVersion', "2.0.2")
 }
 
 dependencies {
@@ -36,18 +38,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.c4-soft.springaddons:spring-addons-starter-oidc:8.1.23'
-    implementation 'org.flywaydb:flyway-database-postgresql'
+    implementation "com.c4-soft.springaddons:spring-addons-starter-oidc:${springAddonsVersion}"
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation 'org.liquibase:liquibase-core'
+    implementation platform("org.testcontainers:testcontainers-bom:${testcontainersVersion}")
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+    compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-    testImplementation 'com.c4-soft.springaddons:spring-addons-starter-oidc-test:8.1.23'
-    testImplementation 'org.testcontainers:postgresql'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "com.c4-soft.springaddons:spring-addons-starter-oidc-test:${springAddonsVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:testcontainers-postgresql'
 }
 
 dependencyManagement {

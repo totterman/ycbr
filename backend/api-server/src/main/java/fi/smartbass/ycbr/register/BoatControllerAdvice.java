@@ -10,23 +10,29 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice("org.example.controllers")
 public class BoatControllerAdvice {
 
     @ExceptionHandler(BoatNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String BoatNotFoundHandler(BoatNotFoundException ex) {
+    String boatNotFoundHandler(BoatNotFoundException ex) {
         return ex.getMessage();
     }
 
     @ExceptionHandler(BoatAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    String BoatAlreadyExistsHandler(BoatAlreadyExistsException ex) {
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String boatAlreadyExistsHandler(BoatAlreadyExistsException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(BoatRequestMalformedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String boatRequestMalformedHandler(BoatRequestMalformedException ex) {
         return ex.getMessage();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         var errors = new HashMap<String, String>();
         ex.getBindingResult().getAllErrors().forEach(error -> {

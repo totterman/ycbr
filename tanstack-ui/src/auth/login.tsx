@@ -27,6 +27,7 @@ export default function Login() {
   });
 
   const loginMutation = useMutation({
+    mutationKey: ['doLogin'],
     mutationFn: async (loginUri: string) => {
       const url = new URL(loginUri);
       /*

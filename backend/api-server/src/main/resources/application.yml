@@ -24,9 +24,8 @@ spring:
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 30
-#  sql:
-#    init:
-#      mode: always
+  liquibase:
+    enabled: false
 
 com:
   c4-soft:
@@ -41,6 +40,9 @@ com:
         resourceserver:
           permit-all:
           - /me
+          - /i9events/**
+          - /actuator/info
+          - /actuator/health
           - /v3/api-docs/**
           - /swagger-ui/**
           - /actuator/health/readiness
@@ -67,6 +69,8 @@ logging:
     org:
       springframework:
         boot: INFO
+        jdbc:
+          core: DEBUG
         security: INFO
         web: INFO
         
