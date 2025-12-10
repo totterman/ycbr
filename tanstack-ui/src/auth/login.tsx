@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "@tanstack/react-router";
 import axios from "axios";
 import { FormEvent, useState } from "react";
+import { useIntlayer } from "react-intlayer";
 
 interface LoginOptionDto {
   label: string;
@@ -11,6 +12,7 @@ interface LoginOptionDto {
 }
 
 export default function Login() {
+  const content = useIntlayer("auth");
   const [errorMessage, setErrorMessage] = useState("");
   const currentPath = useLocation({
     select: (loc) => loc.pathname,
@@ -56,7 +58,7 @@ export default function Login() {
     },
     onError: (error: any) => {
       setErrorMessage(
-        error.response?.data?.message || "An error occurred during login."
+        error.response?.data?.message || content.login_error
       );
     },
   });
@@ -77,7 +79,7 @@ export default function Login() {
           disabled={loginMutation.isPending}
           type="submit"
         >
-          {loginMutation.isPending ? "Logging in..." : "Login"}
+          {loginMutation.isPending ? content.logging_in : content.login}
         </Button>
       </form>
       {errorMessage && <p className="error">{errorMessage}</p>}

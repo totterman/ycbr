@@ -8,12 +8,13 @@ import YcbrAppBar from "@/components/YcbrAppBar";
 import Container from "@mui/material/Container";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import 'dayjs/locale/sv';
-import 'dayjs/locale/fi';
-import 'dayjs/locale/en';
+import "dayjs/locale/sv";
+import "dayjs/locale/fi";
+import "dayjs/locale/en";
 import dayjs, { Dayjs } from "dayjs";
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import { IntlayerProvider, useLocale } from "react-intlayer";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -34,12 +35,16 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootComponent() {
+  const { locale } = useLocale();
+  const adapterLocaleStr = locale.substring(0, 2);
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="sv">
-      <YcbrAppBar />
-      <Container component="main" sx={{ paddingBlock: 4 }}>
-        <Outlet />
-      </Container>
-    </LocalizationProvider>
+    <IntlayerProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={adapterLocaleStr}>
+        <YcbrAppBar />
+        <Container component="main" sx={{ paddingBlock: 4 }}>
+          <Outlet />
+        </Container>
+      </LocalizationProvider>
+    </IntlayerProvider>
   );
 }

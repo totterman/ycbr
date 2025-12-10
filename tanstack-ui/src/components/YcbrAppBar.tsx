@@ -5,8 +5,11 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import { CustomLink } from "./CustomLink";
 import { css, styled } from "@mui/material";
-import { User, useUser } from "@/auth/useUser";
+import { useUser } from "@/auth/useUser";
 import Authentication from "@/auth/authentication";
+import ProfileButton from "./ProfileButton";
+import LocaleButton from "./LocaleButton";
+import { useIntlayer, useLocale } from "react-intlayer";
 
 const StyledCustomLink = styled(CustomLink)(
   ({ theme }) => css`
@@ -16,7 +19,9 @@ const StyledCustomLink = styled(CustomLink)(
 
 export default function YcbrAppBar() {
   const { user, isLoading } = useUser();
-  if (isLoading) return <div>Loading...</div>;
+  const content = useIntlayer("components");
+
+  if (isLoading) return <div>{content.loading}...</div>;
 
   return (
     <AppBar position="static">
@@ -27,7 +32,7 @@ export default function YcbrAppBar() {
             display: "flex",
             alignItems: "center",
             px: 0,
-            gap: 2,
+            gap: 4,
           }}
         >
           <IconButton
@@ -46,7 +51,7 @@ export default function YcbrAppBar() {
             }}
             activeOptions={{ exact: true }}
           >
-            Home
+            {content.home}
           </StyledCustomLink>{" "}
           <StyledCustomLink
             to="/about"
@@ -54,7 +59,7 @@ export default function YcbrAppBar() {
               className: "font-bold",
             }}
           >
-            About
+            {content.about}
           </StyledCustomLink>{" "}
           {user.isAuthenticated && (
             <StyledCustomLink
@@ -63,17 +68,21 @@ export default function YcbrAppBar() {
                 className: "font-bold",
               }}
             >
-              Boats
+              {content.boats}
             </StyledCustomLink>
           )}
           {user.hasAnyRole("boatowner", "staff", "inspector") && (
-            <StyledCustomLink to="/inspect">Inspections</StyledCustomLink>
+            <StyledCustomLink to="/i9event">{content.i9events}</StyledCustomLink>
           )}
-          {user.hasAnyRole("staff") && (
-            <StyledCustomLink to="/dispatch">Dispatch</StyledCustomLink>
+          {user.hasAnyRole("staff", "inspector") && (
+            <StyledCustomLink to="/dispatch">{content.dispatch}</StyledCustomLink>
+          )}
+          {user.hasAnyRole("staff", "inspector") && (
+            <StyledCustomLink to="/inspect/">{content.inspections}</StyledCustomLink>
           )}
         </Box>
-
+        <LocaleButton />
+        <ProfileButton />
         <Box
           sx={{
             display: { xs: "none", md: "flex" },

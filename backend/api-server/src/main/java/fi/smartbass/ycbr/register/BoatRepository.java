@@ -4,9 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BoatRepository extends CrudRepository<Boat, Long> {
+public interface BoatRepository extends CrudRepository<BoatEntity, Long> {
 
-    Iterable<Boat> findByName(String name);
-    Iterable<Boat> findByOwner(String owner);
+    Iterable<BoatEntity> findByName(String name);
+    Iterable<BoatEntity> findByOwner(String owner);
 
 }

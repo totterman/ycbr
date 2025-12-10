@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useUser } from "@/auth/useUser";
+import { useIntlayer } from "react-intlayer";
 
 interface YcbrDto {
   greeting: string;
@@ -22,19 +23,19 @@ export const Route = createFileRoute("/about")({
 
 function AboutComponent() {
   const { user, isLoading } = useUser();
+  const content = useIntlayer("routes");
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
       <Typography variant="body1">
-        This application is a show-case for a React + Vite + Tanstack app
-        consuming a REST API through an OAuth2 BFF.
+        {content.about}
         {user.isAuthenticated && <GreetingComponent />}
       </Typography>
 
       <Typography variant="body2">
-        Written by Petri Tötterman, AB Smartbass, 2025
+        {content.author}
       </Typography>
     </>
   );

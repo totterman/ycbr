@@ -1,0 +1,114 @@
+[
+  {
+    "key": "hulldata",
+    "content": {
+      "hullTitle": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Hull and structural safety",
+          "fi": "Runko ja rakenteellinen turvallisuus",
+          "sv": "Skrov och strukturell säkerhet"
+        }
+      },
+      "hullCondition": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Hull and structure condition",
+          "fi": "Rungon ja rakenteiden kunto",
+          "sv": "Skrovets och strukturernas skick"
+        }
+      },
+      "openings": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Openings and their closability",
+          "fi": "Aukot ja niiden suljettavuus",
+          "sv": "Öppningar och hur de går att stänga"
+        }
+      },
+      "material": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Material and surface condition",
+          "fi": "Materiaalin ja pinnoitteen kunto",
+          "sv": "Materialens och ytbeläggningens skick"
+        }
+      },
+      "keel_rudder": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Keel and rudder",
+          "fi": "Köli ja peräsin",
+          "sv": "Köl och roder"
+        }
+      },
+      "steering": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Steering system",
+          "fi": "Ohjausjärjestelmä ",
+          "sv": "Styrningsanordning"
+        }
+      },
+      "drive_shaft_prop": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Drive, shaft, and propeller",
+          "fi": "Vetolaitteiston, akselin ja potkurin kunto",
+          "sv": "Drevets, axelns och propellerns skick"
+        }
+      },
+      "throughulls": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Throughulls, valves, and piping",
+          "fi": "Runkoläpiviennit, sulkuventtiilit ja putkistot",
+          "sv": "Genomförningar, ventiler och rörsystem"
+        }
+      },
+      "fall_protection": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Fall protection and fastening devices",
+          "fi": "Putoamisen ehkäisy ja kiinnityshelat",
+          "sv": "Fallhinder och fastsättningsbeslag"
+        }
+      },
+      "heavy_objects": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Securing heavy objects",
+          "fi": "Painavien esineiden kiinnitys",
+          "sv": "Fastsättning av tunga föremål"
+        }
+      },
+      "fresh_water": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Fresh water system",
+          "fi": "Makeavesijärjestelmät",
+          "sv": "Färskvattensystem"
+        }
+      },
+      "lowest_leak": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Lowest point of leak",
+          "fi": "Alin vuotokohta",
+          "sv": "Lägsta läckagepunkten"
+        }
+      },
+      "leak_help": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "measure in cm",
+          "fi": "mittayksikkö cm",
+          "sv": "mått i cm"
+        }
+      }
+    },
+    "localId": "hulldata::local::src/inspections/hulldata.content.ts",
+    "location": "local",
+    "filePath": "src/inspections/hulldata.content.ts"
+  }
+]

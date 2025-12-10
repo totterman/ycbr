@@ -48,16 +48,25 @@ public class I9Event {
     @Version
     private int version;
 
-    public void addBoat(String boatName, String message) {
-        boats.add(createBoatBooking(boatName, message));
+    public void addBoat(Long boatId, String message) {
+        boats.add(createBoatBooking(boatId, message));
     }
 
-    public void deleteBoat(String boatName) {
-        boats.removeIf(b -> b.getBoatName().equals(boatName));
+    public void deleteBoat(Long boatId) {
+        boats.removeIf(b -> b.getBoatId().equals(boatId));
     }
 
-    private BoatBooking createBoatBooking(String boatName, String message) {
-        return new BoatBooking(boatName, message);
+    public void markBoat(Long boatId, String message) {
+        deleteBoat(boatId);
+        boats.add(markBoatBooking(boatId, message));
+    }
+
+    private BoatBooking createBoatBooking(Long boatId, String message) {
+        return new BoatBooking(boatId, message, false);
+    }
+
+    private BoatBooking markBoatBooking(Long boatId, String message) {
+        return new BoatBooking(boatId, message, true);
     }
 
     public void addInspector(String inspectorName, String message) {

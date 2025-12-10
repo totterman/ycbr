@@ -1,9 +1,11 @@
 import Button from "@mui/material/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useIntlayer } from "react-intlayer";
 
 export default function Logout() {
-const queryClient = useQueryClient();
+  const content = useIntlayer("auth");
+  const queryClient = useQueryClient();
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
@@ -26,8 +28,15 @@ const queryClient = useQueryClient();
   });
 
   return (
-    <Button color="inherit" variant="text" size="small" type="submit" onClick={() => logoutMutation.mutate()} disabled={logoutMutation.isPending}>
-      {logoutMutation.isPending ? "Logging out..." : "Logout"}
+    <Button
+      color="inherit"
+      variant="text"
+      size="small"
+      type="submit"
+      onClick={() => logoutMutation.mutate()}
+      disabled={logoutMutation.isPending}
+    >
+      {logoutMutation.isPending ? content.logging_out : content.logout}
     </Button>
   );
 }

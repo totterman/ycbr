@@ -9,25 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DispatchRouteImport } from './routes/dispatch'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as InspectRouteRouteImport } from './routes/inspect.route'
+import { Route as I9eventRouteRouteImport } from './routes/i9event.route'
+import { Route as DispatchRouteRouteImport } from './routes/dispatch.route'
 import { Route as BoatsRouteRouteImport } from './routes/boats.route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InspectIndexRouteImport } from './routes/inspect.index'
+import { Route as InspectInspectionIdRouteImport } from './routes/inspect.$inspectionId'
 
-const DispatchRoute = DispatchRouteImport.update({
-  id: '/dispatch',
-  path: '/dispatch',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const InspectRouteRoute = InspectRouteRouteImport.update({
-  id: '/inspect',
-  path: '/inspect',
+const I9eventRouteRoute = I9eventRouteRouteImport.update({
+  id: '/i9event',
+  path: '/i9event',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DispatchRouteRoute = DispatchRouteRouteImport.update({
+  id: '/dispatch',
+  path: '/dispatch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BoatsRouteRoute = BoatsRouteRouteImport.update({
@@ -40,54 +42,87 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InspectIndexRoute = InspectIndexRouteImport.update({
+  id: '/inspect/',
+  path: '/inspect/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspectInspectionIdRoute = InspectInspectionIdRouteImport.update({
+  id: '/inspect/$inspectionId',
+  path: '/inspect/$inspectionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/boats': typeof BoatsRouteRoute
-  '/inspect': typeof InspectRouteRoute
+  '/dispatch': typeof DispatchRouteRoute
+  '/i9event': typeof I9eventRouteRoute
   '/about': typeof AboutRoute
-  '/dispatch': typeof DispatchRoute
+  '/inspect/$inspectionId': typeof InspectInspectionIdRoute
+  '/inspect': typeof InspectIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/boats': typeof BoatsRouteRoute
-  '/inspect': typeof InspectRouteRoute
+  '/dispatch': typeof DispatchRouteRoute
+  '/i9event': typeof I9eventRouteRoute
   '/about': typeof AboutRoute
-  '/dispatch': typeof DispatchRoute
+  '/inspect/$inspectionId': typeof InspectInspectionIdRoute
+  '/inspect': typeof InspectIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/boats': typeof BoatsRouteRoute
-  '/inspect': typeof InspectRouteRoute
+  '/dispatch': typeof DispatchRouteRoute
+  '/i9event': typeof I9eventRouteRoute
   '/about': typeof AboutRoute
-  '/dispatch': typeof DispatchRoute
+  '/inspect/$inspectionId': typeof InspectInspectionIdRoute
+  '/inspect/': typeof InspectIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/boats' | '/inspect' | '/about' | '/dispatch'
+  fullPaths:
+    | '/'
+    | '/boats'
+    | '/dispatch'
+    | '/i9event'
+    | '/about'
+    | '/inspect/$inspectionId'
+    | '/inspect'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/boats' | '/inspect' | '/about' | '/dispatch'
-  id: '__root__' | '/' | '/boats' | '/inspect' | '/about' | '/dispatch'
+  to:
+    | '/'
+    | '/boats'
+    | '/dispatch'
+    | '/i9event'
+    | '/about'
+    | '/inspect/$inspectionId'
+    | '/inspect'
+  id:
+    | '__root__'
+    | '/'
+    | '/boats'
+    | '/dispatch'
+    | '/i9event'
+    | '/about'
+    | '/inspect/$inspectionId'
+    | '/inspect/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BoatsRouteRoute: typeof BoatsRouteRoute
-  InspectRouteRoute: typeof InspectRouteRoute
+  DispatchRouteRoute: typeof DispatchRouteRoute
+  I9eventRouteRoute: typeof I9eventRouteRoute
   AboutRoute: typeof AboutRoute
-  DispatchRoute: typeof DispatchRoute
+  InspectInspectionIdRoute: typeof InspectInspectionIdRoute
+  InspectIndexRoute: typeof InspectIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dispatch': {
-      id: '/dispatch'
-      path: '/dispatch'
-      fullPath: '/dispatch'
-      preLoaderRoute: typeof DispatchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -95,11 +130,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/inspect': {
-      id: '/inspect'
-      path: '/inspect'
-      fullPath: '/inspect'
-      preLoaderRoute: typeof InspectRouteRouteImport
+    '/i9event': {
+      id: '/i9event'
+      path: '/i9event'
+      fullPath: '/i9event'
+      preLoaderRoute: typeof I9eventRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dispatch': {
+      id: '/dispatch'
+      path: '/dispatch'
+      fullPath: '/dispatch'
+      preLoaderRoute: typeof DispatchRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/boats': {
@@ -116,15 +158,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inspect/': {
+      id: '/inspect/'
+      path: '/inspect'
+      fullPath: '/inspect'
+      preLoaderRoute: typeof InspectIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspect/$inspectionId': {
+      id: '/inspect/$inspectionId'
+      path: '/inspect/$inspectionId'
+      fullPath: '/inspect/$inspectionId'
+      preLoaderRoute: typeof InspectInspectionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BoatsRouteRoute: BoatsRouteRoute,
-  InspectRouteRoute: InspectRouteRoute,
+  DispatchRouteRoute: DispatchRouteRoute,
+  I9eventRouteRoute: I9eventRouteRoute,
   AboutRoute: AboutRoute,
-  DispatchRoute: DispatchRoute,
+  InspectInspectionIdRoute: InspectInspectionIdRoute,
+  InspectIndexRoute: InspectIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

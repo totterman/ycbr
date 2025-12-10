@@ -17,16 +17,16 @@ public class BoatMapperTest {
     private final BoatDTO dto2 = new BoatDTO(1002L, "owner2", "AnotherBoat", "Reg5678", "SailsRUs", "2019", 10.0, 2.0, 3.5, 4500.0, "Inboard", "1995");
     private final List<BoatDTO> dtos = List.of(dto1, dto2);
 
-    private final Boat boat1 = new Boat(null, "OwnerName", "BoatName", "Sign123", "MakeX", "ModelY", 10.5, 2.5, 3.5, 5000.0, "", "1982", null, "null", null, null, 0);
-    private final Boat boat2 = new Boat(null, "AnotherOwner", "AnotherBoat", "Sign456", "MakeA", "ModelB", 12.0, 3.0, 4.0, 6000.0, "", "1990", null, "null", null, null, 0);
-    private final List<Boat> boats = List.of(boat1, boat2);
+    private final BoatEntity boat1 = new BoatEntity(null, "OwnerName", "BoatName", "Sign123", "MakeX", "ModelY", 10.5, 2.5, 3.5, 5000.0, "", "1982", null, "null", null, null, 0);
+    private final BoatEntity boat2 = new BoatEntity(null, "AnotherOwner", "AnotherBoat", "Sign456", "MakeA", "ModelB", 12.0, 3.0, 4.0, 6000.0, "", "1990", null, "null", null, null, 0);
+    private final List<BoatEntity> boats = List.of(boat1, boat2);
 
     @Test
     @DisplayName("Maps DTO ends entity and back")
     void dtoToEntityAndBack() {
         assertNotNull(mapper);
 
-        Boat entity = mapper.toEntity(dto1);
+        BoatEntity entity = mapper.toEntity(dto1);
         assertEquals(entity.getId(), dto1.id());
         assertEquals(entity.getName(), dto1.name());
         assertEquals(entity.getOwner(), dto1.owner());

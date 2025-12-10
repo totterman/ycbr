@@ -43,7 +43,7 @@ class I9EventControllerTest {
     private final List<I9EventDTO> dtos = List.of(dto1, dto2, dto3);
 
     private final InspectorRegistrationDTO idto = new InspectorRegistrationDTO("Inspector Name", "Short Message");
-    private final BoatBookingDTO bdto = new BoatBookingDTO("Some Boat", "Dock P1 42");
+    private final BoatBookingDTO bdto = new BoatBookingDTO(991L, "Dock P1 42", false);
 
     @Test
     @DisplayName("GET /api/i9events returns 200 OK")
@@ -167,7 +167,7 @@ class I9EventControllerTest {
     @DisplayName("POST /api/i9events/1001/boats returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void addBoat() throws Exception {
-        String json = "{ \"boatName\": \"Some Boat\", \"message\": \"Dock P1 42\" }";
+        String json = "{ \"boatId\": 991, \"message\": \"Dock P1 42\" }";
         when(eventService.assignBoatToEvent(1001L, bdto)).thenReturn(dto1);
         mockMvc.perform(post("/i9events/1001/boats").principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -180,12 +180,12 @@ class I9EventControllerTest {
     @DisplayName("DELETE /api/i9events/1001/boats returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void removeBoat() throws Exception {
-        String json = "{ \"boatName\": \"Some Boat\", \"message\": \"Dock P1 42\" }";
-        when(eventService.removeBoatFromEvent(1001L, bdto.boatName())).thenReturn(dto1);
+        String json = "{ \"boatId\": 993, \"message\": \"Dock P1 42\" }";
+        when(eventService.removeBoatFromEvent(1001L, 993L)).thenReturn(dto1);
         mockMvc.perform(delete("/i9events/1001/boats").principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
-        verify(eventService).removeBoatFromEvent(1001L, bdto.boatName());
+        verify(eventService).removeBoatFromEvent(1001L, 993L);
     }
 }

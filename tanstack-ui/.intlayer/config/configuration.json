@@ -1,0 +1,143 @@
+{
+  "internationalization": {
+    "locales": [
+      "en",
+      "fi-FI",
+      "sv-FI"
+    ],
+    "requiredLocales": [
+      "en",
+      "fi-FI",
+      "sv-FI"
+    ],
+    "strictMode": "inclusive",
+    "defaultLocale": "sv-FI"
+  },
+  "routing": {
+    "mode": "prefix-no-default",
+    "storage": [
+      "cookie",
+      "header"
+    ],
+    "basePath": ""
+  },
+  "content": {
+    "fileExtensions": [
+      ".content.ts",
+      ".content.js",
+      ".content.cjs",
+      ".content.cjx",
+      ".content.mjs",
+      ".content.mjx",
+      ".content.json",
+      ".content.tsx",
+      ".content.jsx"
+    ],
+    "baseDir": "/home/pbt/src/ycbr/tanstack-ui",
+    "excludedPath": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.intlayer/**",
+      "**/.next/**",
+      "**/.nuxt/**",
+      "**/.expo/**",
+      "**/.vercel/**",
+      "**/.turbo/**",
+      "**/.tanstack/**"
+    ],
+    "watch": true,
+    "contentDir": [
+      "/home/pbt/src/ycbr/tanstack-ui"
+    ],
+    "moduleAugmentationDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/types",
+    "unmergedDictionariesDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/unmerged_dictionary",
+    "remoteDictionariesDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/remote_dictionary",
+    "dictionariesDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/dictionary",
+    "dynamicDictionariesDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/dynamic_dictionary",
+    "fetchDictionariesDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/fetch_dictionary",
+    "typesDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/types",
+    "mainDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/main",
+    "configDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/config",
+    "cacheDir": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/cache",
+    "watchedFilesPattern": [
+      "/**/*.content.ts",
+      "/**/*.content.js",
+      "/**/*.content.cjs",
+      "/**/*.content.cjx",
+      "/**/*.content.mjs",
+      "/**/*.content.mjx",
+      "/**/*.content.json",
+      "/**/*.content.tsx",
+      "/**/*.content.jsx"
+    ],
+    "watchedFilesPatternWithPath": [
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.ts",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.js",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.cjs",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.cjx",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.mjs",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.mjx",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.json",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.tsx",
+      "/home/pbt/src/ycbr/tanstack-ui/**/*.content.jsx"
+    ],
+    "outputFilesPatternWithPath": "/home/pbt/src/ycbr/tanstack-ui/.intlayer/dictionary/**/*.json"
+  },
+  "editor": {
+    "applicationURL": "",
+    "editorURL": "http://localhost:8000",
+    "cmsURL": "https://intlayer.org",
+    "backendURL": "https://back.intlayer.org",
+    "port": 8000,
+    "enabled": true,
+    "dictionaryPriorityStrategy": "local_first",
+    "liveSync": true,
+    "liveSyncPort": 4000,
+    "liveSyncURL": "http://localhost:4000"
+  },
+  "log": {
+    "mode": "verbose",
+    "prefix": "\u001b[38;5;239m[intlayer] \u001b[0m"
+  },
+  "ai": {},
+  "build": {
+    "importMode": "static",
+    "traversePattern": [
+      "**/*.{js,ts,mjs,cjs,jsx,tsx,mjx,cjx,vue,svelte,svte}",
+      "!**/node_modules/**"
+    ],
+    "outputFormat": [
+      "cjs",
+      "esm"
+    ],
+    "cache": true
+  },
+  "compiler": {
+    "enabled": true,
+    "transformPattern": [
+      "**/*.{ts,tsx,jsx,js,cjs,mjs,mjx,cjx,svelte,vue}"
+    ],
+    "excludePattern": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.next/**",
+      "**/.nuxt/**",
+      "**/.expo/**",
+      "**/.vercel/**",
+      "**/.turbo/**",
+      "**/.tanstack/**",
+      "**/*.stories.ts",
+      "**/*.test.ts"
+    ],
+    "outputDir": "./compiler"
+  },
+  "dictionary": {
+    "fill": true
+  },
+  "metadata": {
+    "name": "Intlayer",
+    "version": "7.3.5",
+    "doc": "https://intlayer.org/docs"
+  }
+}

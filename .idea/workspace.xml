@@ -5,23 +5,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a272d3d-3a37-4086-a679-0f8de3964452" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/Boat.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/Boat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/config/DataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/config/DataConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/BoatBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/BoatBooking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/BoatBookingDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/BoatBookingDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/BookingExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/BookingExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/i9event/I9EventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/Boat.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatRequestMalformedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatRequestMalformedException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/java/fi/smartbass/ycbr/register/BoatService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/resources/db/migration/V1__boat_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/resources/db/migration/V1__boat_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/resources/db/migration/V2__boats_seed.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/resources/db/migration/V2__boats_seed.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/main/resources/db/migration/V4__i9events-seed.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/main/resources/db/migration/V4__i9events_seed.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/BaseIntegrationtest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/BaseIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/BoatIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/BoatIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/I9EventIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/I9EventIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/i9event/I9EventControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/i9event/I9EventControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/i9event/I9EventRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/i9event/I9EventRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/i9event/I9EventServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/i9event/I9EventServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatMapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatMapperTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bff/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bff/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatValidationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/java/fi/smartbass/ycbr/register/BoatValidationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-server/src/test/resources/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api-server/src/test/resources/db.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/auth/useUser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/auth/useUser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/boats/BoatsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/boats/BoatsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/boats/boat.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/boats/boat.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/components/Header.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/components/YcbrAppBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/components/YcbrAppBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/inspections/BookingDialog.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/inspections/EventDateTimePickers.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/inspections/InspectionEventPage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/inspections/RegisterDialog.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/inspections/inspection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/inspections/inspection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/inspections/static_inspectiondata.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routeTree.gen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/src/routeTree.gen.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routes/dispatch.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/src/routes/inspect.route.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tanstack-ui/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tanstack-ui/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,21 +77,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/pbt/src/ycbr/backend/bff-server",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/pbt/src/ycbr/backend/bff-server&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend/api-server/src/test" />
@@ -75,5 +109,8 @@
       <updated>1757862233612</updated>
     </task>
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.ts" />
   </component>
 </project>

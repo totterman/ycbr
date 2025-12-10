@@ -1,7 +1,7 @@
 import { keepPreviousData, queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
-export type BoatType = {
+export interface BoatType {
   id: number;
   //  id: string;
   name: string;
@@ -162,10 +162,10 @@ export function useDeleteBoat() {
 
 const validateRequired = (value: string) => !!value.length;
 
-export function validateBoat(boat: BoatType) {
+export function validateBoat(boat: BoatType, content: any) {
   return {
-    name: !validateRequired(boat.name) ? "Boat Name is Required" : "",
-    owner: !validateRequired(boat.owner) ? "Boat Owner is Required" : "",
+    name: !validateRequired(boat.name) ? content.nameRequired : "",
+    owner: !validateRequired(boat.owner) ? content.ownerRequired : "",
     //    email: !validateEmail(boat.email) ? 'Incorrect Email Format' : '',
   };
 }

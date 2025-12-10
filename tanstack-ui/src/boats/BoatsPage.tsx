@@ -2,6 +2,7 @@ import {
   MaterialReactTable,
   MRT_ColumnDef,
   MRT_EditActionButtons,
+  MRT_Localization,
   MRT_Row,
   MRT_TableOptions,
   useMaterialReactTable,
@@ -18,10 +19,8 @@ import {
 } from "./boat";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-  Alert,
   Box,
   Button,
-  CircularProgress,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -31,13 +30,19 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SailingIcon from "@mui/icons-material/SailingSharp";
 import AddIcon from "@mui/icons-material/Add";
 import MinusIcon from "@mui/icons-material/Remove";
 import { useUser } from "@/auth/useUser";
-import { useNavigate } from "@tanstack/react-router";
+import { useIntlayer, useLocale } from "react-intlayer";
+
+import { MRT_Localization_EN } from "material-react-table/locales/en";
+import { MRT_Localization_FI } from "material-react-table/locales/fi";
+import { MRT_Localization_SV } from "material-react-table/locales/sv";
 
 export default function BoatsPage() {
+  const content = useIntlayer("boats");
+  const { locale } = useLocale();
+
   const columns = useMemo<MRT_ColumnDef<BoatType>[]>(
     () => [
       {
@@ -48,50 +53,50 @@ export default function BoatsPage() {
       },
       {
         accessorKey: "name",
-        header: "Boat Name",
+        header: content.boatName,
       },
       {
         accessorKey: "sign",
-        header: "Boat Sign",
+        header: content.boatSign,
       },
       {
         accessorKey: "owner",
-        header: "Owner",
+        header: content.owner,
       },
       {
         accessorKey: "make",
-        header: "Make",
+        header: content.make,
       },
       {
         accessorKey: "model",
-        header: "Model",
+        header: content.model,
       },
       {
         accessorKey: "year",
-        header: "Year",
+        header: content.year,
       },
       {
         accessorKey: "engines",
-        header: "Engine",
+        header: content.engine,
       },
       {
         accessorKey: "loa",
-        header: "LOA",
+        header: content.loa,
       },
       {
         accessorKey: "beam",
-        header: "Beam",
+        header: content.beam,
       },
       {
         accessorKey: "draft",
-        header: "Draft",
+        header: content.draft,
       },
       {
         accessorKey: "deplacement",
-        header: "Deplacement",
+        header: content.deplacement,
       },
     ],
-    []
+    [locale]
   );
 
   const boatsQuery = useSuspenseQuery(boatsQueryOptions);
@@ -111,7 +116,7 @@ export default function BoatsPage() {
 
   const handleCreateBoat: MRT_TableOptions<BoatType>["onCreatingRowSave"] =
     async ({ values, table }) => {
-      const newValidationErrors = validateBoat(values);
+      const newValidationErrors = validateBoat(values, content);
       if (Object.values(newValidationErrors).some((error) => error)) {
         setValidationErrors(newValidationErrors);
         return;
@@ -123,7 +128,7 @@ export default function BoatsPage() {
 
   const handleUpdateBoat: MRT_TableOptions<BoatType>["onEditingRowSave"] =
     async ({ values, table }) => {
-      const newValidationErrors = validateBoat(values);
+      const newValidationErrors = validateBoat(values, content);
       if (Object.values(newValidationErrors).some((error) => error)) {
         setValidationErrors(newValidationErrors);
         return;
@@ -134,7 +139,7 @@ export default function BoatsPage() {
     };
 
   const openDeleteConfirmModal = (row: MRT_Row<BoatType>) => {
-    if (window.confirm("Are you sure you want to delete this boat?")) {
+    if (window.confirm(content.confirmDelete.value)) {
       deleteBoat(row.original.id);
     }
   };
@@ -148,13 +153,19 @@ export default function BoatsPage() {
     return (
       <Stack gap="0.5rem" minHeight="00px">
         <div>
-          <b>Engine: </b> {engines}
+          <b>{content.engine}: </b> {engines}
         </div>
         <div>
-          <b>Year: </b> {year}
+          <b>{content.year}: </b> {year}
         </div>
       </Stack>
     );
+  };
+
+  const mrtLocalization: { [key: string]: MRT_Localization } = {
+    "en": MRT_Localization_EN,
+    "fi-FI": MRT_Localization_FI,
+    "sv-FI": MRT_Localization_SV,
   };
 
   const table = useMaterialReactTable({
@@ -185,6 +196,7 @@ export default function BoatsPage() {
         "deplacement",
       ],
     },
+    localization: mrtLocalization[locale],
     muiExpandButtonProps: ({ row }) => ({
       children: row.getIsExpanded() ? <MinusIcon /> : <AddIcon />,
     }),
@@ -195,7 +207,7 @@ export default function BoatsPage() {
     renderDetailPanel: ({ row }) => <DetailPanel row={row} />,
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle>Create New Boat</DialogTitle>
+        <DialogTitle>{content.createBoat}</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
         >
@@ -209,7 +221,7 @@ export default function BoatsPage() {
 
     renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle>Update Boat</DialogTitle>
+        <DialogTitle>{content.updateBoat}</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
         >
@@ -227,12 +239,12 @@ export default function BoatsPage() {
           (user.hasAnyRole("boatowner") &&
             row.original.owner === user.name)) && (
           <>
-            <Tooltip title="Edit">
+            <Tooltip title={content.edit.value}>
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete">
+            <Tooltip title={content.delete.value}>
               <IconButton
                 color="error"
                 onClick={() => openDeleteConfirmModal(row)}
@@ -253,7 +265,7 @@ export default function BoatsPage() {
             table.setCreatingRow(true);
           }}
         >
-          Create New Boat
+          {content.createBoat}
         </Button>
       ),
   });

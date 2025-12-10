@@ -41,6 +41,7 @@ com:
           permit-all:
           - /me
           - /i9events/**
+          - /inspections/**
           - /actuator/info
           - /actuator/health
           - /v3/api-docs/**
@@ -70,7 +71,7 @@ logging:
       springframework:
         boot: INFO
         jdbc:
-          core: DEBUG
+          core: INFO
         security: INFO
         web: INFO
         

@@ -26,13 +26,19 @@ public class I9EventController {
         return service.findAll();
     }
 
+    @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('staff', 'inspector')")
+    public Iterable<I9EventComplete> getEverything(Authentication auth) {
+        LOGGER.info("getEverything() called: " + auth);
+        return service.findEverything();
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
     public I9EventDTO getOne(Authentication auth, @PathVariable("id") Long id) {
         LOGGER.info("getOne(" + id + ") called: " + auth);
         return service.findById(id);
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -89,15 +95,22 @@ public class I9EventController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
     public I9EventDTO addBoat(Authentication auth, @PathVariable("id") Long id, @Valid @RequestBody BoatBookingDTO boat) {
-        LOGGER.info("addBoat(" + id + ", " + boat.boatName() + ") called: " + auth);
+        LOGGER.info("addBoat(" + id + ", " + boat.boatId() + ") called: " + auth);
         return service.assignBoatToEvent(id, boat);
+    }
+
+    @PostMapping("/{id}/mark")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
+    public I9EventDTO markBoat(Authentication auth, @PathVariable("id") Long id, @Valid @RequestBody BoatBookingDTO boat) {
+        LOGGER.info("markBoat(" + id + ", " + boat.boatId() + ") called: " + auth);
+        return service.markBoatForInspector(id, boat);
     }
 
     @DeleteMapping("/{id}/boats")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
     public I9EventDTO removeBoat(Authentication auth, @PathVariable("id") Long id, @Valid @RequestBody BoatBookingDTO boat) {
         LOGGER.info("removeBoat(" + id + ", " + boat + ") called: " + auth);
-        return service.removeBoatFromEvent(id, boat.boatName());
+        return service.removeBoatFromEvent(id, boat.boatId());
     }
-
 }

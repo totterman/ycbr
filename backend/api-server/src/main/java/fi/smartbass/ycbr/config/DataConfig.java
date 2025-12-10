@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 
 @Configuration
-@EnableJdbcRepositories(basePackages = {"fi.smartbass.ycbr.register", "fi.smartbass.ycbr.i9event"})
+@EnableJdbcRepositories(basePackages = {"fi.smartbass.ycbr.register", "fi.smartbass.ycbr.i9event", "fi.smartbass.ycbr.inspection"})
 @EnableJdbcAuditing(auditorAwareRef = "auditorAware")
 public class DataConfig {
 

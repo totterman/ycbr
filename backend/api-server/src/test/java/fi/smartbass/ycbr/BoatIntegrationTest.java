@@ -15,7 +15,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BoatIntegrationTest extends BaseIntegrationtest {
+public class BoatIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Context loads")

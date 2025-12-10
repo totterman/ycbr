@@ -1,7 +1,8 @@
 import react from '@vitejs/plugin-react'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import tsConfigPaths from 'vite-tsconfig-paths'
+import { intlayer } from "vite-intlayer"
 
 export default defineConfig({
   server: {
@@ -18,6 +19,12 @@ export default defineConfig({
     tsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
-    react()
+    react(),
+    intlayer()
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+//    setupFiles: './vitest.setup.ts',
+    },
 })

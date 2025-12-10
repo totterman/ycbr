@@ -30,7 +30,7 @@ public class BoatService {
 
     public BoatDTO create(BoatDTO dto) {
         if (dto.id() != null && boatRepository.existsById(dto.id())) {
-            LOGGER.warn("Boat with id " + dto.id() + " already exists.");
+            LOGGER.warn("BoatEntity with id " + dto.id() + " already exists.");
             throw new BoatAlreadyExistsException(dto.id());
         }
         return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
@@ -38,7 +38,7 @@ public class BoatService {
 
     public void delete(Long id) {
         if (!boatRepository.existsById(id)) {
-            LOGGER.warn("Boat with id " + id + " not found for deletion.");
+            LOGGER.warn("BoatEntity with id " + id + " not found for deletion.");
         }
         boatRepository.deleteById(id);
     }
@@ -50,10 +50,10 @@ public class BoatService {
         }
         return boatRepository.findById(id)
                 .map(existingBoat -> {
-                    Boat boatToUpdate = mapper.toEntity(dto);
-                    boatToUpdate.setId(existingBoat.getId());
-                    boatToUpdate.setCreatedAt(existingBoat.getCreatedAt()); // Preserve the original creation timestamp
-                    boatToUpdate.setCreatedBy(existingBoat.getCreatedBy()); // Preserve the original creator
+                    BoatEntity boatToUpdate = mapper.toEntity(dto);
+//                    boatToUpdate.setId(existingBoat.getId());
+//                    boatToUpdate.setCreatedAt(existingBoat.getCreatedAt()); // Preserve the original creation timestamp
+//                    boatToUpdate.setCreatedBy(existingBoat.getCreatedBy()); // Preserve the original creator
                             // modifiedAt will be set automatically
                             // modifiedBy will be set automatically
                     boatToUpdate.setVersion(existingBoat.getVersion()); // Preserve the version for optimistic locking

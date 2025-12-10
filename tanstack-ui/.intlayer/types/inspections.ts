@@ -1,0 +1,81 @@
+/* eslint-disable */
+export default {
+  "key": "inspections",
+  "content": {
+    "nodeType": "translation",
+    "translation": {
+      "en": {
+        "no_inspections": "No inspections",
+        "my_inspections": "My inspections",
+        "inspected_boat": "Inspected Boat",
+        "owner": "Owner",
+        "boat_name": "Boat Name",
+        "hull": "Hull",
+        "rig": "Rig",
+        "engine": "Engine",
+        "inspection_event": "Inspection Event",
+        "inspector": "Inspector",
+        "started": "Started",
+        "start_inspection": "Start Inspection",
+        "inspection_completed": "Inspection completed",
+        "reset": "Reset",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "complete_step": "Complete Step",
+        "step": "Step",
+        "already_completed": "already completed",
+        "dispatch_text": "Select first the inspection event and then the nave of the boat to inspect. Then push the blue button to start the inspection of the selected boat."
+      },
+      "fi-FI": {
+        "no_inspections": "Ei katsastuksia",
+        "my_inspections": "Omat katsastukset",
+        "inspected_boat": "Katsastettava vene",
+        "owner": "Omistaja",
+        "boat_name": "Veneen nimi",
+        "hull": "Runko",
+        "rig": "Riki",
+        "engine": "Moottori",
+        "inspection_event": "Katsastustilaisuus",
+        "inspector": "Katsastaja",
+        "started": "Aloitettu",
+        "start_inspection": "Aloita katsastus",
+        "inspection_completed": "Katsastus valmis",
+        "reset": "Palauta",
+        "back": "Takaisin",
+        "next": "Seuraava",
+        "finish": "Päätä",
+        "complete_step": "Vaihe valmis",
+        "step": "Vaihe",
+        "already_completed": "on jo valmis",
+        "dispatch_text": "Valitse ensin katsastustilaisuus ja sitten katsastettavan veneen nimi. Paina sitten sinistä näppäinta aloittaaksesi valitun veneen katsastuksen."
+      },
+      "sv-FI": {
+        "no_inspections": "Inga besiktningar",
+        "my_inspections": "Egna besiktningar",
+        "inspected_boat": "Båt som besiktas",
+        "owner": "Ägare",
+        "boat_name": "Båtens namn",
+        "hull": "Skrov",
+        "rig": "Rigg",
+        "engine": "Motor",
+        "inspection_event": "Besiktningstillfälle",
+        "inspector": "Besiktningsman",
+        "started": "Påbörjats",
+        "start_inspection": "Börja besiktningen",
+        "inspection_completed": "Besiktningen färdig",
+        "reset": "Återställ",
+        "back": "Föregående",
+        "next": "Följande",
+        "finish": "Avsluta",
+        "complete_step": "Steget färdigt",
+        "step": "Steg",
+        "already_completed": "redan färdig",
+        "dispatch_text": "Välj först besiktningstillfälle och sedan namnet på båten som ska besiktas. Tryck sedan på den blåa knappen för att börja en ny besiktning med den valda båten."
+      }
+    }
+  },
+  "localIds": [
+    "inspections::local::src/inspections/inspections.content.ts"
+  ]
+} as const;

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Stack, Typography } from '@mui/material'
 import { User, useUser } from '@/auth/useUser';
+import { useIntlayer, useLocale } from "react-intlayer";
 
 export const Route = createFileRoute('/')({
   component: IndexComponent,
@@ -9,10 +10,11 @@ export const Route = createFileRoute('/')({
   
 function IndexComponent() {
   const { user } = useUser();
+  const content = useIntlayer("routes");
 
   const message = user.isAuthenticated
-    ? `Hi ${user.name}, you are granted with roles ${rolesStr(user)}.`
-    : "You are not authenticated.";
+    ? ''.concat(content.hi.value).concat(` ${user.name}, `).concat(content.granted.value).concat(` ${rolesStr(user)}.`)
+    : content.notAuthenticated;
 
   function rolesStr(user: User) {
     if (!user?.roles?.length) {

@@ -1,0 +1,234 @@
+[
+  {
+    "key": "i9events",
+    "content": {
+      "book_inspection": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Book Inspection",
+          "fi": "Varaa katsastus",
+          "sv": "Boka besiktning"
+        }
+      },
+      "book_inspection_title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Book Boat Inspection",
+          "fi": "Varaa veneen katsastus",
+          "sv": "Boka båtbesiktning"
+        }
+      },
+      "boat_name": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Boat Name",
+          "fi": "Veneen nimi",
+          "sv": "Båtens  namn"
+        }
+      },
+      "boat_owner": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Owner",
+          "fi": "Omistaja",
+          "sv": "Ägare"
+        }
+      },
+      "location": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Location",
+          "fi": "Paikka",
+          "sv": "Plats"
+        }
+      },
+      "date": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Date",
+          "fi": "Päivä",
+          "sv": "Datum"
+        }
+      },
+      "time": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Time",
+          "fi": "Aika",
+          "sv": "Tid"
+        }
+      },
+      "cancel": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Cancel",
+          "fi": "Peru",
+          "sv": "Avbryt"
+        }
+      },
+      "book": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Book",
+          "fi": "Varaa",
+          "sv": "Boka"
+        }
+      },
+      "register_as": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Register as Inspector",
+          "fi": "Ilmoittaudu katsastajaksi",
+          "sv": "Anmäl dig som besiktningsman"
+        }
+      },
+      "register_title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Register as Boat Inspector",
+          "fi": "Ilmoittaudu katsastajaksi",
+          "sv": "Anmäl dig som besiktningsman"
+        }
+      },
+      "register": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Register",
+          "fi": "Ilmoittaudu",
+          "sv": "Anmäl dig"
+        }
+      },
+      "inspection_date": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Inspection Date",
+          "fi": "Päivämäärä",
+          "sv": "Datum"
+        }
+      },
+      "start_time": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Start Time",
+          "fi": "Alkaa klo",
+          "sv": "Börjar kl"
+        }
+      },
+      "end_time": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "End Time",
+          "fi": "Päättyy klo",
+          "sv": "Slutar kl"
+        }
+      },
+      "inspector": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Inspector",
+          "fi": "Katsastaja",
+          "sv": "Besiktningsman"
+        }
+      },
+      "inspectors": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Nr inspectors",
+          "fi": "Katsastajien lkm",
+          "sv": "Antal besiktningsmän"
+        }
+      },
+      "boats": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Nr boats",
+          "fi": "Veneiden lkm",
+          "sv": "Antal båtar"
+        }
+      },
+      "create_title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Create New Inspection Event",
+          "fi": "Tee uusi katsastustapahtuma",
+          "sv": "Skapa nytt besiktningstillfälle"
+        }
+      },
+      "reset": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Reset",
+          "fi": "Palauta",
+          "sv": "Återställ"
+        }
+      },
+      "back": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Back",
+          "fi": "Takaisin",
+          "sv": "Föregående"
+        }
+      },
+      "next": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Next",
+          "fi": "Seuraava",
+          "sv": "Följande"
+        }
+      },
+      "finish": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Finish",
+          "fi": "Päätä",
+          "sv": "Avsluta"
+        }
+      },
+      "location_required": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Location is Required",
+          "fi": "Paikka on annettava",
+          "sv": "Plats måste anges"
+        }
+      },
+      "date_required": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Inspection Date is Required",
+          "fi": "Päivämäärä on annettava",
+          "sv": "Datum måste anges"
+        }
+      },
+      "start_time_required": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Start Time is Required",
+          "fi": "Aloitusaika on annettava",
+          "sv": "Start måste anges"
+        }
+      },
+      "end_time_required": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "End Time is Required",
+          "fi": "Päätösaika on annettava",
+          "sv": "Avslutning måste anges"
+        }
+      },
+      "start_before_end": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "End Time must be after Start Time",
+          "fi": "Päätösajan on oltava aloitusajan jälkeen",
+          "sv": "Avslutning måste vara efter start"
+        }
+      }
+    },
+    "localId": "i9events::local::src/inspectionevents/i9events.content.ts",
+    "location": "local",
+    "filePath": "src/inspectionevents/i9events.content.ts"
+  }
+]

@@ -38,7 +38,7 @@ class BoatServiceTest {
 
     @Test
     void getBoatById_returnsBoat_whenFound() {
-        Boat boat = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         when(boatRepository.findById(1L)).thenReturn(Optional.of(boat));
         BoatDTO result = boatService.getBoatById(1L);
         assertThat(result.name()).isEqualTo(boat.getName());
@@ -61,7 +61,7 @@ class BoatServiceTest {
 
     @Test
     void addBoatToRegister_savesBoat_whenIdIsNull() {
-        Boat boat = new Boat(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         BoatDTO dto = new BoatDTO(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.save(boat)).thenReturn(boat);
         BoatDTO result = boatService.create(dto);
@@ -71,7 +71,7 @@ class BoatServiceTest {
 
     @Test
     void create_throws_whenIdExists() {
-        Boat boat = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         BoatDTO dto = new BoatDTO(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.existsById(1L)).thenReturn(true);
         assertThatThrownBy(() -> boatService.create(dto))
@@ -80,7 +80,7 @@ class BoatServiceTest {
 
     @Test
     void create_saves_whenIdNotExists() {
-        Boat boat = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         BoatDTO dto = new BoatDTO(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.existsById(1L)).thenReturn(false);
         when(boatRepository.save(boat)).thenReturn(boat);
@@ -108,18 +108,18 @@ class BoatServiceTest {
     @Test
     void upsert_updates_whenExists() {
         Instant createdAt = Instant.now();
-        Boat before = new Boat(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", createdAt, "createdBy", null, null, 0);
+        BoatEntity before = new BoatEntity(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", createdAt, "createdBy", null, null, 0);
         BoatDTO updated = new BoatDTO(1L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
-        Boat after = new Boat(1L, "newOwner", "newName", "newSign", "newMake", "newModel", 2.0, 2.0, 2.0, 2.0, "newEngines", "newYear", null, null, null, null, 0);
+        BoatEntity after = new BoatEntity(1L, "newOwner", "newName", "newSign", "newMake", "newModel", 2.0, 2.0, 2.0, 2.0, "newEngines", "newYear", null, null, null, null, 0);
         when(boatRepository.findById(1L)).thenReturn(Optional.of(before));
-        when(boatRepository.save(any(Boat.class))).thenReturn(after);
+        when(boatRepository.save(any(BoatEntity.class))).thenReturn(after);
         BoatDTO result = boatService.upsert(1L, updated);
         assertThat(result.sign().equals(after.getSign()));
     }
 
     @Test
     void upsert_adds_whenNotExists() {
-        Boat updated = new Boat(2L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", Instant.now(), null, null, null, 0);
+        BoatEntity updated = new BoatEntity(2L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", Instant.now(), null, null, null, 0);
         BoatDTO dto = new BoatDTO(2L, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.findById(2L)).thenReturn(Optional.empty());
         when(boatRepository.save(updated)).thenReturn(updated);

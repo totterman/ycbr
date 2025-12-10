@@ -30,57 +30,57 @@ class BoatValidationTest {
 
     @Test
     void validBoatShouldHaveNoViolations() {
-        Boat boat = new Boat(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).isEmpty();
     }
 
     @Test
     void missingOwnerShouldFailValidation() {
-        Boat boat = new Boat(1L, "", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("owner"));
     }
 
     @Test
     void missingNameShouldFailValidation() {
-        Boat boat = new Boat(1L, "owner1", "", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("name"));
     }
 
     @Test
     void nullLoaShouldFailValidation() {
-        Boat boat = new Boat(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", null, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", null, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("loa"));
     }
 
     @Test
     void negativeLoaShouldFailValidation() {
-        Boat boat = new Boat(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", -1.0, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", -1.0, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("loa"));
     }
 
     @Test
     void zeroDraftShouldFailValidation() {
-        Boat boat = new Boat(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 0.0, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 0.0, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("draft"));
     }
 
     @Test
     void negativeBeamShouldFailValidation() {
-        Boat boat = new Boat(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, -2.0, 4000.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, -2.0, 4000.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("beam"));
     }
 
     @Test
     void zeroDeplacementShouldFailValidation() {
-        Boat boat = new Boat(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 0.0, "VP", "1988", null, null, null, null, 0);
-        Set<ConstraintViolation<Boat>> violations = validator.validate(boat);
+        BoatEntity boat = new BoatEntity(1L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 0.0, "VP", "1988", null, null, null, null, 0);
+        Set<ConstraintViolation<BoatEntity>> violations = validator.validate(boat);
         assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("deplacement"));
     }
 }

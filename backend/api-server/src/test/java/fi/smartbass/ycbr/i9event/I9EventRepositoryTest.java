@@ -1,6 +1,5 @@
 package fi.smartbass.ycbr.i9event;
 
-import fi.smartbass.ycbr.register.Boat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJdbcTest(includeFilters = @ComponentScan.Filter(EnableJdbcAuditing.class))
@@ -119,11 +116,11 @@ public class I9EventRepositoryTest {
     @DisplayName("Check boat bookings")
     void testBoatBookings() {
         I9Event event = new I9Event(null, "Gumbostrand", OffsetDateTime.parse("2026-05-17T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-17T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
-        event.addBoat("boat2", "message2");
+        event.addBoat(992L, "message2");
         I9Event saved = eventRepository.save(event);
         assertThat(saved.getBoats().size()).isEqualTo(event.getBoats().size());
         assertThat(saved.getBoats()).isEqualTo(event.getBoats());
-        saved.deleteBoat("boat2");
+        saved.deleteBoat(992L);
         I9Event deleted = eventRepository.save(saved);
         assertThat(deleted.getBoats().size()).isEqualTo(0);
     }

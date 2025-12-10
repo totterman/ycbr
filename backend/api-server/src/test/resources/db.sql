@@ -61,8 +61,9 @@ CREATE TABLE inspector_registrations (
 
 CREATE TABLE boat_bookings (
 	i9events int8 NULL,
-	boat_name varchar(255) NOT NULL,
+	boat_id int8 NOT NULL,
 	message varchar(255) NULL,
+	taken bool DEFAULT false NULL,
 	created_at timestamptz NULL,
 	created_by varchar(255) NULL
 );

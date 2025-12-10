@@ -1,0 +1,33 @@
+/* eslint-disable */
+export default {
+  "key": "rigdata",
+  "content": {
+    "nodeType": "translation",
+    "translation": {
+      "en": {
+        "rigTitle": "Rig",
+        "rig": "Rig Condition and Maintenance",
+        "sails": "Sails",
+        "storm_sails": "Storm sails",
+        "reefing": "Reefing System"
+      },
+      "fi-FI": {
+        "rigTitle": "Riki",
+        "rig": "Takila ja purjeet, mikäli asennettu",
+        "sails": "Purjeet",
+        "storm_sails": "Myrskypurjeet",
+        "reefing": "Reivausjärjestely "
+      },
+      "sv-FI": {
+        "rigTitle": "Rigg",
+        "rig": "Rigg och segel, om monterade",
+        "sails": "Segel",
+        "storm_sails": "Stormsegel",
+        "reefing": "Revanordning"
+      }
+    }
+  },
+  "localIds": [
+    "rigdata::local::src/inspections/rigdata.content.ts"
+  ]
+} as const;

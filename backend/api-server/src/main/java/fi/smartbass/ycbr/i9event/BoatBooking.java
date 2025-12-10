@@ -9,32 +9,34 @@ import java.util.Objects;
 public class BoatBooking {
 
     @NotBlank
-    private final String boatName;
+    private final Long boatId;
 
     private final String message;
+    private final boolean taken;
 
-    public BoatBooking(String boatName, String message) {
-        this.boatName = boatName;
+    public BoatBooking(Long boatId, String message, boolean taken) {
+        this.boatId = boatId;
         this.message = message;
+        this.taken = taken;
     }
 
-    public String getBoatName() {
-        return boatName;
+    public Long getBoatId() {
+        return boatId;
     }
-
     public String getMessage() {
         return message;
     }
+    public boolean isTaken() { return taken; }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         BoatBooking that = (BoatBooking) o;
-        return Objects.equals(boatName, that.boatName);
+        return Objects.equals(boatId, that.boatId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(boatName);
+        return Objects.hashCode(boatId);
     }
 }

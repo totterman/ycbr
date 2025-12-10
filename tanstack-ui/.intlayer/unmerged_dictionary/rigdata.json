@@ -1,0 +1,50 @@
+[
+  {
+    "key": "rigdata",
+    "content": {
+      "rigTitle": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Rig",
+          "fi": "Riki",
+          "sv": "Rigg"
+        }
+      },
+      "rig": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Rig Condition and Maintenance",
+          "fi": "Takila ja purjeet, mikäli asennettu",
+          "sv": "Rigg och segel, om monterade"
+        }
+      },
+      "sails": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Sails",
+          "fi": "Purjeet",
+          "sv": "Segel"
+        }
+      },
+      "storm_sails": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Storm sails",
+          "fi": "Myrskypurjeet",
+          "sv": "Stormsegel"
+        }
+      },
+      "reefing": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Reefing System",
+          "fi": "Reivausjärjestely ",
+          "sv": "Revanordning"
+        }
+      }
+    },
+    "localId": "rigdata::local::src/inspections/rigdata.content.ts",
+    "location": "local",
+    "filePath": "src/inspections/rigdata.content.ts"
+  }
+]

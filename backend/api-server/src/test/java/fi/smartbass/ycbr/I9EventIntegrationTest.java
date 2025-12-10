@@ -17,7 +17,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class I9EventIntegrationTest extends BaseIntegrationtest {
+public class I9EventIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Context loads")
@@ -216,7 +216,7 @@ public class I9EventIntegrationTest extends BaseIntegrationtest {
 
         I9EventDTO created = firstList.getLast();
         assertThat(created.boats()).isEqualTo(0);
-        BoatBookingDTO bookingDTO = new BoatBookingDTO("Boat Name", "Boat Message");
+        BoatBookingDTO bookingDTO = new BoatBookingDTO(995L, "BoatEntity Message", false);
         String bookingJson = om.writeValueAsString(bookingDTO);
         MvcTestResult updateOne = mvc.post()
                 .uri("/i9events/" + created.id() + "/boats")
@@ -229,7 +229,7 @@ public class I9EventIntegrationTest extends BaseIntegrationtest {
         System.out.println("Updated JSON: " + updateOne.getResponse().getContentAsString());
         assertThat(updated.boats()).isEqualTo(1);
 
-        BoatBookingDTO secondDTO = new BoatBookingDTO("Boat Name", "Boat Message 2");
+        BoatBookingDTO secondDTO = new BoatBookingDTO(995L, "BoatEntity Message 2", false);
         String secondJson = om.writeValueAsString(secondDTO);
         MvcTestResult updateTwo = mvc.post()
                 .uri("/i9events/" + created.id() + "/boats")
@@ -240,7 +240,7 @@ public class I9EventIntegrationTest extends BaseIntegrationtest {
                 .hasStatus(HttpStatus.CONFLICT);
         System.out.println("Exception JSON: " + updateTwo.getResponse().getContentAsString());
 
-        BoatBookingDTO thirdDTO = new BoatBookingDTO(null, null);
+        BoatBookingDTO thirdDTO = new BoatBookingDTO(null, null, false);
         String thirdJson = om.writeValueAsString(thirdDTO);
         MvcTestResult updateThree = mvc.post()
                 .uri("/i9events/" + created.id() + "/boats")

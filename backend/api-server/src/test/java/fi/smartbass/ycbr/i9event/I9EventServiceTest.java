@@ -142,10 +142,10 @@ class I9EventServiceTest {
     @DisplayName("Finds boat booking")
     void findBoatsByEventId() {
         I9Event event = new I9Event(1001L, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
-        event.addBoat("boat2", "message2");
+        event.addBoat(990L, "message2");
         when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
         BoatBookingDTO result = eventService.findBoatsByEventId(event.getId()).iterator().next();
-        assertThat(result.boatName().equals("boat2"));
+        assertThat(result.boatId().equals(990L));
         assertThat(result.message().equals("message2"));
     }
 }

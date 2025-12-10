@@ -1,0 +1,154 @@
+[
+  {
+    "key": "boats",
+    "content": {
+      "nameRequired": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Boat Name is Required",
+          "fi": "Veneen nimi tarvitaan",
+          "sv": "Båtens namn behövs"
+        }
+      },
+      "ownerRequired": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Boat Owner is Required",
+          "fi": "Omistajan nimi tarvitaan",
+          "sv": "Ägarens namn behövs"
+        }
+      },
+      "boatName": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Boat Name",
+          "fi": "Veneen nimi",
+          "sv": "Båtens namn"
+        }
+      },
+      "boatSign": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Boat Sign",
+          "fi": "Rekisteritunnus",
+          "sv": "Registerbeteckning"
+        }
+      },
+      "owner": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Owner",
+          "fi": "Omistaja",
+          "sv": "Ägare"
+        }
+      },
+      "make": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Make",
+          "fi": "Valmistaja",
+          "sv": "Tillverkare"
+        }
+      },
+      "model": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Model",
+          "fi": "Malli",
+          "sv": "Modell"
+        }
+      },
+      "year": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Year",
+          "fi": "Vuosi",
+          "sv": "År"
+        }
+      },
+      "engine": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Engine",
+          "fi": "Moottori",
+          "sv": "Motor"
+        }
+      },
+      "loa": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "LOA",
+          "fi": "Pituus",
+          "sv": "Längd"
+        }
+      },
+      "beam": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Beam",
+          "fi": "Leveys",
+          "sv": "Bredd"
+        }
+      },
+      "draft": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Draft",
+          "fi": "Syväys",
+          "sv": "Djupgående"
+        }
+      },
+      "deplacement": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Deplacement",
+          "fi": "Uppouma",
+          "sv": "Vikt"
+        }
+      },
+      "confirmDelete": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Are you sure you want to delete this boat?",
+          "fi": "Haluatko varmasti poistaa tämän veneen?",
+          "sv": "Vill du säkert ta bort den här båten?"
+        }
+      },
+      "createBoat": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Create New Boat",
+          "fi": "Luo uusi vene",
+          "sv": "Skapa ny båt"
+        }
+      },
+      "updateBoat": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Update Boat",
+          "fi": "Muuta veneen tietoja",
+          "sv": "Ändra båtens uppgifter"
+        }
+      },
+      "edit": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Edit",
+          "fi": "Muokkaa",
+          "sv": "Ändra"
+        }
+      },
+      "delete": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Delete",
+          "fi": "Poista",
+          "sv": "Ta bort"
+        }
+      }
+    },
+    "localId": "boats::local::src/boats/boats.content.ts",
+    "location": "local",
+    "filePath": "src/boats/boats.content.ts"
+  }
+]
