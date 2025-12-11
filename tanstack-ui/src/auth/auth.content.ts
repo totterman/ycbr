@@ -15,7 +15,7 @@ export default {
     loading: t({
       en: "Loading",
       fi: "Ladataan",
-      sv: "Laddar new",
+      sv: "Laddar ner",
     }),
     login_error: t({
       en: "An error occurred during login.",
