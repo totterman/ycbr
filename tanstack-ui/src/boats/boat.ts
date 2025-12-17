@@ -2,8 +2,8 @@ import { keepPreviousData, queryOptions, useMutation, useQuery, useQueryClient }
 import axios, { AxiosError } from "axios";
 
 export interface BoatType {
-  id: number;
-  //  id: string;
+  // id: number;
+  boatId: string;
   name: string;
   sign: string;
   make: string;
@@ -89,7 +89,7 @@ export function useCreateBoat() {
             ...prevBoats,
             {
               ...newBoatInfo,
-              id: (Math.random() + 1).toString(36).substring(7),
+              boatId: (Math.random() + 1).toString(36).substring(7),
             },
           ] as BoatType[]
       );
@@ -105,7 +105,7 @@ export function useUpdateBoat() {
     mutationFn: async (boat: BoatType) => {
       console.log("Updating boat: ", boat);
       const response = await axios
-        .put<BoatType>("/bff/api/boats/" + boat.id, boat, {
+        .put<BoatType>("/bff/api/boats/" + boat.boatId, boat, {
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
@@ -122,7 +122,7 @@ export function useUpdateBoat() {
     onMutate: (newBoatInfo: BoatType) => {
       queryClient.setQueryData(["boats"], (prevBoats: any) =>
         prevBoats?.map((prevBoat: BoatType) =>
-          prevBoat.id === newBoatInfo.id ? newBoatInfo : prevBoat
+          prevBoat.boatId === newBoatInfo.boatId ? newBoatInfo : prevBoat
         )
       );
     },
@@ -133,7 +133,7 @@ export function useUpdateBoat() {
 export function useDeleteBoat() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (boatId: number) => {
+    mutationFn: async (boatId: string) => {
       console.log("Deleting boat with ID: ", boatId);
       const response = await axios
         .delete<BoatType>("/bff/api/boats/" + boatId, {
@@ -150,9 +150,9 @@ export function useDeleteBoat() {
     },
 
     //client side optimistic update
-    onMutate: (boatId: number) => {
+    onMutate: (boatId: string) => {
       queryClient.setQueryData(["boats"], (prevBoats: any) =>
-        prevBoats?.filter((boat: BoatType) => boat.id !== boatId)
+        prevBoats?.filter((boat: BoatType) => boat.boatId !== boatId)
       );
     },
 

@@ -2,7 +2,7 @@ import { useStore } from "@tanstack/react-form";
 import { useFieldContext } from "./formContext";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
-export default function MuiCheckBoxField({ label }: { label: string }) {
+export default function YcbrCheckBoxField({ label }: { label: string }) {
   const field = useFieldContext<boolean>();
 
   const errors = useStore(field.store, (state) => state.meta.errors);

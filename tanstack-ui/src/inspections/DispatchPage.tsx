@@ -35,7 +35,7 @@ export default function DispatchPage() {
   const { mutateAsync: createInspection } = useCreateInspection();
 
   const [i9event, setI9event] = useState<CompleteEventDto>();
-  const [boatId, setBoatId] = useState<number>();
+  const [boatId, setBoatId] = useState<string>('');
 
   const navigate = useNavigate();
   const content = useIntlayer("inspections");
@@ -44,23 +44,23 @@ export default function DispatchPage() {
 
   const startInspection = async () => {
     if (i9event && boatId) {
-      const boat = boats.find((b) => b.id === boatId);
+      const boat = boats.find((b) => b.boatId === boatId);
       if (boat) {
         const ni: NewInspection = {
           inspectorName: user.name,
           eventId: i9event.id,
-          boatId: boat.id,
+          boatId: boat.boatId,
         };
         const newInspection = await createInspection(ni);
         const inspectionStr = newInspection ? newInspection.id.toString() : '';
 
         const dto: BoatBookingDto = {
-          boatId: boat.id,
+          boatId: boat.boatId,
           message: "Sent by " + user.name,
           taken: true,
         };
         const booking = i9event.boats.find(
-          (booking) => booking.boatId === boat.id
+          (booking) => booking.boatId === boat.boatId
         );
         if (booking) {
           booking.taken = true;
@@ -119,7 +119,7 @@ export default function DispatchPage() {
                 onClick={() => setBoatId(b.boatId)}
                 disabled={b.taken}
               >
-                {boats.find((boat) => boat.id === b.boatId)?.name}
+                {boats.find((boat) => boat.boatId === b.boatId)?.name}
               </MenuItem>
             ))}
           </Select>

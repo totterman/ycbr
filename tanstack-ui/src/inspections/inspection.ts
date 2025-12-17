@@ -8,13 +8,16 @@ import axios, { AxiosError } from "axios";
 export interface NewInspection {
   inspectorName: string;
   eventId: number;
-  boatId: number;
+  boatId: string;
 }
 
 export interface InspectionData {
   hullData: HullData;
   rigData: RigData;
   engineData: EngineData;
+  equipmentData: EquipmentData;
+  maritimeData: MaritimeData;
+  safetyData: SafetyData;
 }
 
 export interface HullData {
@@ -48,6 +51,63 @@ export interface EngineData {
   shore_power: boolean;
   aggregate: boolean;
 }
+
+export interface EquipmentData {
+  markings: boolean;
+  anchors: boolean;
+  sea_anchor: boolean;
+  lines: number;
+  tools: boolean;
+  paddel: boolean;
+  hook: boolean;
+  resque_line: boolean;
+  fenders: boolean;
+  ladders: boolean;
+  defroster: boolean;
+  toilet: boolean;
+  gas_system: boolean;
+  stove: boolean;
+  flag: boolean;
+}
+
+export interface MaritimeData {
+  lights: boolean;
+  dayshapes: boolean;
+  horn: boolean;
+  reflector: boolean;
+  compass: boolean;
+  bearing: boolean;
+  log: boolean;
+  charts: boolean;
+  radio: boolean;
+  satnav: boolean;
+  radar: boolean;
+  spotlight: boolean;
+  vhf: boolean;
+  hand_vhf: boolean;
+  documents: boolean;
+}
+
+export interface SafetyData {
+  buoyancy: boolean;
+  harness: number;
+  lifebuoy: number;
+  signals_a: boolean;
+  signals_b: boolean;
+  fixed_handpump: number;
+  electric_pump: boolean;
+  hand_extinguisher: number;
+  fire_blanket: boolean;
+  plugs: boolean;
+  flashlight: number;
+  firstaid: boolean;
+  spare_steering: boolean;
+  emergency_tools: boolean;
+  reserves: boolean;
+  liferaft: boolean;
+  detector: boolean;
+}
+
 
 export interface InspectionProps {
   data: InspectionDto;

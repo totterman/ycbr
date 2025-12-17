@@ -9,6 +9,9 @@ interface InspectionsContent {
   hull: string;
   rig: string;
   engine: string;
+  equipment: string;
+  maritime: string,
+  safety: string;
   inspection_event: string;
   inspector: string;
   started: string;
@@ -66,6 +69,21 @@ export default {
       en: "Engine",
       fi: "Moottori",
       sv: "Motor",
+    }),
+    equipment: t({
+      en: "Boat Equipment",
+      fi: "Veneilyvarusteet",
+      sv: "Båtutrustning",
+    }),
+    maritime: t({
+      en: "Maritime Equipment",
+      fi: "Merenkulkuvarusteet",
+      sv: "Sjöfartsutrustning",
+    }),
+    safety: t({
+      en: "Safety Equipment",
+      fi: "Turvallisuusvarusteet",
+      sv: "Säkerhetsutrustning",
     }),
     inspection_event: t({
       en: "Inspection Event",

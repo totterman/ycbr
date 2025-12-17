@@ -13,6 +13,9 @@ import EngineDataForm from "./EngineDataForm";
 import dayjs, { Dayjs } from "dayjs";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
+import EquipmentForm from "./EquipmentForm";
+import MaritimeForm from "./MaritimeForm";
+import SafetyForm from "./SafetyForm";
 
 export default function InspectionStepper({ data }: InspectionProps) {
 
@@ -27,7 +30,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
    * 
    * *********************************************************************** */
   
-  const steps = [content.hull, content.rig, content.engine];
+  const steps = [content.hull, content.rig, content.engine, content.equipment, content.maritime, content.safety];
   function getStepContent(step: number) {
     switch (step) {
       case 0:
@@ -36,6 +39,12 @@ export default function InspectionStepper({ data }: InspectionProps) {
         return <RigDataForm data={data} />;
       case 2:
         return <EngineDataForm data={data} />;
+      case 3:
+        return <EquipmentForm data={data} />;
+      case 4:
+        return <MaritimeForm data={data} />;
+      case 5:
+        return <SafetyForm data={data} />;
       default:
         throw new Error("Unknown step");
     }
@@ -65,7 +74,8 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleNext = async () => {
-    await updateInspection(data);
+    console.log('Inspection:', data);
+    // await updateInspection(data);
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -76,7 +86,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleBack = async () => {
-    await updateInspection(data);
+    // await updateInspection(data);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -101,7 +111,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", mt: 8 }}>
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
@@ -122,7 +132,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2, mt: 8 }}>
             {getStepContent(activeStep)}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

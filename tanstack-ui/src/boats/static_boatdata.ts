@@ -2,7 +2,7 @@ import { BoatType } from "./boat";
 
 export const boats: Array<BoatType> = [
   {
-    id: 1,
+    boatId: '1',
     name: "BoatName",
     sign: "Sign123",
     make: "MakeX",
@@ -16,7 +16,7 @@ export const boats: Array<BoatType> = [
     year: "1997",
   },
   {
-    id: 2,
+    boatId: '2',
     name: "AnotherBoat",
     sign: "Sign456",
     make: "MakeA",
@@ -30,7 +30,7 @@ export const boats: Array<BoatType> = [
     year: "1997",
   },
   {
-    id: 3,
+    boatId: '3',
     name: "ThirdBoat",
     sign: "Sign789",
     make: "MakeC",
@@ -44,7 +44,7 @@ export const boats: Array<BoatType> = [
     year: "1997",
   },
   {
-    id: 4,
+    boatId: '4',
     name: "FourthBoat",
     sign: "Sign012",
     make: "MakeE",
@@ -58,7 +58,7 @@ export const boats: Array<BoatType> = [
     year: "1997",
   },
   {
-    id: 5,
+    boatId: '5',
     name: "FifthBoat",
     sign: "Sign345",
     make: "MakeG",

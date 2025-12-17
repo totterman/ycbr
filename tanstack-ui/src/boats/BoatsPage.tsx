@@ -46,7 +46,7 @@ export default function BoatsPage() {
   const columns = useMemo<MRT_ColumnDef<BoatType>[]>(
     () => [
       {
-        accessorKey: "id",
+        accessorKey: "boatId",
         header: "Id",
         enableEditing: false,
         //        size: 80,
@@ -140,7 +140,7 @@ export default function BoatsPage() {
 
   const openDeleteConfirmModal = (row: MRT_Row<BoatType>) => {
     if (window.confirm(content.confirmDelete.value)) {
-      deleteBoat(row.original.id);
+      deleteBoat(row.original.boatId);
     }
   };
 
@@ -175,14 +175,14 @@ export default function BoatsPage() {
     editDisplayMode: "modal",
     enableEditing: true,
     getRowId: (row) => {
-      return row.id.toString();
+      return row.boatId;
     },
     initialState: {
       columnVisibility: { id: false },
       columnOrder: [
         "mrt-row-expand",
         "mrt-row-actions",
-        "id",
+        "boatId",
         "name",
         "sign",
         "owner",

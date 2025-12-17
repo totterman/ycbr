@@ -19,7 +19,7 @@ const mockedAxios = axios as unknown as {
 };
 
 const baseBoat = (overrides?: Partial<BoatType>): BoatType => ({
-  id: 1,
+  boatId: '1',
   name: "Test",
   sign: "S1",
   make: "Make",
@@ -34,6 +34,7 @@ const baseBoat = (overrides?: Partial<BoatType>): BoatType => ({
   ...(overrides ?? {}),
 });
 
+
 describe("boat utilities", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -41,7 +42,7 @@ describe("boat utilities", () => {
 
   it("validateBoat reports errors when name and owner are missing", () => {
     const boat = baseBoat({ name: "", owner: "" });
-    const result = validateBoat(boat);
+    const result = validateBoat(boat, content);
     expect(result).toEqual({
       name: "Boat Name is Required",
       owner: "Boat Owner is Required",

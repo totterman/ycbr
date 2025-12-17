@@ -19,7 +19,7 @@ export interface I9EventDto {
 }
 
 export interface BoatBookingDto {
-  boatId: number;
+  boatId: string;
   message: string;
   taken: boolean;
 }

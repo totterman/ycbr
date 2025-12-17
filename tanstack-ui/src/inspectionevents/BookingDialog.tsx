@@ -59,7 +59,7 @@ export default function BookingDialog({ row }: RowProps) {
     }
     console.log("My Boat:", boat);
     const dto: BoatBookingDto = {
-      boatId: boat?.id ?? -1,
+      boatId: boat?.boatId ?? '',
       message: "Sent by " + user.name,
       taken: false,
     };
@@ -98,7 +98,7 @@ export default function BookingDialog({ row }: RowProps) {
               >
                 {myBoats.map((b) => (
                   <MenuItem
-                    key={b.id}
+                    key={b.boatId}
                     value={b.name}
                     onClick={() => setBoat(b)}
                   >
