@@ -9,13 +9,20 @@ import axios, { AxiosError } from "axios";
 import dayjs from "dayjs";
 
 export interface I9EventDto {
-  id: number | null;
+  i9eventId: string;
   place: string;
   day: string;
   starts: string;
   ends: string;
   inspectors: number;
   boats: number;
+}
+
+export interface NewI9EventDto {
+  place: string;
+  day: string;
+  starts: string;
+  ends: string;
 }
 
 export interface BoatBookingDto {
@@ -30,7 +37,7 @@ export interface InspectorDto {
 }
 
 export interface CompleteEventDto {
-  id: number;
+  i9eventId: string;
   place: string;
   day: string;
   starts: string;
@@ -44,7 +51,6 @@ export class InspectionEventNotFoundError extends Error {}
 export const i9eventsQueryOptions = queryOptions({
   queryKey: ["i9events"],
   queryFn: async () => {
-    const a = dayjs();
     const data = await axios
       .get<I9EventDto[]>("/bff/api/i9events")
       .then((res) => {
@@ -104,8 +110,8 @@ export function useGetI9Event(i9eventId: string) {
 export function useCreateI9Event() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (i9Event: I9EventDto) => {
-      console.log("i9Event: ", i9Event);
+    mutationFn: async (i9Event: NewI9EventDto) => {
+      console.log("New i9Event: ", i9Event);
       const response = await axios
         .post<I9EventDto>("/bff/api/i9events", i9Event, {
           headers: {
@@ -123,7 +129,8 @@ export function useCreateI9Event() {
     },
 
     //client side optimistic update
-    onMutate: (newI9Event: I9EventDto) => {
+    /*
+    onMutate: (newI9Event: NewI9EventDto) => {
       queryClient.setQueryData(
         ["i9events"],
         (prevEvents: any) =>
@@ -136,12 +143,13 @@ export function useCreateI9Event() {
           ] as I9EventDto[]
       );
     },
+    */
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["i9events"] }), //refetch users after mutation, disabled for demo
   });
 }
 
 interface BookingProps {
-  id: number;
+  id: string;
   dto: BoatBookingDto;
 }
 
@@ -195,7 +203,7 @@ export function useMarkBoatBooking() {
 }
 
 interface InspectorProps {
-  id: number;
+  id: string;
   dto: InspectorDto;
 }
 

@@ -13,7 +13,7 @@ export default function EngineDataForm({ data }: InspectionProps) {
     defaultValues: defaultEngine,
   });
   const content = useIntlayer("enginedata");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.id);
+  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
 
   const form = useAppForm({
     ...engineOptions,

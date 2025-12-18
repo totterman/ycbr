@@ -4,6 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class BoatService {
 
@@ -16,46 +18,47 @@ public class BoatService {
         this.boatRepository = boatRepository;
     }
 
-    public Iterable<BoatDTO> getAllBoats() {
+    public Iterable<BoatDto> getAllBoats() {
         return mapper.toDTOs(boatRepository.findAll());
     }
 
-    public BoatDTO getBoatById(Long id) {
-        return mapper.toDTO(boatRepository.findById(id).orElseThrow(() -> new BoatNotFoundException(id)));
+    public BoatDto getBoatByBoatId(UUID boatId) {
+        return mapper.toDTO(boatRepository.findByBoatId(boatId).orElseThrow(() -> new BoatNotFoundException(boatId)));
     }
 
-    public Iterable<BoatDTO> getBoatsByOwner(String owner) {
+    public Iterable<BoatDto> getBoatsByOwner(String owner) {
         return mapper.toDTOs(boatRepository.findByOwner(owner));
     }
 
-    public BoatDTO create(BoatDTO dto) {
-        if (dto.id() != null && boatRepository.existsById(dto.id())) {
-            LOGGER.warn("BoatEntity with id " + dto.id() + " already exists.");
-            throw new BoatAlreadyExistsException(dto.id());
+    public BoatDto create(BoatDto dto) {
+        if (dto.boatId() != null && boatRepository.existsByBoatId(dto.boatId())) {
+            LOGGER.warn("BoatEntity with inspectionId " + dto.boatId() + " already exists.");
+            throw new BoatAlreadyExistsException(dto.boatId());
         }
         return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
     }
 
-    public void delete(Long id) {
-        if (!boatRepository.existsById(id)) {
-            LOGGER.warn("BoatEntity with id " + id + " not found for deletion.");
-        }
-        boatRepository.deleteById(id);
+    public BoatDto create(NewBoatDto dto) {
+        return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
     }
 
-    public BoatDTO upsert(Long id, BoatDTO dto) {
-        if (!id.equals(dto.id())) {
-            LOGGER.warn("parameter " + id + " and boatId " + dto.id() + " are not equal");
-            throw new BoatRequestMalformedException(id, dto.id());
+    public void delete(UUID boatId) {
+        if (!boatRepository.existsByBoatId(boatId)) {
+            LOGGER.warn("BoatEntity with inspectionId " + boatId + " not found for deletion.");
         }
-        return boatRepository.findById(id)
+        boatRepository.deleteByBoatId(boatId);
+    }
+
+
+    public BoatDto upsert(UUID boatId, BoatDto dto) {
+        if (boatId != null && !boatId.equals(dto.boatId())) {
+            LOGGER.warn("parameter " + boatId + " and boatId " + dto.boatId() + " are not equal");
+            throw new BoatRequestMalformedException(boatId, dto.boatId());
+        }
+        return boatRepository.findByBoatId(boatId)
                 .map(existingBoat -> {
+                    LOGGER.info("Existing boatId with Version nr: " + existingBoat.getVersion() + " found for upsert with inspectionId: " + existingBoat.getBoatId());
                     BoatEntity boatToUpdate = mapper.toEntity(dto);
-//                    boatToUpdate.setId(existingBoat.getId());
-//                    boatToUpdate.setCreatedAt(existingBoat.getCreatedAt()); // Preserve the original creation timestamp
-//                    boatToUpdate.setCreatedBy(existingBoat.getCreatedBy()); // Preserve the original creator
-                            // modifiedAt will be set automatically
-                            // modifiedBy will be set automatically
                     boatToUpdate.setVersion(existingBoat.getVersion()); // Preserve the version for optimistic locking
                     return mapper.toDTO(boatRepository.save(boatToUpdate));
                 })

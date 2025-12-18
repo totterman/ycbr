@@ -3,7 +3,7 @@ import { inspectionQueryOptions } from "@/inspections/inspection";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/inspect/$inspectionId")({
-  loader: ({ context: { queryClient }, params: { inspectionId } }) => queryClient.ensureQueryData(inspectionQueryOptions(Number(inspectionId))),
+  loader: ({ context: { queryClient }, params: { inspectionId } }) => queryClient.ensureQueryData(inspectionQueryOptions(inspectionId)),
   component: InspectionPage,
   notFoundComponent: () => {
     return (

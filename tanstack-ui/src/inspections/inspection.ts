@@ -7,7 +7,7 @@ import axios, { AxiosError } from "axios";
 
 export interface NewInspection {
   inspectorName: string;
-  eventId: number;
+  eventId: string;
   boatId: string;
 }
 
@@ -114,11 +114,11 @@ export interface InspectionProps {
 }
 
 export interface InspectionDto {
-  id: number;
+  inspectionId: string;
   timestamp: string;
   inspector: string;
-  event: number;
-  boat: number;
+  eventId: string;
+  boatId: string;
   inspection: InspectionData;
   completed: string;
 }
@@ -132,7 +132,7 @@ export function useCreateInspection() {
   });
 }
 
-export const inspectionQueryOptions = (inspectionId: number) =>
+export const inspectionQueryOptions = (inspectionId: string) =>
   queryOptions({
     queryKey: ["inspections", inspectionId],
     queryFn: () => fetchInspection(inspectionId),
@@ -146,7 +146,7 @@ export const inspectionQueryOptions = (inspectionId: number) =>
     // placeholderData: keepPreviousData,
   });
 
-export const useUpdateInspection = (inspectionId: number) => {
+export const useUpdateInspection = (inspectionId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['inspections', 'update', inspectionId],
@@ -171,7 +171,7 @@ async function createInspection(dto: NewInspection) {
   return response;
 }
 
-async function fetchInspection(inspectionId: number) {
+async function fetchInspection(inspectionId: string) {
   return await axios
     .get<InspectionDto>(`/bff/api/inspections/${inspectionId}`)
     .then((res) => {
@@ -198,7 +198,7 @@ async function fetchMyInspections(inspector: string) {
 }
     
 async function updateInspection(dto: InspectionDto) {
-  const id = dto.id;
+  const id = dto.inspectionId;
   const response = await axios
     .put<InspectionDto>(`/bff/api/inspections/${id}`, dto, {
       headers: {

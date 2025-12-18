@@ -50,7 +50,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
     }
   }
 
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.id);
+  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
 
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{

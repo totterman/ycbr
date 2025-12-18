@@ -4,11 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-import java.util.UUID;
-
-public record BoatDto(
-        UUID boatId,
-
+public record NewBoatDto(
         @NotBlank(message = "BoatEntity owner must be defined")
         String owner,
 
@@ -33,5 +29,6 @@ public record BoatDto(
         Double deplacement,
 
         String engines,
-        String year) {
+        String year
+) {
 }

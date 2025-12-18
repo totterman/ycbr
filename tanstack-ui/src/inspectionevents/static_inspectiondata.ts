@@ -3,7 +3,7 @@ import { I9EventDto } from "./inspectionevent";
 
 export const events: Array<I9EventDto> = [
   {
-    id: 1,
+    i9eventId: '1',
     place: 'Björkholmen',
     day: '2026-05-10',
     starts: '2026-05-10 18:00:00.000+02:00',
@@ -12,7 +12,7 @@ export const events: Array<I9EventDto> = [
     boats: 12,
   },
   {
-    id: 2,
+    i9eventId: '2',
     place: 'Blekholmen',
     day: '2026-05-12',
     starts: '2026-05-12 18:00:00.000+02:00',
@@ -21,7 +21,7 @@ export const events: Array<I9EventDto> = [
     boats: 14,
   },
   {
-    id: 3,
+    i9eventId: '3',
     place: 'Björkholmen',
     day: '2026-05-17',
     starts: '2026-05-17 18:00:00.000+02:00',
@@ -30,7 +30,7 @@ export const events: Array<I9EventDto> = [
     boats: 7,
   },
   {
-    id: 4,
+    i9eventId: '4',
     place: 'Blekholmen',
     day: '2026-05-22',
     starts: '2026-05-22 18:00:00.000+02:00',
@@ -39,7 +39,7 @@ export const events: Array<I9EventDto> = [
     boats: 6,
   },
   {
-    id: 5,
+    i9eventId: '5',
     place: 'Barösund',
     day: '2026-06-09',
     starts: '2026-06-09 10:00:00.000+02:00',
@@ -48,7 +48,7 @@ export const events: Array<I9EventDto> = [
     boats: 8,
   },
   {
-    id: 6,
+    i9eventId: '6',
     place: 'Björkholmen',
     day: '2026-06-23',
     starts: '2026-06-23 18:00:00.000+02:00',

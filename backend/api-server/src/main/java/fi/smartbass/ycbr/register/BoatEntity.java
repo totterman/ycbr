@@ -1,5 +1,6 @@
 package fi.smartbass.ycbr.register;
 
+import jakarta.annotation.Generated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,12 +10,13 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 @Table(name = "boats")
 public class BoatEntity {
 
     @Id
-    private Long id;
+    private UUID boatId;
 
     @NotBlank(message = "BoatEntity owner must be defined")
     private String owner;
@@ -62,8 +64,8 @@ public class BoatEntity {
     public BoatEntity() {
     }
 
-    public BoatEntity(Long id, String owner, String name, String sign, String make, String model, Double loa, Double draft, Double beam, Double deplacement, String engines, String year, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
-        this.id = id;
+    public BoatEntity(UUID boatId, String owner, String name, String sign, String make, String model, Double loa, Double draft, Double beam, Double deplacement, String engines, String year, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+        this.boatId = boatId;
         this.owner = owner;
         this.name = name;
         this.sign = sign;
@@ -82,13 +84,9 @@ public class BoatEntity {
         this.version = version;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public UUID getBoatId() { return boatId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setBoatId(UUID boatId) { this.boatId = boatId; }
 
     public @NotBlank(message = "BoatEntity owner must be defined") String getOwner() {
         return owner;
@@ -222,12 +220,12 @@ public class BoatEntity {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         BoatEntity boat = (BoatEntity) o;
-        return Objects.equals(id, boat.id) && Objects.equals(owner, boat.owner) && Objects.equals(name, boat.name) && Objects.equals(sign, boat.sign) && Objects.equals(make, boat.make) && Objects.equals(model, boat.model) && Objects.equals(loa, boat.loa) && Objects.equals(year, boat.year);
+        return Objects.equals(boatId, boat.boatId) && Objects.equals(owner, boat.owner) && Objects.equals(name, boat.name) && Objects.equals(sign, boat.sign) && Objects.equals(make, boat.make) && Objects.equals(model, boat.model) && Objects.equals(loa, boat.loa) && Objects.equals(year, boat.year);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, owner, name, sign, make, model, loa, year);
+        return Objects.hash(boatId, owner, name, sign, make, model, loa, year);
     }
 
 }

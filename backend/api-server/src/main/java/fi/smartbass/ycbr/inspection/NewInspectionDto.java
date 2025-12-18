@@ -3,13 +3,15 @@ package fi.smartbass.ycbr.inspection;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record NewInspectionDTO(
+import java.util.UUID;
+
+public record NewInspectionDto(
         @NotBlank(message = "Inspector must be defined")
         String inspectorName,
 
         @NotNull(message = "Inspection Event must be defined")
-        Long eventId,
+        UUID eventId,
 
         @NotNull(message = "BoatEntity to Inspect must be defined")
-        Long boatId
+        UUID boatId
 ) {}

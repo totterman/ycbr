@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 public class InspectionService {
@@ -18,17 +19,17 @@ public class InspectionService {
         this.mapper = mapper;
     }
 
-    public InspectionDTO read(Long id) {
+    public InspectionDto read(UUID id) {
         return mapper.toDTO(repository.findById(id).orElseThrow(() -> new InspectionNotFoundException(id)));
     }
 
-    public Iterable<InspectionDTO> fetchByInspector(final String inspector) {
+    public Iterable<InspectionDto> fetchByInspector(final String inspector) {
         if (inspector == null) throw new NameNotFoundException("NULL");
         return mapper.toDTOs(repository.findByInspector(inspector));
     }
 
-    public InspectionDTO create(NewInspectionDTO newDto) {
-        InspectionDTO dto = new InspectionDTO(
+    public InspectionDto create(NewInspectionDto newDto) {
+        InspectionDto dto = new InspectionDto(
                 null,
                 Instant.now().toString(),
                 newDto.inspectorName(),
@@ -37,7 +38,10 @@ public class InspectionService {
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, false, false, false, false, false, false, false, 0),
                         new RigDataDto(false, false, false, false),
-                        new EngineDataDto(false, false, false, false, false, false, false, false)
+                        new EngineDataDto(false, false, false, false, false, false, false, false),
+                        new EquipmentDataDto(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false),
+                        new MaritimeDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new SafetyDataDto(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false)
                 ),
                 null);
         LOGGER.info("DTO: " + dto);
@@ -46,10 +50,10 @@ public class InspectionService {
         return mapper.toDTO(newEntity);
     }
 
-    public InspectionDTO update(Long id, InspectionDTO dto) {
-        if (!id.equals(dto.id())) {
-            LOGGER.error("IDs do not match: " + id + " <> " + dto.id());
-            throw new InspectionRequestMalformedException(id, dto.id());
+    public InspectionDto update(UUID id, InspectionDto dto) {
+        if (!id.equals(dto.inspectionId())) {
+            LOGGER.error("IDs do not match: " + id + " <> " + dto.inspectionId());
+            throw new InspectionRequestMalformedException(id, dto.inspectionId());
         }
         return repository.findById(id)
                 .map(old -> {
@@ -61,13 +65,13 @@ public class InspectionService {
                 .orElseGet(() -> createFrom(dto));
     }
 
-    private InspectionDTO createFrom(InspectionDTO from) {
-        InspectionDTO dto = new InspectionDTO(
+    private InspectionDto createFrom(InspectionDto from) {
+        InspectionDto dto = new InspectionDto(
                 null,
                 Instant.now().toString(),
                 from.inspector(),
-                from.event(),
-                from.boat(),
+                from.eventId(),
+                from.boatId(),
                 from.inspection(),
                 from.completed());
         LOGGER.info("DTO: " + dto);

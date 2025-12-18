@@ -17,7 +17,7 @@ export default function EquipmentForm({ data }: InspectionProps) {
     defaultValues: equipment,
   });
   const content = useIntlayer("equipment");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.id);
+  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
 
   const form = useAppForm({
     ...equipmentOptions,

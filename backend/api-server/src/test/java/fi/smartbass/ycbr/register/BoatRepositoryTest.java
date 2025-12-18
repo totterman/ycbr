@@ -6,16 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJdbcTest(includeFilters = @ComponentScan.Filter(EnableJdbcAuditing.class))
+// @Import(BoatIdGenerator.class)
 @AutoConfigureTestDatabase
 @ActiveProfiles("integration")
 @Sql("/db.sql")
@@ -24,13 +27,17 @@ class BoatRepositoryTest {
     @Autowired
     private BoatRepository boatRepository;
 
+    private final UUID boatId1 = UUID.randomUUID();
+    private final UUID boatId2 = UUID.randomUUID();
+    private final UUID boatId3 = UUID.randomUUID();
+
     @Test
-    @DisplayName("Save and find by id")
+    @DisplayName("Save and find by inspectionId")
     void saveAndFindById() {
-        BoatEntity boat = new BoatEntity(1001L, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        BoatEntity boat = new BoatEntity(boatId1, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
         BoatEntity saved = boatRepository.save(boat);
 
-        Optional<BoatEntity> found = boatRepository.findById(saved.getId());
+        Optional<BoatEntity> found = boatRepository.findByBoatId(saved.getBoatId());
         assertThat(found).isPresent();
         assertThat(found.get().getName()).isEqualTo("BoatName");
     }
@@ -40,13 +47,13 @@ class BoatRepositoryTest {
     void saveAndFindByIdNoId() {
         BoatEntity boat = new BoatEntity(null, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, null, null, null, 0);
         BoatEntity saved = boatRepository.save(boat);
-        assertThat(saved.getId()).isPositive();
+        assertThat(saved.getBoatId()).isNotNull();
         assertThat(saved.getCreatedAt()).isNotNull();
         assertThat(saved.getCreatedBy()).isNotNull();
         assertThat(saved.getModifiedAt()).isEqualTo(saved.getCreatedAt());
         assertThat(saved.getModifiedBy()).isEqualTo(saved.getCreatedBy());
 
-        Optional<BoatEntity> cr = boatRepository.findById(saved.getId());
+        Optional<BoatEntity> cr = boatRepository.findByBoatId(saved.getBoatId());
         assertThat(cr).isPresent();
 
         BoatEntity created = cr.get();
@@ -61,7 +68,7 @@ class BoatRepositoryTest {
     @Test
     @DisplayName("Find by owner")
     void findByOwner() {
-        BoatEntity boat = new BoatEntity(1002L, "owner2", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        BoatEntity boat = new BoatEntity(boatId2, "owner2", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
         boatRepository.save(boat);
 
         List<BoatEntity> boats = (List<BoatEntity>) boatRepository.findByOwner("owner2");
@@ -69,19 +76,19 @@ class BoatRepositoryTest {
     }
 
     @Test
-    @DisplayName("Exists by id")
+    @DisplayName("Exists by inspectionId")
     void existsById() {
-        BoatEntity boat = new BoatEntity(1003L, "owner3", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        BoatEntity boat = new BoatEntity(boatId2, "owner3", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
         BoatEntity saved = boatRepository.save(boat);
 
-        assertThat(boatRepository.existsById(saved.getId())).isTrue();
-        assertThat(boatRepository.existsById(99999L)).isFalse();
+        assertThat(boatRepository.existsById(saved.getBoatId())).isTrue();
+        assertThat(boatRepository.existsById(boatId3)).isFalse();
     }
 
     @Test
     @DisplayName("Find by name")
     void findByName() {
-        BoatEntity boat = new BoatEntity(1004L, "owner4", "UniqueName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        BoatEntity boat = new BoatEntity(boatId3, "owner4", "UniqueName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
         boatRepository.save(boat);
 
         List<BoatEntity> boats = (List<BoatEntity>) boatRepository.findByName("UniqueName");
@@ -90,12 +97,12 @@ class BoatRepositoryTest {
     }
 
     @Test
-    @DisplayName("Delete by id")
+    @DisplayName("Delete by inspectionId")
     void deleteById() {
-        BoatEntity boat = new BoatEntity(1013L, "owner13", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
+        BoatEntity boat = new BoatEntity(boatId2, "owner13", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988", null, "unitTest", null, "unitTest", 0);
         BoatEntity saved = boatRepository.save(boat);
 
-        boatRepository.deleteById(saved.getId());
-        assertThat(boatRepository.findById(saved.getId())).isNotPresent();
+        boatRepository.deleteById(saved.getBoatId());
+        assertThat(boatRepository.findById(saved.getBoatId())).isNotPresent();
     }
 }

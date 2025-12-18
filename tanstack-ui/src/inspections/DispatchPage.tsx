@@ -48,11 +48,11 @@ export default function DispatchPage() {
       if (boat) {
         const ni: NewInspection = {
           inspectorName: user.name,
-          eventId: i9event.id,
+          eventId: i9event.i9eventId,
           boatId: boat.boatId,
         };
         const newInspection = await createInspection(ni);
-        const inspectionStr = newInspection ? newInspection.id.toString() : '';
+        const inspectionStr = newInspection ? newInspection.inspectionId : '';
 
         const dto: BoatBookingDto = {
           boatId: boat.boatId,
@@ -66,7 +66,7 @@ export default function DispatchPage() {
           booking.taken = true;
         }
         setI9event(i9event);
-        await markBooking({ id: i9event.id, dto: dto });
+        await markBooking({ id: i9event.i9eventId, dto: dto });
 
         navigate({
             to: '/inspect/$inspectionId',
@@ -95,7 +95,7 @@ export default function DispatchPage() {
             {events.map((e, i) => (
               <MenuItem
                 key={i}
-                value={e.id.toString()}
+                value={e.i9eventId}
                 onClick={() => setI9event(e)}
               >
                 {e.place} {dayjs(e.day).format("D.M.YYYY")}

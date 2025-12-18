@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,10 +20,10 @@ class I9EventMapperTest {
     @Test
     @DisplayName("Maps entity to DTO")
     void toDTO() {
-        final I9Event entity = new I9Event(1021L, "Björkholmen", OffsetDateTime.parse("2026-05-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
+        final I9EventEntity entity = new I9EventEntity(UUID.randomUUID(), "Björkholmen", OffsetDateTime.parse("2026-05-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         assertNotNull(mapper);
-        I9EventDTO dto = mapper.toDTO(entity);
-        assertEquals(entity.getId(), dto.id());
+        I9EventDto dto = mapper.toDTO(entity);
+        assertEquals(entity.getId(), dto.i9eventId());
         assertEquals(entity.getPlace(), dto.place());
         assertEquals(entity.getStarts().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME), dto.starts());
         assertEquals(entity.getEnds().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME), dto.ends());
@@ -33,14 +34,29 @@ class I9EventMapperTest {
     @Test
     @DisplayName("Maps DTO to entity")
     void toEntity() {
-        final I9EventDTO dto = new I9EventDTO(1021L, "Björkholmen", "2026-05-15T00:00:00.000+02:00", "2026-05-15T10:00:00+02:00", "2026-05-15T16:00:00+02:00", 0, 0);
+        final I9EventDto dto = new I9EventDto(UUID.randomUUID(), "Björkholmen", "2026-05-15T00:00:00.000+02:00", "2026-05-15T10:00:00+02:00", "2026-05-15T16:00:00+02:00", 0, 0);
         assertNotNull(mapper);
-        I9Event entity = mapper.toEntity(dto);
-        assertEquals(dto.id(), entity.getId());
+        I9EventEntity entity = mapper.toEntity(dto);
+        assertEquals(dto.i9eventId(), entity.getId());
         assertEquals(dto.place(), entity.getPlace());
         assertEquals(dto.starts(), entity.getStarts().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         assertEquals(dto.ends(), entity.getEnds().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         assertEquals(dto.boats(), entity.getBoats().size());
         assertEquals(dto.inspectors(), entity.getInspectors().size());
     }
+
+    @Test
+    @DisplayName("Maps New DTO to entity")
+    void toNewEntity() {
+        final NewI9EventDto dto = new NewI9EventDto("Björkholmen", "2026-05-15T00:00:00.000+02:00", "2026-05-15T10:00:00+02:00", "2026-05-15T16:00:00+02:00");
+        assertNotNull(mapper);
+        I9EventEntity entity = mapper.toEntity(dto);
+        assertNull(entity.getId());
+        assertEquals(dto.place(), entity.getPlace());
+        assertEquals(dto.starts(), entity.getStarts().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        assertEquals(dto.ends(), entity.getEnds().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        assertEquals(0, entity.getBoats().size());
+        assertEquals(0, entity.getInspectors().size());
+    }
+
 }

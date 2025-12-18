@@ -13,7 +13,7 @@ export default function RigDataForm({ data }: InspectionProps) {
     defaultValues: defaultRig,
   });
   const content = useIntlayer("rigdata");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.id);
+  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
 
   const form = useAppForm({
     ...rigOptions,

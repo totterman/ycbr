@@ -1,7 +1,9 @@
 package fi.smartbass.ycbr.i9event;
 
-public record BoatBookingDTO(
-        Long boatId,
+import java.util.UUID;
+
+public record BoatBookingDto(
+        UUID boatId,
         String message,
         boolean taken
 ) {

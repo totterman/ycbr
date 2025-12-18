@@ -59,3 +59,62 @@ CREATE TABLE engine_data (
   	shore_power bool NULL,
   	"aggregate" bool NULL
 );
+
+CREATE TABLE equipment_data (
+	inspections int8 NOT NULL,
+	markings bool NULL,
+  	anchors bool NULL,
+  	sea_anchor bool NULL,
+  	lines int NULL,
+  	tools bool NULL,
+  	paddel bool NULL,
+  	hook bool NULL,
+  	resque_line bool NULL,
+  	fenders bool NULL,
+  	ladders bool NULL,
+  	defroster bool NULL,
+  	toilet bool NULL,
+  	gas_system bool NULL,
+  	stove bool NULL,
+  	flag bool null
+);
+
+CREATE TABLE maritime_data (
+	inspections int8 NOT NULL,
+	lights bool NULL,
+  	dayshapes bool NULL,
+  	horn bool NULL,
+  	reflector bool NULL,
+  	compass bool NULL,
+  	bearing bool NULL,
+  	log bool NULL,
+  	charts bool NULL,
+  	radio bool NULL,
+  	satnav bool NULL,
+  	radar bool NULL,
+  	spotlight bool NULL,
+  	vhf bool NULL,
+  	hand_vhf bool NULL,
+  	documents bool NULL
+);
+
+CREATE TABLE safety_data (
+	inspections int8 NOT NULL,
+	buoyancy bool NULL,
+  	harness int NULL,
+  	lifebuoy int NULL,
+  	signals_a bool NULL,
+  	signals_b bool NULL,
+  	fixed_handpump int NULL,
+  	electric_pump bool NULL,
+  	hand_extinguisher int NULL,
+  	fire_blanket bool NULL,
+  	plugs bool NULL,
+  	flashlight int NULL,
+  	firstaid bool NULL,
+  	spare_steering bool NULL,
+  	emergency_tools bool NULL,
+  	reserves bool NULL,
+  	liferaft bool NULL,
+  	detector bool NULL
+);

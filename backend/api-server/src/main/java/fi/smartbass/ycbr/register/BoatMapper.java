@@ -8,7 +8,7 @@ import java.util.List;
 public interface BoatMapper {
 
     @Mappings({})
-    BoatDTO toDTO(BoatEntity entity);
+    BoatDto toDTO(BoatEntity entity);
 
     @Mappings({
             @Mapping(target = "createdAt", ignore = true),
@@ -17,12 +17,22 @@ public interface BoatMapper {
             @Mapping(target = "modifiedBy", ignore = true),
             @Mapping(target = "version", ignore = true)
     })
-    BoatEntity toEntity(BoatDTO dto);
+    BoatEntity toEntity(BoatDto dto);
 
-    List<BoatDTO> toDTOList(List<BoatEntity> entities);
-    List<BoatEntity> toEntityList(List<BoatDTO> dtos);
+    @Mappings({
+            @Mapping(target = "boatId", ignore = true),
+            @Mapping(target = "createdAt", ignore = true),
+            @Mapping(target = "createdBy", ignore = true),
+            @Mapping(target = "modifiedAt", ignore = true),
+            @Mapping(target = "modifiedBy", ignore = true),
+            @Mapping(target = "version", ignore = true)
+    })
+    BoatEntity toEntity(NewBoatDto dto);
 
-    Iterable<BoatDTO> toDTOs(Iterable<BoatEntity> entities);
-    Iterable<BoatEntity> toEntities(Iterable<BoatDTO> dtos);
+    List<BoatDto> toDTOList(List<BoatEntity> entities);
+    List<BoatEntity> toEntityList(List<BoatDto> dtos);
+
+    Iterable<BoatDto> toDTOs(Iterable<BoatEntity> entities);
+    Iterable<BoatEntity> toEntities(Iterable<BoatDto> dtos);
 
 }

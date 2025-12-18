@@ -25,11 +25,11 @@ export default function InspectionsPage() {
     );
   }
 
-  const handleListItemClick = (id: number) => {
+  const handleListItemClick = (id: string) => {
     console.log("Inspection id", id, "selected.");
     navigate({
       to: "/inspect/$inspectionId",
-      params: { inspectionId: id.toString() },
+      params: { inspectionId: id },
       replace: true,
     });
   };
@@ -41,9 +41,9 @@ export default function InspectionsPage() {
       </Typography>
       <List>
         {myInspections.map((inspection) => {
-          const boat = useGetBoat(inspection.boat.toString());
+          const boat = useGetBoat(inspection.boatId);
           const boatname = boat?.name ?? "";
-          const i9event = useGetI9Event(inspection.event.toString());
+          const i9event = useGetI9Event(inspection.eventId);
           const day =
             i9event?.place +
             " " +
@@ -51,9 +51,9 @@ export default function InspectionsPage() {
 
           return (
             <ListItemButton
-              key={inspection.id}
+              key={inspection.inspectionId}
               disabled={inspection.completed !== null}
-              onClick={(event) => handleListItemClick(inspection.id)}
+              onClick={(event) => handleListItemClick(inspection.inspectionId)}
             >
               <ListItemText primary={boatname} secondary={day} />
             </ListItemButton>

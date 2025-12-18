@@ -44,8 +44,8 @@ export default function RegisterDialog({ row }: RowProps) {
   };
 
   const handleRegister = async () => {
-    const id = row.original.id ?? -1;
-    if (id === -1) {
+    const id = row.original.i9eventId ?? '';
+    if (id === '') {
       handleClose();
     }
     const dto: InspectorDto = {

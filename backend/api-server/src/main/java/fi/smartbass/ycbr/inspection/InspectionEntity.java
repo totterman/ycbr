@@ -8,11 +8,12 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Table(name = "inspections")
 public class InspectionEntity {
     @Id
-    private Long id;
+    private UUID inspectionId;
 
     private OffsetDateTime timestamp;
 
@@ -20,10 +21,10 @@ public class InspectionEntity {
     private String inspector;
 
     @NotNull(message = "Inspection Event must be defined")
-    private Long event;
+    private UUID eventId;
 
     @NotNull(message = "BoatEntity to Inspect must be defined")
-    private Long boat;
+    private UUID boatId;
 
     private InspectionData inspection;
     private OffsetDateTime completed;
@@ -45,12 +46,12 @@ public class InspectionEntity {
     @Version
     private int version;
 
-    public InspectionEntity(Long id, OffsetDateTime timestamp, String inspector, Long event, Long boat, InspectionData inspection, OffsetDateTime completed, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
-        this.id = id;
+    public InspectionEntity(UUID inspectionId, OffsetDateTime timestamp, String inspector, UUID eventId, UUID boatId, InspectionData inspection, OffsetDateTime completed, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+        this.inspectionId = inspectionId;
         this.timestamp = timestamp;
         this.inspector = inspector;
-        this.event = event;
-        this.boat = boat;
+        this.eventId = eventId;
+        this.boatId = boatId;
         this.inspection = inspection;
         this.completed = completed;
         this.createdAt = createdAt;
@@ -60,8 +61,12 @@ public class InspectionEntity {
         this.version = version;
     }
 
-    public Long getId() {
-        return id;
+    public UUID getId() {
+        return inspectionId;
+    }
+
+    public UUID getInspectionId() {
+        return inspectionId;
     }
 
     public OffsetDateTime getTimestamp() {
@@ -72,12 +77,12 @@ public class InspectionEntity {
         return inspector;
     }
 
-    public @NotNull(message = "Inspection Event must be defined") Long getEvent() {
-        return event;
+    public @NotNull(message = "Inspection Event must be defined") UUID getEventId() {
+        return eventId;
     }
 
-    public @NotNull(message = "BoatEntity to Inspect must be defined") Long getBoat() {
-        return boat;
+    public @NotNull(message = "BoatEntity to Inspect must be defined") UUID getBoatId() {
+        return boatId;
     }
 
     public InspectionData getInspection() {
@@ -115,11 +120,11 @@ public class InspectionEntity {
     @Override
     public String toString() {
         return "InspectionEntity{" +
-                "id=" + id +
+                "inspectionId=" + inspectionId +
                 ", timestamp=" + timestamp +
                 ", inspector='" + inspector + '\'' +
-                ", event=" + event +
-                ", boat=" + boat +
+                ", eventId=" + eventId +
+                ", boatId=" + boatId +
                 ", inspection=" + inspection +
                 ", completed=" + completed +
                 ", createdAt=" + createdAt +

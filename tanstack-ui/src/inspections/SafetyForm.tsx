@@ -15,7 +15,7 @@ export default function SafetyForm({ data }: InspectionProps) {
     defaultValues: maritime,
   });
   const content = useIntlayer("safety");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.id);
+  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
 
   const form = useAppForm({
     ...equipmentOptions,

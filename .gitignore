@@ -12,3 +12,4 @@ compose-*.yml
 compose-*.yml''
 keycloak/import/baeldung-realm.json''
 db-data
+.idea

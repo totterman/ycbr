@@ -26,6 +26,9 @@ spring:
       maximum-pool-size: 30
   liquibase:
     enabled: false
+  threads:
+    virtual:
+      enabled: true
 
 com:
   c4-soft:

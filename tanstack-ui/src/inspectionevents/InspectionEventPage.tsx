@@ -13,6 +13,7 @@ import {
   I9EventDto,
   useCreateI9Event,
   validateEvent,
+  NewI9EventDto,
 } from "./inspectionevent";
 import { places } from "./static_inspectiondata";
 import {
@@ -139,8 +140,7 @@ export function InspectionEventPage() {
         return;
       }
       setValidationErrors({});
-      const newEvent: I9EventDto = {
-        id: null,
+      const newEvent: NewI9EventDto = {
         place: values.place,
         day: values.day,
         starts:
@@ -151,8 +151,6 @@ export function InspectionEventPage() {
           (values.day as string).split("T")[0] +
           "T" +
           (values.ends as string).split("T")[1],
-        inspectors: 0,
-        boats: 0,
       };
       await createI9Event(newEvent);
       table.setCreatingRow(null); //exit creating mode
@@ -168,7 +166,7 @@ export function InspectionEventPage() {
     columns,
     data: events,
     getRowId: (row) => {
-      return row.id === null ? "null" : row.id.toString();
+      return row.i9eventId === null ? "null" : row.i9eventId;
     },
     createDisplayMode: "modal",
     displayColumnDefOptions: {

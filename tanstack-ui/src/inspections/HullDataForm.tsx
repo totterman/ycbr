@@ -13,7 +13,7 @@ export default function HullDataForm({ data }: InspectionProps) {
     defaultValues: defaultHull,
   });
   const content = useIntlayer("hulldata");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.id);
+  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
 
   const form = useAppForm({
     ...hullOptions,

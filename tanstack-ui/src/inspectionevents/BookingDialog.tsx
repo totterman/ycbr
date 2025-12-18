@@ -37,6 +37,7 @@ export default function BookingDialog({ row }: RowProps) {
     new Date(row.original.starts).toLocaleTimeString(locale.substring(0, 2)) +
     " - " +
     new Date(row.original.ends).toLocaleTimeString(locale.substring(0, 2));
+  const eventId = row.original.i9eventId;
   const [boat, setBoat] = useState<BoatType>();
 
   const { mutateAsync: createBooking } = useAddBoatBooking();
@@ -50,14 +51,15 @@ export default function BookingDialog({ row }: RowProps) {
   };
 
   const handleBook = async () => {
-    const id = row.original.id ?? -1;
-    if (id === -1) {
+    const id = row.original.i9eventId ?? '';
+    if (id === '') {
       handleClose();
     }
     if (boat === undefined) {
       handleClose();
     }
     console.log("My Boat:", boat);
+    console.log("EventID:", eventId, 'id', id);
     const dto: BoatBookingDto = {
       boatId: boat?.boatId ?? '',
       message: "Sent by " + user.name,

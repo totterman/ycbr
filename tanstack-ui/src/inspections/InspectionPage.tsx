@@ -12,7 +12,7 @@ import { Locale } from "intlayer";
 
 export default function InspectionPage() {
   const route = getRouteApi("/inspect/$inspectionId");
-  const id = Number(route.useParams().inspectionId);
+  const id = route.useParams().inspectionId;
   const { data, isLoading, refetch } = useSuspenseQuery(
     inspectionQueryOptions(id)
   );
@@ -20,8 +20,8 @@ export default function InspectionPage() {
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
 
-  const boat = useGetBoat(data.boat.toString());
-  const i9event = useGetI9Event(data.event.toString());
+  const boat = useGetBoat(data.boatId);
+  const i9event = useGetI9Event(data.eventId);
 
   if (isLoading) return <p>Loading..</p>;
 

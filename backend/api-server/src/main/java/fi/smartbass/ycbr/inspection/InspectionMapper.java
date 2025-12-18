@@ -12,7 +12,7 @@ public interface InspectionMapper {
 
     @Mapping(target = "timestamp", expression = "java(entity.getTimestamp().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "completed", expression = "java(null == entity.getCompleted() ? null :entity.getCompleted().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
-    InspectionDTO toDTO(InspectionEntity entity);
+    InspectionDto toDTO(InspectionEntity entity);
 
     @Mapping(target = "timestamp", expression = "java(OffsetDateTime.parse(dto.timestamp(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "completed", expression = "java(null == dto.completed() ? null : OffsetDateTime.parse(dto.completed(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
@@ -21,13 +21,13 @@ public interface InspectionMapper {
     @Mapping(target = "modifiedAt", ignore = true)
     @Mapping(target = "modifiedBy", ignore = true)
     @Mapping(target = "version", ignore = true)
-    InspectionEntity toEntity(InspectionDTO dto);
+    InspectionEntity toEntity(InspectionDto dto);
 
-    List<InspectionDTO> toDTOList(List<InspectionEntity> entities);
-    List<InspectionEntity> toEntityList(List<InspectionDTO> dtos);
+    List<InspectionDto> toDTOList(List<InspectionEntity> entities);
+    List<InspectionEntity> toEntityList(List<InspectionDto> dtos);
 
-    Iterable<InspectionDTO> toDTOs(Iterable<InspectionEntity> entities);
-    Iterable<InspectionEntity> toEntities(Iterable<InspectionDTO> dtos);
+    Iterable<InspectionDto> toDTOs(Iterable<InspectionEntity> entities);
+    Iterable<InspectionEntity> toEntities(Iterable<InspectionDto> dtos);
 /*
     InspectionDataDto toDataDto(InspectionData data);
     HullDataDto toHullDataDto(HullData data);
@@ -37,4 +37,7 @@ public interface InspectionMapper {
     HullData toHullData(HullDataDto dto);
     RigData toRigData(RigDataDto dto);
     EngineData toEngineData(EngineDataDto dto);
+    EquipmentData toEquipmentData(EquipmentDataDto dto);
+    MaritimeData toMaritimeData(MaritimeDataDto dto);
+    SafetyData toSafetyData(SafetyDataDto dto);
 }

@@ -13,9 +13,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Table(name = "i9events")
-public class I9Event {
+public class I9EventEntity {
     @Id
-    private Long id;
+    private UUID i9eventId;
 
     @NotBlank
     private String place;
@@ -48,24 +48,24 @@ public class I9Event {
     @Version
     private int version;
 
-    public void addBoat(Long boatId, String message) {
+    public void addBoat(UUID boatId, String message) {
         boats.add(createBoatBooking(boatId, message));
     }
 
-    public void deleteBoat(Long boatId) {
+    public void deleteBoat(UUID boatId) {
         boats.removeIf(b -> b.getBoatId().equals(boatId));
     }
 
-    public void markBoat(Long boatId, String message) {
+    public void markBoat(UUID boatId, String message) {
         deleteBoat(boatId);
         boats.add(markBoatBooking(boatId, message));
     }
 
-    private BoatBooking createBoatBooking(Long boatId, String message) {
+    private BoatBooking createBoatBooking(UUID boatId, String message) {
         return new BoatBooking(boatId, message, false);
     }
 
-    private BoatBooking markBoatBooking(Long boatId, String message) {
+    private BoatBooking markBoatBooking(UUID boatId, String message) {
         return new BoatBooking(boatId, message, true);
     }
 
@@ -81,8 +81,8 @@ public class I9Event {
         return new InspectorRegistration(inspectorName, message);
     }
 
-    public I9Event(Long id, String place, OffsetDateTime starts, OffsetDateTime ends, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
-        this.id = id;
+    public I9EventEntity(UUID i9eventId, String place, OffsetDateTime starts, OffsetDateTime ends, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+        this.i9eventId = i9eventId;
         this.place = place;
         this.starts = starts;
         this.ends = ends;
@@ -95,12 +95,20 @@ public class I9Event {
         this.version = version;
     }
 
-    public Long getId() {
-        return id;
+    public UUID getId() {
+        return i9eventId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public UUID getI9eventId() {
+        return i9eventId;
+    }
+
+    public void setId(UUID i9eventId) {
+        this.i9eventId = i9eventId;
+    }
+
+    public void setI9eventId(UUID i9eventId) {
+        this.i9eventId = i9eventId;
     }
 
     public @NotBlank String getPlace() {
@@ -186,8 +194,8 @@ public class I9Event {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        I9Event i9Event = (I9Event) o;
-        return Objects.equals(place, i9Event.place) && Objects.equals(starts, i9Event.starts) && Objects.equals(ends, i9Event.ends);
+        I9EventEntity i9EventEntity = (I9EventEntity) o;
+        return Objects.equals(place, i9EventEntity.place) && Objects.equals(starts, i9EventEntity.starts) && Objects.equals(ends, i9EventEntity.ends);
     }
 
     @Override

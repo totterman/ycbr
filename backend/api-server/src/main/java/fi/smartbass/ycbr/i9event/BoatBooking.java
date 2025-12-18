@@ -4,23 +4,24 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Table("boat_bookings")
 public class BoatBooking {
 
     @NotBlank
-    private final Long boatId;
+    private final UUID boatId;
 
     private final String message;
     private final boolean taken;
 
-    public BoatBooking(Long boatId, String message, boolean taken) {
+    public BoatBooking(UUID boatId, String message, boolean taken) {
         this.boatId = boatId;
         this.message = message;
         this.taken = taken;
     }
 
-    public Long getBoatId() {
+    public UUID getBoatId() {
         return boatId;
     }
     public String getMessage() {
