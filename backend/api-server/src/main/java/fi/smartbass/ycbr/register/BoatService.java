@@ -1,7 +1,7 @@
 package fi.smartbass.ycbr.register;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -9,7 +9,7 @@ import java.util.UUID;
 @Service
 public class BoatService {
 
-    private final Log LOGGER = LogFactory.getLog(BoatService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoatService.class);
     private final BoatMapper mapper;
     private final BoatRepository boatRepository;
 
@@ -32,7 +32,7 @@ public class BoatService {
 
     public BoatDto create(BoatDto dto) {
         if (dto.boatId() != null && boatRepository.existsByBoatId(dto.boatId())) {
-            LOGGER.warn("BoatEntity with inspectionId " + dto.boatId() + " already exists.");
+            LOGGER.warn("BoatEntity with inspectionId {} already exists.", dto.boatId());
             throw new BoatAlreadyExistsException(dto.boatId());
         }
         return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
@@ -44,7 +44,7 @@ public class BoatService {
 
     public void delete(UUID boatId) {
         if (!boatRepository.existsByBoatId(boatId)) {
-            LOGGER.warn("BoatEntity with inspectionId " + boatId + " not found for deletion.");
+            LOGGER.warn("BoatEntity with inspectionId {} not found for deletion.", boatId);
         }
         boatRepository.deleteByBoatId(boatId);
     }
@@ -52,12 +52,12 @@ public class BoatService {
 
     public BoatDto upsert(UUID boatId, BoatDto dto) {
         if (boatId != null && !boatId.equals(dto.boatId())) {
-            LOGGER.warn("parameter " + boatId + " and boatId " + dto.boatId() + " are not equal");
+            LOGGER.warn("parameter {} and boatId {} are not equal", boatId, dto.boatId());
             throw new BoatRequestMalformedException(boatId, dto.boatId());
         }
         return boatRepository.findByBoatId(boatId)
                 .map(existingBoat -> {
-                    LOGGER.info("Existing boatId with Version nr: " + existingBoat.getVersion() + " found for upsert with inspectionId: " + existingBoat.getBoatId());
+                    LOGGER.info("Existing boatId with Version nr: {} found for upsert with inspectionId: {}", existingBoat.getVersion(), existingBoat.getBoatId());
                     BoatEntity boatToUpdate = mapper.toEntity(dto);
                     boatToUpdate.setVersion(existingBoat.getVersion()); // Preserve the version for optimistic locking
                     return mapper.toDTO(boatRepository.save(boatToUpdate));

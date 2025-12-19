@@ -2,6 +2,8 @@ package fi.smartbass.ycbr.i9event;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,6 +29,7 @@ public class I9EventRepositoryTest {
     @Autowired
     private I9EventRepository eventRepository;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(I9EventRepositoryTest.class);
     private final UUID i9eventId = UUID.randomUUID();
 
     @Test
@@ -34,7 +37,7 @@ public class I9EventRepositoryTest {
     void saveAndFindById() {
         I9EventEntity event = new I9EventEntity(null, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         I9EventEntity saved = eventRepository.save(event);
-        Optional<I9EventEntity> found = eventRepository.findById(saved.getId());
+        Optional<I9EventEntity> found = eventRepository.findById(saved.getI9eventId());
         assertThat(found).isPresent();
         assertThat(found.get().getPlace()).isEqualTo("Björkholmen");
     }
@@ -44,20 +47,20 @@ public class I9EventRepositoryTest {
     void saveAndFindByIdNoId() {
         I9EventEntity event = new I9EventEntity(null, "Blekholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         I9EventEntity saved = eventRepository.save(event);
-        assertThat(saved.getId()).isNotNull();
+        assertThat(saved.getI9eventId()).isNotNull();
         assertThat(saved.getCreatedAt()).isNotNull();
         assertThat(saved.getCreatedBy()).isNotNull();
         assertThat(saved.getModifiedAt()).isEqualTo(saved.getCreatedAt());
         assertThat(saved.getModifiedBy()).isEqualTo(saved.getCreatedBy());
 
-        Optional<I9EventEntity> found = eventRepository.findById(saved.getId());
+        Optional<I9EventEntity> found = eventRepository.findById(saved.getI9eventId());
         assertThat(found).isPresent();
 
         I9EventEntity created = found.get();
         assertThat(created.getPlace()).isEqualTo(saved.getPlace());
 
-        created.setPlace("Barösund");
-        I9EventEntity updated = eventRepository.save(created);
+        I9EventEntity modified = new I9EventEntity(created.getI9eventId(), "Blekholmen Updated", created.getStarts(), created.getEnds(), created.getCreatedAt(), created.getCreatedBy(), Instant.now(), "updater", created.getVersion());
+        I9EventEntity updated = eventRepository.save(modified);
         assertThat(updated.getVersion()).isGreaterThan(saved.getVersion());
         assertThat(updated.getModifiedAt()).isAfterOrEqualTo(saved.getModifiedAt());
     }
@@ -68,7 +71,7 @@ public class I9EventRepositoryTest {
         I9EventEntity event = new I9EventEntity(null, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         I9EventEntity saved = eventRepository.save(event);
 
-        assertThat(eventRepository.existsById(saved.getId())).isTrue();
+        assertThat(eventRepository.existsById(saved.getI9eventId())).isTrue();
         assertThat(eventRepository.existsById(i9eventId)).isFalse();
     }
 
@@ -85,7 +88,7 @@ public class I9EventRepositoryTest {
         List<I9EventEntity> found = (List<I9EventEntity>) eventRepository.findByStartsBetween(fromDate, toDate);
 
         assertThat(found.size()).isEqualTo(1);
-        I9EventEntity match = found.get(0);
+        I9EventEntity match = found.getFirst();
         assertThat(match.getPlace()).isEqualTo("Blekholmen");
     }
 
@@ -94,11 +97,11 @@ public class I9EventRepositoryTest {
     void deleteById() {
         I9EventEntity event = new I9EventEntity(null, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         I9EventEntity saved = eventRepository.save(event);
-        Optional<I9EventEntity> found = eventRepository.findById(saved.getId());
+        Optional<I9EventEntity> found = eventRepository.findById(saved.getI9eventId());
         assertThat(found).isPresent();
 
-        eventRepository.deleteById(event.getId());
-        Optional<I9EventEntity> deleted = eventRepository.findById(saved.getId());
+        eventRepository.deleteById(saved.getI9eventId());
+        Optional<I9EventEntity> deleted = eventRepository.findById(saved.getI9eventId());
         assertThat(deleted).isNotPresent();
     }
 
@@ -107,7 +110,10 @@ public class I9EventRepositoryTest {
     void testInspectorRegistrations() {
         I9EventEntity event = new I9EventEntity(null, "Gumbostrand", OffsetDateTime.parse("2026-05-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         event.addInspector("inspector1", "message1");
+        LOGGER.info("Event before save: {}", event);
         I9EventEntity saved = eventRepository.save(event);
+        LOGGER.info("Event after save: {}", event);
+        LOGGER.info("Saved after save: {}", saved);
         assertThat(saved.getInspectors().size()).isEqualTo(event.getInspectors().size());
         assertThat(saved.getInspectors()).isEqualTo(event.getInspectors());
         saved.deleteInspector("inspector1");
@@ -121,7 +127,10 @@ public class I9EventRepositoryTest {
         UUID boatId = UUID.randomUUID();
         I9EventEntity event = new I9EventEntity(null, "Gumbostrand", OffsetDateTime.parse("2026-05-17T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-17T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         event.addBoat(boatId, "message2");
+        LOGGER.info("Event before save: {}", event);
         I9EventEntity saved = eventRepository.save(event);
+        LOGGER.info("Event after save: {}", event);
+        LOGGER.info("Saved after save: {}", saved);
         assertThat(saved.getBoats().size()).isEqualTo(event.getBoats().size());
         assertThat(saved.getBoats()).isEqualTo(event.getBoats());
         saved.deleteBoat(boatId);

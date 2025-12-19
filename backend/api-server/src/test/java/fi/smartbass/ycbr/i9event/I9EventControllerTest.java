@@ -74,12 +74,13 @@ class I9EventControllerTest {
     @DisplayName("POST /api/i9events/ returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void postGood() throws Exception {
-        String jsonI9Event = "{\n" +
-                "  \"place\": \"Blekholmen\",\n" +
-                "  \"day\": \"2024-08-20\",\n" +
-                "  \"starts\": \"2024-08-20T09:00:00+02:00\",\n" +
-                "  \"ends\": \"2024-08-20T15:00:00.000+02:00\"\n" +
-                "}";
+        String jsonI9Event = """
+                {
+                  "place": "Blekholmen",
+                  "day": "2024-08-20",
+                  "starts": "2024-08-20T09:00:00+02:00",
+                  "ends": "2024-08-20T15:00:00.000+02:00"
+                }""";
 //        I9EventDto dto = new I9EventDto(id2, "Blekholmen", "2024-08-20", "2024-08-20T09:00:00+02:00", "2024-08-20T15:00:00.000+02:00", 0, 0);
         when(eventService.create(any(NewI9EventDto.class))).thenReturn(dto2);
         mockMvc.perform(post("/i9events")

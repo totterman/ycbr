@@ -61,10 +61,6 @@ public class InspectionEntity {
         this.version = version;
     }
 
-    public UUID getId() {
-        return inspectionId;
-    }
-
     public UUID getInspectionId() {
         return inspectionId;
     }

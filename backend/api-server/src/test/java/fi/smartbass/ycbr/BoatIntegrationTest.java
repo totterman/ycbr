@@ -53,7 +53,7 @@ public class BoatIntegrationTest extends BaseIntegrationTest {
         List<BoatDto> firstList = om.readValue(getAll.getResponse().getContentAsString(), new TypeReference<List<BoatDto>>(){});
         System.out.println(" Empty JSON: " + getAll.getResponse().getContentAsString());
 
-        BoatDto newBoat = new BoatDto(null, "owner11", "BoatName", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        NewBoatDto newBoat = new NewBoatDto("owner11", "BoatName", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         String newBoatJson = om.writeValueAsString(newBoat);
         MvcTestResult addNew = mvc.post()
                 .uri("/boats")

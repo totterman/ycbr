@@ -4,21 +4,21 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table(name = "maritime_data")
 public class MaritimeData {
-    public boolean lights;
-    public boolean dayshapes;
-    public boolean horn;
-    public boolean reflector;
-    public boolean compass;
-    public boolean bearing;
-    public boolean log;
-    public boolean charts;
-    public boolean radio;
-    public boolean satnav;
-    public boolean radar;
-    public boolean spotlight;
-    public boolean vhf;
-    public boolean hand_vhf;
-    public boolean documents;
+    public final boolean lights;
+    public final boolean dayshapes;
+    public final boolean horn;
+    public final boolean reflector;
+    public final boolean compass;
+    public final boolean bearing;
+    public final boolean log;
+    public final boolean charts;
+    public final boolean radio;
+    public final boolean satnav;
+    public final boolean radar;
+    public final boolean spotlight;
+    public final boolean vhf;
+    public final boolean hand_vhf;
+    public final boolean documents;
 
     public MaritimeData(boolean lights, boolean dayshapes, boolean horn, boolean reflector, boolean compass, boolean bearing, boolean log, boolean charts, boolean radio, boolean satnav, boolean radar, boolean spotlight, boolean vhf, boolean hand_vhf, boolean documents) {
         this.lights = lights;

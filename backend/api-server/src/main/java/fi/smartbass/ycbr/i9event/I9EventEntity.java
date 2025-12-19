@@ -95,92 +95,44 @@ public class I9EventEntity {
         this.version = version;
     }
 
-    public UUID getId() {
-        return i9eventId;
-    }
-
     public UUID getI9eventId() {
         return i9eventId;
-    }
-
-    public void setId(UUID i9eventId) {
-        this.i9eventId = i9eventId;
-    }
-
-    public void setI9eventId(UUID i9eventId) {
-        this.i9eventId = i9eventId;
     }
 
     public @NotBlank String getPlace() {
         return place;
     }
 
-    public void setPlace(@NotBlank String place) {
-        this.place = place;
-    }
-
     public @NotNull OffsetDateTime getStarts() {
         return starts;
-    }
-
-    public void setStarts(@NotNull OffsetDateTime starts) {
-        this.starts = starts;
     }
 
     public @NotNull OffsetDateTime getEnds() {
         return ends;
     }
 
-    public void setEnds(@NotNull OffsetDateTime ends) {
-        this.ends = ends;
-    }
-
     public Set<BoatBooking> getBoats() {
         return boats;
-    }
-
-    public void setBoats(Set<BoatBooking> boats) {
-        this.boats = boats;
     }
 
     public Set<InspectorRegistration> getInspectors() {
         return inspectors;
     }
 
-    public void setInspectors(Set<InspectorRegistration> inspectors) {
-        this.inspectors = inspectors;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public Instant getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(Instant modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
-
     public String getModifiedBy() {
         return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
     }
 
     public int getVersion() {
@@ -201,5 +153,22 @@ public class I9EventEntity {
     @Override
     public int hashCode() {
         return Objects.hash(place, starts, ends);
+    }
+
+    @Override
+    public String toString() {
+        return "I9EventEntity{" +
+                "i9eventId=" + i9eventId +
+                ", place='" + place + '\'' +
+                ", starts=" + starts +
+                ", ends=" + ends +
+                ", boats=" + boats +
+                ", inspectors=" + inspectors +
+                ", createdAt=" + createdAt +
+                ", createdBy='" + createdBy + '\'' +
+                ", modifiedAt=" + modifiedAt +
+                ", modifiedBy='" + modifiedBy + '\'' +
+                ", version=" + version +
+                '}';
     }
 }

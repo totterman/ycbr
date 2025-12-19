@@ -3,6 +3,7 @@ package fi.smartbass.ycbr.inspection;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ public record InspectionDto(
         UUID inspectionId,
         String timestamp,
         @NotBlank(message = "Inspector must be defined")
+        @Size(max = 50, message = "Inspector Name must be at most 50 characters")
         String inspector,
         @NotNull(message = "Inspection Event must be defined")
         UUID eventId,

@@ -75,7 +75,7 @@ class I9EventServiceTest {
     void createOk() {
         I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2024-07-15T00:00:00.000+02:00", "2024-07-15T10:00:00.000+02:00", "2024-07-15T16:00:00.000+02:00", 0, 0);
-        when(eventRepository.existsById(event.getId())).thenReturn(false);
+        when(eventRepository.existsById(event.getI9eventId())).thenReturn(false);
         when(eventRepository.save(event)).thenReturn(event);
         I9EventDto result = eventService.create(dto);
         assertThat(result.place()).isEqualTo(event.getPlace());
@@ -87,7 +87,7 @@ class I9EventServiceTest {
     void createThrows() {
         I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2024-07-15T00:00:00.000+02:00", "2024-07-15T10:00:00.000+02:00", "2024-07-15T16:00:00.000+02:00", 0, 0);
-        when(eventRepository.existsById(event.getId())).thenReturn(true);
+        when(eventRepository.existsById(event.getI9eventId())).thenReturn(true);
 //        when(eventRepository.save(eventId)).thenReturn(eventId);
         assertThatThrownBy(() -> eventService.create(dto))
                 .isInstanceOf(I9EventAlreadyExistsException.class);
@@ -135,8 +135,8 @@ class I9EventServiceTest {
     void findInspectorsByEventId() {
         I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         event.addInspector("inspector1", "message1");
-        when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
-        InspectorRegistrationDto result = eventService.findInspectorsByEventId(event.getId()).iterator().next();
+        when(eventRepository.findById(event.getI9eventId())).thenReturn(Optional.of(event));
+        InspectorRegistrationDto result = eventService.findInspectorsByEventId(event.getI9eventId()).iterator().next();
         assertThat(result.inspectorName().equals("inspector1"));
         assertThat(result.message().equals("message1"));
     }
@@ -147,8 +147,8 @@ class I9EventServiceTest {
         UUID boatId = UUID.randomUUID();
         I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
         event.addBoat(boatId, "message2");
-        when(eventRepository.findById(event.getId())).thenReturn(Optional.of(event));
-        BoatBookingDto result = eventService.findBoatsByEventId(event.getId()).iterator().next();
+        when(eventRepository.findById(event.getI9eventId())).thenReturn(Optional.of(event));
+        BoatBookingDto result = eventService.findBoatsByEventId(event.getI9eventId()).iterator().next();
         assertThat(result.boatId().equals(boatId));
         assertThat(result.message().equals("message2"));
     }

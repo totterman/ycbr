@@ -37,4 +37,12 @@ public class InspectorRegistration {
     public int hashCode() {
         return Objects.hashCode(inspectorName);
     }
+
+    @Override
+    public String toString() {
+        return "InspectorRegistration{" +
+                "inspectorName='" + inspectorName + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

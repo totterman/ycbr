@@ -40,4 +40,13 @@ public class BoatBooking {
     public int hashCode() {
         return Objects.hashCode(boatId);
     }
+
+    @Override
+    public String toString() {
+        return "BoatBooking{" +
+                "boatId=" + boatId +
+                ", message='" + message + '\'' +
+                ", taken=" + taken +
+                '}';
+    }
 }

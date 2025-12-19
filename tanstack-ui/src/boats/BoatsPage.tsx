@@ -133,6 +133,7 @@ export default function BoatsPage() {
         setValidationErrors(newValidationErrors);
         return;
       }
+      console.log('onEditingRowSave', values),
       setValidationErrors({});
       await updateBoat(values);
       table.setEditingRow(null); //exit editing mode
@@ -178,7 +179,7 @@ export default function BoatsPage() {
       return row.boatId;
     },
     initialState: {
-      columnVisibility: { id: false },
+      columnVisibility: { boatId: false },
       columnOrder: [
         "mrt-row-expand",
         "mrt-row-actions",
@@ -204,7 +205,12 @@ export default function BoatsPage() {
     onCreatingRowSave: handleCreateBoat,
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: handleUpdateBoat,
-    renderDetailPanel: ({ row }) => <DetailPanel row={row} />,
+    renderDetailPanel: ({ row }) => (
+      <>
+      {(user.hasAnyRole("staff", "boatowner", "inspector")) && (
+      <DetailPanel row={row} />)}
+      </>
+    ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
         <DialogTitle>{content.createBoat}</DialogTitle>

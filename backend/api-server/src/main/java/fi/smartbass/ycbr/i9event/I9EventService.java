@@ -1,7 +1,7 @@
 package fi.smartbass.ycbr.i9event;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class I9EventService {
 
-    private final Log LOGGER = LogFactory.getLog(I9EventService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(I9EventService.class);
     private final I9EventRepository eventRepository;
     private final I9EventMapper mapper;
 
@@ -44,7 +44,7 @@ public class I9EventService {
 
     public I9EventDto create(I9EventDto dto) {
         if (dto.i9eventId() != null && eventRepository.existsById(dto.i9eventId())) {
-            LOGGER.warn("Inspection eventId with inspectionId " + dto.i9eventId() + " already exists.");
+            LOGGER.warn("Inspection eventId with inspectionId {} already exists.", dto.i9eventId());
             throw new I9EventAlreadyExistsException(dto.i9eventId());
         }
         return mapper.toDTO(eventRepository.save(mapper.toEntity(dto)));
@@ -52,14 +52,14 @@ public class I9EventService {
 
     public I9EventDto upsert(UUID id, I9EventDto dto) {
         if (!id.equals(dto.i9eventId())) {
-            LOGGER.warn("parameter " + id + " and eventId " + dto.i9eventId() + " are not equal");
+            LOGGER.warn("parameter {} and eventId {} are not equal", id, dto.i9eventId());
             throw new I9EventRequestMalformedException(id, dto.i9eventId());
         }
         return eventRepository.findById(id)
                 .map(existingEvent -> {
                     I9EventEntity updatedEvent = mapper.toEntity(dto);
                     updatedEvent.setVersion(existingEvent.getVersion()); // Preserve the version for optimistic locking
-                    LOGGER.info("upsert from " + existingEvent + " to " + updatedEvent);
+                    LOGGER.info("upsert from {} to {}", existingEvent, updatedEvent);
                     return mapper.toDTO(eventRepository.save(updatedEvent));
                 })
                 .orElseGet(() -> create(dto));
@@ -67,7 +67,7 @@ public class I9EventService {
 
     public void delete(UUID id) {
         if (!eventRepository.existsById(id)) {
-            LOGGER.warn("BoatEntity with inspectionId " + id + " not found for deletion.");
+            LOGGER.warn("BoatEntity with inspectionId {} not found for deletion.", id);
         }
         eventRepository.deleteById(id);
     }

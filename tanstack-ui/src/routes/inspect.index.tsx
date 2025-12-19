@@ -6,7 +6,7 @@ export const Route = createFileRoute("/inspect/")({
   notFoundComponent: () => {
     return (
       <div>
-        <p>This is the notFoundComponent configured on root route</p>
+        <p>This is the notFoundComponent configured on inspect route</p>
         <Link to="/">Start Over</Link>
       </div>
     );
@@ -14,8 +14,8 @@ export const Route = createFileRoute("/inspect/")({
   errorComponent: () => {
     return (
       <div>
-        <p>This is the ErrorComponent configured on root route</p>
-        <Link to="/">Start Over</Link>
+        <p>This is the ErrorComponent configured on inspect route</p>
+        <Link to="/inspect">Try again</Link>
       </div>
     );
   },

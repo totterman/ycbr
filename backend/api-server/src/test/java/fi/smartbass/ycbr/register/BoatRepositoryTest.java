@@ -18,7 +18,6 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJdbcTest(includeFilters = @ComponentScan.Filter(EnableJdbcAuditing.class))
-// @Import(BoatIdGenerator.class)
 @AutoConfigureTestDatabase
 @ActiveProfiles("integration")
 @Sql("/db.sql")
@@ -58,9 +57,9 @@ class BoatRepositoryTest {
 
         BoatEntity created = cr.get();
         assertThat(created.getName()).isEqualTo("BoatName");
-        created.setName("NewBoatName");
 
-        BoatEntity updated = boatRepository.save(created);
+        BoatEntity modified = new BoatEntity(created.getBoatId(), created.getOwner(), "ModifiedBoatName", created.getSign(), created.getMake(), created.getModel(), created.getLoa(), created.getDraft(), created.getBeam(), created.getDeplacement(), created.getEngines(), created.getYear(), created.getCreatedAt(), created.getCreatedBy(), null, null, created.getVersion());
+        BoatEntity updated = boatRepository.save(modified);
         assertThat(updated.getVersion()).isGreaterThan(saved.getVersion());
         assertThat(updated.getModifiedAt()).isAfterOrEqualTo(saved.getModifiedAt());
     }

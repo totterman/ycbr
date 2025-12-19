@@ -71,12 +71,13 @@ class BoatServiceTest {
     @Test
     @DisplayName("Creating boatId is OK when inspectionId is null")
     void addBoatToRegister_savesBoat_whenIdIsNull() {
-        BoatEntity boat = new BoatEntity(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity newBoat = new BoatEntity(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         NewBoatDto dto = new NewBoatDto("owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
-        when(boatRepository.save(boat)).thenReturn(boat);
+        when(boatRepository.save(newBoat)).thenReturn(boat);
         BoatDto result = boatService.create(dto);
         assertThat(result.sign()).isEqualTo(boat.getSign());
-        verify(boatRepository).save(boat);
+        verify(boatRepository).save(newBoat);
     }
 
     @Test

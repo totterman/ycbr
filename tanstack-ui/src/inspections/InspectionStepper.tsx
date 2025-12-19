@@ -16,13 +16,15 @@ import { Locale } from "intlayer";
 import EquipmentForm from "./EquipmentForm";
 import MaritimeForm from "./MaritimeForm";
 import SafetyForm from "./SafetyForm";
+import { Divider } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function InspectionStepper({ data }: InspectionProps) {
 
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
-
+  const navigate = useNavigate();
 
   /* *************************************************************************
    *
@@ -74,8 +76,6 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleNext = async () => {
-    console.log('Inspection:', data);
-    // await updateInspection(data);
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -86,7 +86,6 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleBack = async () => {
-    // await updateInspection(data);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -100,7 +99,8 @@ export default function InspectionStepper({ data }: InspectionProps) {
       [activeStep]: true,
     });
     if (allStepsCompleted()) {
-      data.completed = dayjs().format('YYYY-MM-DDTHH:mm:ssZ');
+      // data.completed = dayjs().format('YYYY-MM-DDTHH:mm:ssZ');
+      // await updateInspection(data);
     }
     handleNext();
   };
@@ -109,6 +109,15 @@ export default function InspectionStepper({ data }: InspectionProps) {
     setActiveStep(0);
     setCompleted({});
   };
+
+  const handleDone = async () => {
+    data.completed = dayjs().format('YYYY-MM-DDTHH:mm:ssZ');
+    console.log('Completed:', data);
+    await updateInspection(data);
+    navigate({
+      to: '/inspect',
+      replace: true,
+    });  }
 
   return (
     <Box sx={{ width: "100%", mt: 8 }}>
@@ -124,8 +133,9 @@ export default function InspectionStepper({ data }: InspectionProps) {
       <div>
         {allStepsCompleted() ? (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>{content.inspection_completed}</Typography>
+            <Typography  variant='h5' sx={{ mt: 2, mb: 1 }}>{content.inspection_completed}</Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button onClick={handleDone}>{content.done}</Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleReset}>{content.reset}</Button>
             </Box>
@@ -135,6 +145,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2, mt: 8 }}>
             {getStepContent(activeStep)}
             </Box>
+            <Divider sx={{ color: 'primary.main', mt: 4, mb: 1 }} />
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"

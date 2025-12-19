@@ -1,21 +1,21 @@
 package fi.smartbass.ycbr.inspection;
 
 public class EquipmentData {
-    public boolean markings;
-    public boolean anchors;
-    public boolean sea_anchor;
-    public int lines;
-    public boolean tools;
-    public boolean paddel;
-    public boolean hook;
-    public boolean resque_line;
-    public boolean fenders;
-    public boolean ladders;
-    public boolean defroster;
-    public boolean toilet;
-    public boolean gas_system;
-    public boolean stove;
-    public boolean flag;
+    public final boolean markings;
+    public final boolean anchors;
+    public final boolean sea_anchor;
+    public final int lines;
+    public final boolean tools;
+    public final boolean paddel;
+    public final boolean hook;
+    public final boolean resque_line;
+    public final boolean fenders;
+    public final boolean ladders;
+    public final boolean defroster;
+    public final boolean toilet;
+    public final boolean gas_system;
+    public final boolean stove;
+    public final boolean flag;
 
     public EquipmentData(boolean markings, boolean anchors, boolean sea_anchor, int lines, boolean tools, boolean paddel, boolean hook, boolean resque_line, boolean fenders, boolean ladders, boolean defroster, boolean toilet, boolean gas_system, boolean stove, boolean flag) {
         this.markings = markings;

@@ -21,6 +21,7 @@ interface InspectionsContent {
   back: string;
   next: string;
   finish: string;
+  done: string;
   complete_step: string;
   step: string;
   already_completed: string;
@@ -125,10 +126,15 @@ export default {
       fi: "Seuraava",
       sv: "Följande",
     }),
-    finish: t({
+    done: t({
       en: "Finish",
       fi: "Päätä",
       sv: "Avsluta",
+    }),
+    finish: t({
+      en: "Completed",
+      fi: "Valmis",
+      sv: "Färdig",
     }),
     complete_step: t({
       en: "Complete Step",

@@ -1,9 +1,6 @@
 package fi.smartbass.ycbr.register;
 
-import jakarta.annotation.Generated;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.InsertOnlyProperty;
 import org.springframework.data.relational.core.mapping.Table;
@@ -19,13 +16,20 @@ public class BoatEntity {
     private UUID boatId;
 
     @NotBlank(message = "BoatEntity owner must be defined")
+    @Size(min = 3, max = 50, message = "Boat owner length must be at most 50 characters")
     private String owner;
 
     @NotBlank(message = "BoatEntity name must be defined")
+    @Size(min = 3, max = 50, message = "Boat name length must be at most 50 characters")
     private String name;
 
+    @Size(max = 50, message = "Boat Sign length must be at most 50 characters")
     private String sign;
+
+    @Size(max = 50, message = "Boat Make length must be at most 50 characters")
     private String make;
+
+    @Size(max = 50, message = "Boat Model length must be at most 50 characters")
     private String model;
 
     @NotNull(message = "BoatEntity length must be defined")
@@ -41,7 +45,10 @@ public class BoatEntity {
     @Positive(message = "BoatEntity deplacement must be greater than zero")
     private Double deplacement;
 
+    @Size(max = 50, message = "Boat Engine length must be at most 50 characters")
     private String engines;
+
+    @Size(max = 4, message = "Boat Year must be at most 4 characters")
     private String year;
 
     @CreatedDate
@@ -84,47 +91,51 @@ public class BoatEntity {
         this.version = version;
     }
 
-    public UUID getBoatId() { return boatId; }
+    public UUID getBoatId() {
+        return boatId;
+    }
 
-    public void setBoatId(UUID boatId) { this.boatId = boatId; }
+    public void setBoatId(UUID boatId) {
+        this.boatId = boatId;
+    }
 
-    public @NotBlank(message = "BoatEntity owner must be defined") String getOwner() {
+    public @NotBlank(message = "BoatEntity owner must be defined") @Size(min = 3, max = 50, message = "Boat owner length must be at most 50 characters") String getOwner() {
         return owner;
     }
 
-    public void setOwner(@NotBlank(message = "BoatEntity owner must be defined") String owner) {
+    public void setOwner(@NotBlank(message = "BoatEntity owner must be defined") @Size(min = 3, max = 50, message = "Boat owner length must be at most 50 characters") String owner) {
         this.owner = owner;
     }
 
-    public @NotBlank(message = "BoatEntity name must be defined") String getName() {
+    public @NotBlank(message = "BoatEntity name must be defined") @Size(min = 3, max = 50, message = "Boat name length must be at most 50 characters") String getName() {
         return name;
     }
 
-    public void setName(@NotBlank(message = "BoatEntity name must be defined") String name) {
+    public void setName(@NotBlank(message = "BoatEntity name must be defined") @Size(min = 3, max = 50, message = "Boat name length must be at most 50 characters") String name) {
         this.name = name;
     }
 
-    public String getSign() {
+    public @Size(max = 50, message = "Boat Sign length must be at most 50 characters") String getSign() {
         return sign;
     }
 
-    public void setSign(String sign) {
+    public void setSign(@Size(max = 50, message = "Boat Sign length must be at most 50 characters") String sign) {
         this.sign = sign;
     }
 
-    public String getMake() {
+    public @Size(max = 50, message = "Boat Make length must be at most 50 characters") String getMake() {
         return make;
     }
 
-    public void setMake(String make) {
+    public void setMake(@Size(max = 50, message = "Boat Make length must be at most 50 characters") String make) {
         this.make = make;
     }
 
-    public String getModel() {
+    public @Size(max = 50, message = "Boat Model length must be at most 50 characters") String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(@Size(max = 50, message = "Boat Model length must be at most 50 characters") String model) {
         this.model = model;
     }
 
@@ -160,19 +171,19 @@ public class BoatEntity {
         this.deplacement = deplacement;
     }
 
-    public String getEngines() {
+    public @Size(max = 50, message = "Boat Engine length must be at most 50 characters") String getEngines() {
         return engines;
     }
 
-    public void setEngines(String engines) {
+    public void setEngines(@Size(max = 50, message = "Boat Engine length must be at most 50 characters") String engines) {
         this.engines = engines;
     }
 
-    public String getYear() {
+    public @Size(max = 4, message = "Boat Year must be at most 4 characters") String getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(@Size(max = 4, message = "Boat Year must be at most 4 characters") String year) {
         this.year = year;
     }
 

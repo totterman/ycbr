@@ -33,25 +33,6 @@ public class InspectionControllerAdvice {
         return ex.getMessage();
     }
 
-    /*
-    @ExceptionHandler(I9EventAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String boatAlreadyExistsHandler(I9EventAlreadyExistsException ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler(BookingExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String bookingExistsHandler(BookingExistsException ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler(InspectorExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String inspectorExistsHandler(InspectorExistsException ex) {
-        return ex.getMessage();
-    }
-*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {

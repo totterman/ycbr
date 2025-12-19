@@ -1,7 +1,7 @@
 package fi.smartbass.ycbr.inspection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Service
 public class InspectionService {
 
-    private final Log LOGGER = LogFactory.getLog(InspectionService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InspectionService.class);
     private final InspectionRepository repository;
     private final InspectionMapper mapper;
 
@@ -44,22 +44,22 @@ public class InspectionService {
                         new SafetyDataDto(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false)
                 ),
                 null);
-        LOGGER.info("DTO: " + dto);
+        LOGGER.info("DTO: {}", dto);
         InspectionEntity newEntity = repository.save(mapper.toEntity(dto));
-        LOGGER.info("Entity: " + newEntity);
+        LOGGER.info("Entity: {}", newEntity);
         return mapper.toDTO(newEntity);
     }
 
     public InspectionDto update(UUID id, InspectionDto dto) {
         if (!id.equals(dto.inspectionId())) {
-            LOGGER.error("IDs do not match: " + id + " <> " + dto.inspectionId());
+            LOGGER.error("IDs do not match: {} <> {}", id, dto.inspectionId());
             throw new InspectionRequestMalformedException(id, dto.inspectionId());
         }
         return repository.findById(id)
                 .map(old -> {
                     InspectionEntity updated = mapper.toEntity(dto);
                     updated.setVersion(old.getVersion()); // Preserve the version for optimistic locking
-                    LOGGER.info("upsert from " + old + " to " + updated);
+                    LOGGER.info("upsert from {} to {}", old, updated);
                     return mapper.toDTO(repository.save(updated));
                 })
                 .orElseGet(() -> createFrom(dto));
@@ -74,9 +74,9 @@ public class InspectionService {
                 from.boatId(),
                 from.inspection(),
                 from.completed());
-        LOGGER.info("DTO: " + dto);
+        LOGGER.info("DTO: {}", dto);
         InspectionEntity newEntity = repository.save(mapper.toEntity(dto));
-        LOGGER.info("Entity: " + newEntity);
+        LOGGER.info("Entity: {}", newEntity);
         return mapper.toDTO(newEntity);
     }
 

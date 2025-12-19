@@ -3,8 +3,8 @@ package fi.smartbass.ycbr;
 import java.time.Instant;
 import java.util.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MeController {
 
-    private final Log LOGGER = LogFactory.getLog(MeController.class);
+    private static final Logger LOGGER = LogManager.getLogger(MeController.class);
 
     @GetMapping("/me")
     public UserInfoDto getMe(Authentication auth) {
-        LOGGER.info("getMe() called: " + auth);
+        LOGGER.info("getMe() called: {}", auth);
         if (auth instanceof JwtAuthenticationToken jwtAuth) {
             final String email = (String) jwtAuth.getTokenAttributes()
                 .getOrDefault(StandardClaimNames.EMAIL, "");
@@ -34,17 +34,13 @@ public class MeController {
                     .getOrDefault(StandardClaimNames.FAMILY_NAME, "");
             final Long exp = Optional.ofNullable(jwtAuth.getTokenAttributes()
                 .get(JwtClaimNames.EXP)).map(expClaim -> {
-                    if(expClaim instanceof Long lexp) {
-                        return lexp;
-                    }
-                    if(expClaim instanceof Instant iexp) {
-                        return iexp.getEpochSecond();
-                    }
-                    if(expClaim instanceof Date dexp) {
-                        return dexp.toInstant().getEpochSecond();
-                    }
-                    return Long.MAX_VALUE;
-                }).orElse(Long.MAX_VALUE);
+                return switch (expClaim) {
+                    case Long lexp -> lexp;
+                    case Instant iexp -> iexp.getEpochSecond();
+                    case Date dexp -> dexp.toInstant().getEpochSecond();
+                    default -> Long.MAX_VALUE;
+                };
+            }).orElse(Long.MAX_VALUE);
             return new UserInfoDto(auth.getName(), email, firstname, lastname, roles, exp);
         }
         return UserInfoDto.ANONYMOUS;

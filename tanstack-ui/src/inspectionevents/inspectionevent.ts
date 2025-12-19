@@ -252,12 +252,13 @@ export const completeQueryOptions = queryOptions({
 });
 
 const validateRequired = (value: string) => !!value.length;
+const validateMaxSize = (value: string, maxSize: number) => !!value.length && value.length < maxSize;
 
-export function validateEvent(event: I9EventDto, content: any) {
+export function validateEvent(event: I9EventDto | NewI9EventDto, content: any) {
   console.log("validateEvent(", event, ")");
   return {
     place:
-      event.place !== undefined && validateRequired(event.place)
+      event.place !== undefined && validateMaxSize(event.place, 50)
         ? ""
         : content.location_required,
     day:

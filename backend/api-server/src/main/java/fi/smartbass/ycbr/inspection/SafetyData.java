@@ -4,23 +4,23 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table(name = "safety_data")
 public class SafetyData {
-    public boolean buoyancy;
-    public int harness;
-    public int lifebuoy;
-    public boolean signals_a;
-    public boolean signals_b;
-    public int fixed_handpump;
-    public boolean electric_pump;
-    public int hand_extinguisher;
-    public boolean fire_blanket;
-    public boolean plugs;
-    public int flashlight;
-    public boolean firstaid;
-    public boolean spare_steering;
-    public boolean emergency_tools;
-    public boolean reserves;
-    public boolean liferaft;
-    public boolean detector;
+    public final boolean buoyancy;
+    public final int harness;
+    public final int lifebuoy;
+    public final boolean signals_a;
+    public final boolean signals_b;
+    public final int fixed_handpump;
+    public final boolean electric_pump;
+    public final int hand_extinguisher;
+    public final boolean fire_blanket;
+    public final boolean plugs;
+    public final int flashlight;
+    public final boolean firstaid;
+    public final boolean spare_steering;
+    public final boolean emergency_tools;
+    public final boolean reserves;
+    public final boolean liferaft;
+    public final boolean detector;
 
     public SafetyData(boolean buoyancy, int harness, int lifebuoy, boolean signals_a, boolean signals_b, int fixed_handpump, boolean electric_pump, int hand_extinguisher, boolean fire_blanket, boolean plugs, int flashlight, boolean firstaid, boolean spare_steering, boolean emergency_tools, boolean reserves, boolean liferaft, boolean detector) {
         this.buoyancy = buoyancy;
