@@ -123,6 +123,15 @@ export interface InspectionDto {
   completed: string;
 }
 
+export interface MyInspectionsDto {
+  inspectionId: string;
+  inspectorName: string;
+  boatName: string;
+  place: string;
+  day: string;
+  completed: string;
+}
+
 export function useCreateInspection() {
   const queryClient = useQueryClient();
   return useMutation({

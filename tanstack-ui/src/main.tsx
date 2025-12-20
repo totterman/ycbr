@@ -45,7 +45,7 @@ if (rootElement && !rootElement.innerHTML) {
     <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
         <Suspense fallback={null}>
-          <ReactQueryDevtoolsProduction />
+          {/*<ReactQueryDevtoolsProduction />*/}
         </Suspense>
     </QueryClientProvider>
   );

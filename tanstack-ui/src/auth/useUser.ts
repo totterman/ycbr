@@ -1,5 +1,5 @@
 import { BoatType } from '@/boats/boat';
-import { InspectionDto } from '@/inspections/inspection';
+import { InspectionDto, MyInspectionsDto } from '@/inspections/inspection';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -104,7 +104,7 @@ export function useUser() {
   } = useQuery({
     queryKey: ['inspections', query.data?.name],
     queryFn: async () => {
-      const { data } = await axios.get<InspectionDto[]>('/bff/api/inspections/inspector', { params: {
+      const { data } = await axios.get<MyInspectionsDto[]>('/bff/api/inspections/my', { params: {
         name: query.data?.name,
       } });
       return data;

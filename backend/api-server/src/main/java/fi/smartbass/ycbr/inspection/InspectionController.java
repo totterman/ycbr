@@ -3,6 +3,7 @@ package fi.smartbass.ycbr.inspection;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +32,10 @@ public class InspectionController {
         return inspectionService.fetchByInspector(inspector);
     }
 
-        @PostMapping
-        InspectionDto postInspection(Authentication auth, @Valid @RequestBody NewInspectionDto dto) {
-            LOGGER.info("POST new inspection: eventId {}, boatId {}, inspector {}", dto.eventId(), dto.boatId(), dto.inspectorName());
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    InspectionDto postInspection(Authentication auth, @Valid @RequestBody NewInspectionDto dto) {
+        LOGGER.info("POST new inspection: eventId {}, boatId {}, inspector {}", dto.eventId(), dto.boatId(), dto.inspectorName());
         return inspectionService.create(dto);
     }
 
@@ -41,6 +43,18 @@ public class InspectionController {
     InspectionDto putInspection(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody InspectionDto dto) {
         LOGGER.info("PUT inspection: inspectionId {}, boatId {}, inspector {}", dto.inspectionId(), dto.boatId(), dto.inspector());
         return inspectionService.update(id, dto);
+    }
+
+    @GetMapping("/my")
+    public Iterable<MyInspectionsDto> getMyInspections(Authentication auth, @RequestParam("name") String inspectorName) {
+        LOGGER.info("GET My Inspections for: {}", inspectorName);
+        return inspectionService.fetchMyInspections(inspectorName);
+    }
+
+    @GetMapping("/all")
+    public Iterable<MyInspectionsDto> getAllInspections(Authentication auth) {
+        LOGGER.info("GET All Inspections");
+        return inspectionService.fetchAllInspections();
     }
 
 }

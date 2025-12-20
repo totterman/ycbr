@@ -74,7 +74,7 @@ logging:
       springframework:
         boot: INFO
         jdbc:
-          core: INFO
+          core: DEBUG
         security: INFO
         web: INFO
         

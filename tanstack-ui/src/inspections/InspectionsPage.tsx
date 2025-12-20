@@ -15,8 +15,8 @@ export default function InspectionsPage() {
   const navigate = useNavigate();
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
-
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
+
 
   const handleListItemClick = (id: string) => {
     console.log("Inspection id", id, "selected.");
@@ -26,27 +26,8 @@ export default function InspectionsPage() {
       replace: true,
     });
   };
-  const NO_INSPECTIONS = (myInspections === undefined || myInspections.length < 1);
-  const worklist: Map<string, { boatname: string; day: string }> = new Map();
 
-  if (!NO_INSPECTIONS) {
-    myInspections.map((inspection) => {
-      const boat = useGetBoat(inspection.boatId);
-      const thisboatname = boat?.name ?? "";
-      const i9event = useGetI9Event(inspection.eventId);
-      const thisday =
-        i9event?.place +
-        " " +
-        dayjs(i9event?.day).toDate().toLocaleDateString(tlds);
-      worklist.set(inspection.inspectionId, {
-        boatname: thisboatname,
-        day: thisday,
-      });
-    });
-  }
-  console.log("worklist:", worklist);
-
-  return (NO_INSPECTIONS) ? (
+  return (myInspections === undefined || myInspections.length < 1) ? (
     <Typography variant="h6" gutterBottom>
       {content.no_inspections}
     </Typography>
@@ -57,8 +38,7 @@ export default function InspectionsPage() {
       </Typography>
       <List>
         {myInspections.map((inspection) => {
-          const boatname = worklist.get(inspection.inspectionId)?.boatname;
-          const day = worklist.get(inspection.inspectionId)?.day;
+          const placeday = inspection.place + ' ' + dayjs(inspection.day).toDate().toLocaleDateString(tlds);
           return (
             <ListItemButton
               key={inspection.inspectionId}
@@ -73,7 +53,7 @@ export default function InspectionsPage() {
                   <SailingIcon color="primary" />
                 )}
               </ListItemIcon>
-              <ListItemText primary={boatname} secondary={day} />
+              <ListItemText primary={inspection.boatName} secondary={placeday} />
             </ListItemButton>
           );
         })}

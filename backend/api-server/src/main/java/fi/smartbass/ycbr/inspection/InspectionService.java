@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,6 +27,18 @@ public class InspectionService {
     public Iterable<InspectionDto> fetchByInspector(final String inspector) {
         if (inspector == null) throw new NameNotFoundException("NULL");
         return mapper.toDTOs(repository.findByInspector(inspector));
+    }
+
+    public Iterable<MyInspectionsDto> fetchMyInspections(final String inspectorName) {
+        if (inspectorName == null) throw new NameNotFoundException("NULL");
+        List<MyInspectionsDto> inspections = (List<MyInspectionsDto>) repository.fetchMyInspections(inspectorName);
+        LOGGER.info("Found {} inspections for inspector {}", inspections.size(), inspectorName);
+        LOGGER.info("Inspections: {}", inspections);
+        return repository.fetchMyInspections(inspectorName);
+    }
+
+    public Iterable<MyInspectionsDto> fetchAllInspections() {
+        return repository.fetchAllInspections();
     }
 
     public InspectionDto create(NewInspectionDto newDto) {
