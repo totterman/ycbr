@@ -1,5 +1,6 @@
 package fi.smartbass.ycbr.i9event;
 
+import fi.smartbass.ycbr.inspection.MyInspectionsDto;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,11 @@ public class I9EventController {
         return service.findEverything();
     }
 
+    @GetMapping("/my")
+    public Iterable<UUID> getMyInspections(Authentication auth, @RequestParam("name") String inspectorName) {
+        LOGGER.info("GET My Inspections for: {}", inspectorName);
+        return service.findByInspector(inspectorName);
+    }
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
     public I9EventDto getOne(Authentication auth, @PathVariable("id") UUID id) {
@@ -81,9 +87,9 @@ public class I9EventController {
 
     @DeleteMapping("/{id}/inspectors")
     @PreAuthorize("hasAnyAuthority('staff', 'inspector')")
-    public I9EventDto removeInspector(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody InspectorRegistrationDto dto) {
-        LOGGER.info("removeInspector({}, {}) called: {}", id, dto, auth);
-        return service.removeInspectorFromEvent(id, dto.inspectorName());
+    public I9EventDto removeInspector(Authentication auth, @PathVariable("id") UUID id, @RequestParam("name") String inspectorName) {
+        LOGGER.info("removeInspector({}, {}) called: {}", id, inspectorName, auth);
+        return service.removeInspectorFromEvent(id, inspectorName);
     }
 
     @GetMapping("/{id}/boats")

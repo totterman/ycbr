@@ -2,6 +2,7 @@ package fi.smartbass.ycbr;
 
 import com.c4_soft.springaddons.security.oauth2.test.webmvc.AddonsWebmvcTestConf;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +24,7 @@ public abstract class BaseIntegrationTest {
     @ServiceConnection
     public static final PostgreSQLContainer postgres;
 
-    public ObjectMapper om = new ObjectMapper();
+    public ObjectMapper om = new ObjectMapper().registerModule(new JavaTimeModule());
 
     static  {
         postgres = new PostgreSQLContainer("postgres:18-alpine");

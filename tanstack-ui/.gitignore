@@ -8,3 +8,12 @@ count.txt
 .nitro
 .tanstack
 .intlayer
+.github
+*.log
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

@@ -13,6 +13,9 @@ interface I9EventsContent {
   register_as: string;
   register_title: string;
   register: string;
+  unregister_as: string;
+  unregister_title: string;
+  unregister: string;
   inspector: string;
   inspection_date: string;
   start_time: string;
@@ -93,6 +96,21 @@ export default {
       en: "Register",
       fi: "Ilmoittaudu",
       sv: "Anmäl dig",
+    }),
+    unregister_as: t({
+      en: "Cancel registration",
+      fi: "Poista ilmoittautuminen",
+      sv: "Ta bort anmälning",
+    }),
+    unregister_title: t({
+      en: "Cancel registration",
+      fi: "Poista ilmoittautuminen",
+      sv: "Ta bort anmälning",
+    }),
+    unregister: t({
+      en: "Cancel",
+      fi: "Poista",
+      sv: "Ta bort",
     }),
     inspection_date: t({
       en: "Inspection Date",

@@ -76,6 +76,8 @@ logging:
         jdbc:
           core: DEBUG
         security: INFO
+        transaction:
+          interceptor: TRACE
         web: INFO
         
 ---

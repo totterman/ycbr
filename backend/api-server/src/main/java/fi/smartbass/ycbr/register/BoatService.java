@@ -3,6 +3,8 @@ package fi.smartbass.ycbr.register;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,18 +20,22 @@ public class BoatService {
         this.boatRepository = boatRepository;
     }
 
+    @Transactional(readOnly = true)
     public Iterable<BoatDto> getAllBoats() {
         return mapper.toDTOs(boatRepository.findAll());
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public BoatDto getBoatByBoatId(UUID boatId) {
         return mapper.toDTO(boatRepository.findByBoatId(boatId).orElseThrow(() -> new BoatNotFoundException(boatId)));
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Iterable<BoatDto> getBoatsByOwner(String owner) {
         return mapper.toDTOs(boatRepository.findByOwner(owner));
     }
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public BoatDto create(BoatDto dto) {
         if (dto.boatId() != null && boatRepository.existsByBoatId(dto.boatId())) {
             LOGGER.warn("BoatEntity with inspectionId {} already exists.", dto.boatId());
@@ -38,10 +44,12 @@ public class BoatService {
         return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
     }
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public BoatDto create(NewBoatDto dto) {
         return mapper.toDTO(boatRepository.save(mapper.toEntity(dto)));
     }
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public void delete(UUID boatId) {
         if (!boatRepository.existsByBoatId(boatId)) {
             LOGGER.warn("BoatEntity with inspectionId {} not found for deletion.", boatId);
@@ -50,6 +58,7 @@ public class BoatService {
     }
 
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public BoatDto upsert(UUID boatId, BoatDto dto) {
         if (boatId != null && !boatId.equals(dto.boatId())) {
             LOGGER.warn("parameter {} and boatId {} are not equal", boatId, dto.boatId());

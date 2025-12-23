@@ -3,6 +3,8 @@ package fi.smartbass.ycbr.inspection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -20,15 +22,18 @@ public class InspectionService {
         this.mapper = mapper;
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public InspectionDto read(UUID id) {
         return mapper.toDTO(repository.findById(id).orElseThrow(() -> new InspectionNotFoundException(id)));
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Iterable<InspectionDto> fetchByInspector(final String inspector) {
         if (inspector == null) throw new NameNotFoundException("NULL");
         return mapper.toDTOs(repository.findByInspector(inspector));
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Iterable<MyInspectionsDto> fetchMyInspections(final String inspectorName) {
         if (inspectorName == null) throw new NameNotFoundException("NULL");
         List<MyInspectionsDto> inspections = (List<MyInspectionsDto>) repository.fetchMyInspections(inspectorName);
@@ -37,10 +42,12 @@ public class InspectionService {
         return repository.fetchMyInspections(inspectorName);
     }
 
+    @Transactional(readOnly = true)
     public Iterable<MyInspectionsDto> fetchAllInspections() {
         return repository.fetchAllInspections();
     }
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public InspectionDto create(NewInspectionDto newDto) {
         InspectionDto dto = new InspectionDto(
                 null,
@@ -63,6 +70,7 @@ public class InspectionService {
         return mapper.toDTO(newEntity);
     }
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public InspectionDto update(UUID id, InspectionDto dto) {
         if (!id.equals(dto.inspectionId())) {
             LOGGER.error("IDs do not match: {} <> {}", id, dto.inspectionId());

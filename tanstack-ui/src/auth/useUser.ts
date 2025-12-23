@@ -112,10 +112,24 @@ export function useUser() {
     enabled: !!query.data && query.data.isInspector,
   });
 
+      const {
+    data: myEvents
+  } = useQuery({
+    queryKey: ['i9events', query.data?.name],
+    queryFn: async () => {
+      const { data } = await axios.get<string[]>('/bff/api/i9events/my', { params: {
+        name: query.data?.name,
+      } });
+      return data;
+    },
+    enabled: !!query.data && query.data.isInspector,
+  });
+
 
   return {
     user: query.data || User.ANONYMOUS,
     myBoats: myBoats,
+    myEvents: myEvents,
     myInspections: myInspections,
     isLoading: query.isLoading,
     isFetching: query.isFetching,

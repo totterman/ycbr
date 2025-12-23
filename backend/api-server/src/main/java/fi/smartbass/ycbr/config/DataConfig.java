@@ -7,6 +7,7 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Optional;
 

@@ -233,6 +233,27 @@ export function useAddInspector() {
   });
 }
 
+export function useRemoveInspector() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, name }: { id: string, name: string }) => {
+      console.log("name: ", name);
+      const response = await axios
+        .delete<I9EventDto>("/bff/api/i9events/" + id + "/inspectors", { params: {
+        name: name,
+      } })
+        .then((res) => {
+          return res.data ?? null;
+        })
+        .catch((err: AxiosError) => {
+          console.log("Axios err: ", err.message);
+        });
+      return response;
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["i9events"] }), //refetch events after mutation, disabled for demo
+  });
+}
+
 export const completeQueryOptions = queryOptions({
   queryKey: ["i9events", "all"],
   queryFn: async () => {

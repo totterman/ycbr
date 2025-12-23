@@ -51,9 +51,9 @@ class InspectionControllerTest {
             null
     );
     private final List<InspectionDto> dtos = List.of(dto);
-    private MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
-    private List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
-    private ObjectMapper om = new ObjectMapper();
+    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
+    private final List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
+    private final ObjectMapper om = new ObjectMapper();
 
     private InspectionDataDto getInspectionDataDto() {
         HullDataDto hullData = new HullDataDto(false, false, false, false, false, false, false, false, false, false, 30);

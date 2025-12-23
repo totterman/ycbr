@@ -145,14 +145,12 @@ class I9EventControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /api/i9events/id2/inspectors returns 200 OK")
+    @DisplayName("DELETE /api/i9events/id2/inspectors/name returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void removeInspector() throws Exception {
         String json = "{ \"inspectorName\": \"Inspector Name\", \"message\": \"Short message\" }";
         when(eventService.removeInspectorFromEvent(id2, idto.inspectorName())).thenReturn(dto1);
-        mockMvc.perform(delete("/i9events/" + id2 + "/inspectors").principal(authentication)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+        mockMvc.perform(delete("/i9events/" + id2 + "/inspectors?name=" + idto.inspectorName()).principal(authentication))
                 .andExpect(status().isOk());
         verify(eventService).removeInspectorFromEvent(id2, idto.inspectorName());
     }

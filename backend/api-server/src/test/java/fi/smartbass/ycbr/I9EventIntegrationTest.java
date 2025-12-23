@@ -332,15 +332,28 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
         System.out.println("Exception JSON: " + updateSix.getResponse().getContentAsString());
 
         MvcTestResult deleteTwo = mvc.delete()
-                .uri("/i9events/" + updated.i9eventId() + "/inspectors")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(bookingJson)
+                .uri("/i9events/" + updated.i9eventId() + "/inspectors?name=" + registrationDTO.inspectorName())
                 .exchange();
         assertThat(deleteTwo)
                 .hasStatus(HttpStatus.OK);
         System.out.println("Updated JSON: " + deleteTwo.getResponse().getContentAsString());
         I9EventDto after = om.readValue(deleteTwo.getResponse().getContentAsString(), I9EventDto.class);
         assertThat(after.inspectors()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("Insert throws on invalid data")
+    @WithJwt("kalle.json")
+    void insertThrows() throws Exception {
+        I9EventDto newI9Event = new I9EventDto(null, "All_too_long_name_breaks_50_characters_limit_and_validation_fails", "2026-05-18T00:00:00.000+03:00", "2026-05-18T18:00:00.000+03:00", "2026-05-18T20:00:00.000+03:00", 0, 0);
+        String newI9EventJson = om.writeValueAsString(newI9Event);
+        MvcTestResult addNew = mvc.post()
+                .uri("/i9events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newI9EventJson)
+                .exchange();
+        assertThat(addNew)
+                .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 }

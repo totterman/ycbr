@@ -11,7 +11,7 @@ import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { I9EventDto, InspectorDto, useAddInspector } from "./inspectionevent";
+import { I9EventDto, InspectorDto, useAddInspector, useRemoveInspector } from "./inspectionevent";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
 
@@ -22,7 +22,7 @@ type RowProps = {
 export default function RegisterDialog({ row }: RowProps) {
   // console.log("RegisterDialog", row.id);
   const [open, setOpen] = React.useState(false);
-  const { user } = useUser();
+  const { user, myEvents } = useUser();
   const content = useIntlayer("i9events");
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
@@ -34,6 +34,7 @@ export default function RegisterDialog({ row }: RowProps) {
     new Date(row.original.ends).toLocaleTimeString(locale.substring(0, 2));
 
   const { mutateAsync: addInspector } = useAddInspector();
+  const { mutateAsync: removeInspector } = useRemoveInspector();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,8 +45,8 @@ export default function RegisterDialog({ row }: RowProps) {
   };
 
   const handleRegister = async () => {
-    const id = row.original.i9eventId ?? '';
-    if (id === '') {
+    const id = row.original.i9eventId ?? "";
+    if (id === "") {
       handleClose();
     }
     const dto: InspectorDto = {
@@ -58,11 +59,37 @@ export default function RegisterDialog({ row }: RowProps) {
     handleClose();
   };
 
+  const handleRemove = async () => {
+    const id = row.original.i9eventId ?? "";
+    if (id === "") {
+      handleClose();
+    }
+    const props = { id: id, name: user.name };
+    console.log("Inspector Unregistering: ", props);
+    await removeInspector(props);
+    handleClose();
+  };
+
+  const ALREADY_REGISTERED =
+    myEvents !== undefined &&
+    myEvents.length > 0 &&
+    myEvents.includes(row.original.i9eventId);
+
   return (
     <React.Fragment>
-      <Tooltip title={content.register_as.value}>
+      <Tooltip
+        title={
+          ALREADY_REGISTERED
+            ? content.unregister_as.value
+            : content.register_as.value
+        }
+      >
         <IconButton onClick={handleClickOpen}>
-          <EventIcon color="secondary" />
+          {ALREADY_REGISTERED ? (
+            <EventIcon color="warning" />
+          ) : (
+            <EventIcon color="secondary" />
+          )}
         </IconButton>
       </Tooltip>
       <Dialog
@@ -72,7 +99,9 @@ export default function RegisterDialog({ row }: RowProps) {
         aria-describedby="register-dialog-description"
       >
         <DialogTitle id="register-dialog-title">
-          {content.register_title}
+          {ALREADY_REGISTERED
+            ? content.unregister_title
+            : content.register_title}
         </DialogTitle>
         <DialogContent>
           <List component="div" role="group">
@@ -93,9 +122,15 @@ export default function RegisterDialog({ row }: RowProps) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{content.cancel}</Button>
-          <Button onClick={handleRegister} autoFocus>
-            {content.register}
-          </Button>
+          {ALREADY_REGISTERED ? (
+            <Button onClick={handleRemove} autoFocus>
+              {content.unregister}
+            </Button>
+          ) : (
+            <Button onClick={handleRegister} autoFocus>
+              {content.register}
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </React.Fragment>
