@@ -70,6 +70,13 @@ cp ../nginx.conf ./
 $SED "s/LOCALHOST_NAME/${host}/g" nginx.conf
 cd ..
 
+cd monitoring/prometheus/
+rm prometheus.yml
+cp prometheus-base.yml prometheus.yml
+$SED "s/LOCALHOST_NAME/${host}/g" prometheus.yml
+cd ../..
+
+
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
 docker build -t ycbr/native-ui ./native-ui
 docker build -t ycbr/tanstack-ui ./tanstack-ui

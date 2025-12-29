@@ -20,7 +20,7 @@ class I9EventMapperTest {
     @Test
     @DisplayName("Maps entity to DTO")
     void toDTO() {
-        final I9EventEntity entity = new I9EventEntity(UUID.randomUUID(), "Björkholmen", OffsetDateTime.parse("2026-05-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-15T16:00:00.000+02:00"), Instant.now(), "system", Instant.now(), "system", 0);
+        final I9EventEntity entity = new I9EventEntity(UUID.randomUUID(), "Björkholmen", OffsetDateTime.parse("2026-05-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         assertNotNull(mapper);
         I9EventDto dto = mapper.toDTO(entity);
         assertEquals(entity.getI9eventId(), dto.i9eventId());

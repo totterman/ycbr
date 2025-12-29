@@ -57,4 +57,10 @@ public class InspectionController {
         return inspectionService.fetchAllInspections();
     }
 
+    @DeleteMapping("/{id}")
+    void deleteInspection(Authentication auth, @PathVariable("id") UUID id) {
+        LOGGER.info("DELETE inspection: {}", id);
+        inspectionService.delete(id);
+    }
+
 }

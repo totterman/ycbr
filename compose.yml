@@ -17,7 +17,7 @@ services:
     image: postgres:18-alpine
     restart: always
     ports:
-      - 6543:5432
+      - 5432:5432
     environment:
       - POSTGRES_DB=ycbr
       - POSTGRES_PASSWORD=ycbr-secret
@@ -31,7 +31,7 @@ services:
       retries: 5
       start_period: 80s
     volumes:
-    - ${PWD}/db-data/:/var/lib/postgresql
+    - ./db-data/:/var/lib/postgresql
 #    - ${PWD}/init.sql:/docker-entrypoint-initdb.d/init.sql
     extra_hosts:
     - "host.docker.internal:host-gateway"
@@ -128,3 +128,27 @@ services:
     extra_hosts:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+      - ./monitoring/prometheus/prom_data:/prometheus
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./monitoring/grafana:/etc/grafana/provisioning/datasources

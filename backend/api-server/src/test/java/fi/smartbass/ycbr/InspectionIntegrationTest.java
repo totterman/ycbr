@@ -39,7 +39,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
             null
     );
     private final List<InspectionDto> dtos = List.of(dto);
-    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
+    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
     private final List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
 
     private InspectionDataDto getInspectionDataDto() {
@@ -54,6 +54,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Create and read inspections")
+    @WithJwt("bengt.json")
     void testReadInspections() throws Exception {
         InspectionDto created = createOne(newInspectionDto);
         MvcTestResult getOne = mvc.get()
@@ -71,6 +72,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Create and read inspections by inspector name")
+    @WithJwt("bengt.json")
     void testReadByInspectorName() throws Exception {
         InspectionDto created = createOne(newInspectionDto);
         MvcTestResult getByName = mvc.get()
@@ -139,6 +141,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Update an inspection")
+    @WithJwt("bengt.json")
     void testUpdateInspection() throws Exception {
         InspectionDto created = createOne(newInspectionDto);
         InspectionDto updated = new InspectionDto(

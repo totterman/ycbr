@@ -26,6 +26,7 @@ interface InspectionsContent {
   step: string;
   already_completed: string;
   dispatch_text: string;
+  release: string;
 }
 
 export default {
@@ -155,6 +156,11 @@ export default {
       en: "Select first the inspection event and then the nave of the boat to inspect. Then push the blue button to start the inspection of the selected boat.",
       fi: "Valitse ensin katsastustilaisuus ja sitten katsastettavan veneen nimi. Paina sitten sinistä näppäinta aloittaaksesi valitun veneen katsastuksen.",
       sv: "Välj först besiktningstillfälle och sedan namnet på båten som ska besiktas. Tryck sedan på den blåa knappen för att börja en ny besiktning med den valda båten.",
+    }),
+    release: t({
+      en: "Release",
+      fi: "Vapauta",
+      sv: "Frigör",
     }),
   },
 } satisfies Dictionary<InspectionsContent>;

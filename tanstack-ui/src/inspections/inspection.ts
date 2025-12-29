@@ -125,6 +125,8 @@ export interface InspectionDto {
 
 export interface MyInspectionsDto {
   inspectionId: string;
+  eventId: string;
+  boatId: string;
   inspectorName: string;
   boatName: string;
   place: string;
@@ -163,6 +165,16 @@ export const useUpdateInspection = (inspectionId: string) => {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["inspections", inspectionId] }),
   })
 }
+
+export const useDeleteInspection = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['inspections'],
+    mutationFn: deleteInspection,
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["inspections"] }),
+  })
+}
+
 
 async function createInspection(dto: NewInspection) {
   const response = await axios
@@ -205,7 +217,7 @@ async function fetchMyInspections(inspector: string) {
       throw err;
     });
 }
-    
+
 async function updateInspection(dto: InspectionDto) {
   const id = dto.inspectionId;
   const response = await axios
@@ -214,6 +226,18 @@ async function updateInspection(dto: InspectionDto) {
         "Content-Type": "application/json",
       },
     })
+    .then((res) => {
+      return res.data ?? null;
+    })
+    .catch((err: AxiosError) => {
+      console.log("Axios err: ", err.message);
+    });
+  return response;
+}
+
+async function deleteInspection(id: string) {
+  const response = await axios
+    .delete(`/bff/api/inspections/${id}`)
     .then((res) => {
       return res.data ?? null;
     })

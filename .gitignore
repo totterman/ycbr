@@ -13,3 +13,5 @@ compose-*.yml''
 keycloak/import/baeldung-realm.json''
 db-data
 .idea
+monitoring/prometheus/prom_data/
+monitoring/prometheus/prometheus.yml

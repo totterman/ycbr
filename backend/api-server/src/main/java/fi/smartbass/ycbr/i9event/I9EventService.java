@@ -159,6 +159,15 @@ public class I9EventService {
 //        throw new BookingExistsException(dto.boatId());
     }
 
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
+    public I9EventDto unmarkBoatForInspector(UUID id, BoatBookingDto dto) {
+        if (dto == null || dto.boatId() == null) throw new NullPointerException();
+        I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
+        event.unmarkBoat(dto.boatId(), dto.message());
+        I9EventEntity newEvent = eventRepository.save(event);
+        return mapper.toDTO(newEvent);
+    }
+
     private Iterable<I9EventComplete> toComplete(Iterable<I9EventEntity> events) {
         return StreamSupport.stream(events.spliterator(), false)
                 .map(e ->

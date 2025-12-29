@@ -59,7 +59,7 @@ function IndexComponent() {
 
       <TableContainer>
         <Table
-          sx={{ maxWidth: 500, margin: 4 }}
+          sx={{ maxWidth: 600, margin: 4 }}
           size="small"
           aria-label="a dense table"
         >

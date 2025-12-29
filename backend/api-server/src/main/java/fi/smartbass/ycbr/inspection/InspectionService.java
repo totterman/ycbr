@@ -48,6 +48,14 @@ public class InspectionService {
     }
 
     @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
+    public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+         LOGGER.warn("Inspection with id {} not found for deletion.", id);
+        }
+        repository.deleteById(id);
+    }
+
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public InspectionDto create(NewInspectionDto newDto) {
         InspectionDto dto = new InspectionDto(
                 null,

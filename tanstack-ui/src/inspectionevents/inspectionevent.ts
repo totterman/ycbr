@@ -202,6 +202,29 @@ export function useMarkBoatBooking() {
   });
 }
 
+export function useUnmarkBoatBooking() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, dto }: BookingProps) => {
+      console.log("dto: ", dto);
+      const response = await axios
+        .post<BoatBookingDto>("/bff/api/i9events/" + id + "/unmark", dto, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          return res.data ?? null;
+        })
+        .catch((err: AxiosError) => {
+          console.log("Axios err: ", err.message);
+        });
+      return response;
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["i9events"] }), //refetch users after mutation, disabled for demo
+  });
+}
+
 interface InspectorProps {
   id: string;
   dto: InspectorDto;

@@ -71,7 +71,7 @@ class InspectionServiceTest {
         newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, getInspectionData(), null, instantNow, "system", instantNow, "system", 0);
         oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, getInspectionData(), null, instantNow, "system", instantNow, "system", 1);
         entityList = List.of(oldEntity);
-        myInspectionsDto = new MyInspectionsDto(inspectionId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
+        myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
         myInspectionsDtoList = List.of(myInspectionsDto);
         newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId);
     }

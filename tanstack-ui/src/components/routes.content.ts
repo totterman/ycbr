@@ -84,9 +84,9 @@ export default {
             sv: "Namn",
         }),
         user_sign: t({
-            en: "Sign",
+            en: "Username",
             fi: "Tunnus",
-            sv: "Signum",
+            sv: "Användarnamn",
         }),
         user_password: t({
             en: "Password",
@@ -96,7 +96,7 @@ export default {
         user_role: t({
             en: "Role",
             fi: "Rooli",
-            sv: "Rolls",
+            sv: "Roll",
         }),
         boats_title: t({
             en: "Boats",
@@ -106,7 +106,7 @@ export default {
         boats_text: t({
             en: "Currently, the app has no connection to any boat register, hence an AI generated boat register is used as substitute. For whatever reason, the AI decided on water jets instead of real boats.",
             fi: "Sovellus ei ole yhteydessä mihinkään venerekisteriin, vaan käyttää omaa AI:n generoimaa veneluetteloa. Jostain syystä AI päätti luoda vesijettejä oikeiden veneiden sijasta.",
-            sv: "Appen är inte kopplad till någon båtregister, utan har en liten AI-genererad båtförteckning. Av någon konstig anledning fastade AI:n för vattenjettar i stället för riktiga båtar.",
+            sv: "Appen är inte kopplad till något båtregister, utan har en liten AI-genererad båtförteckning. Av någon konstig anledning fastade AI:n för vattenjettar i stället för riktiga båtar.",
         }),
         events_title: t({
             en: "Inspection Event",

@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public record MyInspectionsDto(
         UUID inspectionId,
+        UUID eventId,
+        UUID boatId,
         @NotBlank(message = "Inspector Name must be defined")
         @Size(max = 50, message = "Inspector Name must be at most 50 characters")
         String inspectorName,

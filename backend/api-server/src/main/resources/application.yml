@@ -20,7 +20,7 @@ spring:
   datasource:
     username: ycbr
     password: ycbr-secret
-    url: jdbc:postgresql://${hostname}:6543/ycbr
+    url: jdbc:postgresql://${hostname}:5432/ycbr
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 30
@@ -43,20 +43,24 @@ com:
         resourceserver:
           permit-all:
           - /me
-          - /i9events/**
-          - /inspections/**
+#          - /i9events/**
+#          - /inspections/**
+#          - /v3/api-docs/**
+#          - /swagger-ui/**
           - /actuator/info
           - /actuator/health
-          - /v3/api-docs/**
-          - /swagger-ui/**
           - /actuator/health/readiness
           - /actuator/health/liveness
-          
+          - /actuator/prometheus
+
 management:
   endpoint:
     health:
       probes:
         enabled: true
+      show-details: always
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
@@ -70,6 +74,7 @@ management:
 logging:
   level:
     root: INFO
+    fi.smartbass.ycbr: DEBUG
     org:
       springframework:
         boot: INFO
@@ -88,7 +93,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${hostname}:5432/ycbr
 server:
-  port: 7085
+  port: 8080
 
 
 ---

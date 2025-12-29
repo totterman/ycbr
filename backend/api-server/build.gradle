@@ -41,6 +41,7 @@ dependencies {
     implementation "com.c4-soft.springaddons:spring-addons-starter-oidc:${springAddonsVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation 'org.liquibase:liquibase-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation platform("org.testcontainers:testcontainers-bom:${testcontainersVersion}")
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

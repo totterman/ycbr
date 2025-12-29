@@ -9,44 +9,60 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Table(name = "i9events")
 public class I9EventEntity {
     @Id
-    private UUID i9eventId;
+    private final UUID i9eventId;
 
     @NotBlank
-    private String place;
+    private final String place;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull
-    private OffsetDateTime starts;
+    private final OffsetDateTime starts;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull
-    private OffsetDateTime ends;
+    private final OffsetDateTime ends;
 
     private Set<BoatBooking> boats;
     private Set<InspectorRegistration> inspectors;
 
     @CreatedDate
     @InsertOnlyProperty
-    private Instant createdAt;
+    private final Instant createdAt;
 
     @CreatedBy
     @InsertOnlyProperty
-    private String createdBy;
+    private final String createdBy;
 
     @LastModifiedDate
-    private Instant modifiedAt;
+    private final Instant modifiedAt;
 
     @LastModifiedBy
-    private String modifiedBy;
+    private final String modifiedBy;
 
     @Version
     private int version;
+
+    public I9EventEntity(UUID i9eventId, String place, OffsetDateTime starts, OffsetDateTime ends, Set<BoatBooking> boats, Set<InspectorRegistration> inspectors, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+        this.i9eventId = i9eventId;
+        this.place = place;
+        this.starts = starts;
+        this.ends = ends;
+        this.boats = boats == null ? ConcurrentHashMap.newKeySet() : boats;
+        this.inspectors = inspectors == null ? ConcurrentHashMap.newKeySet() : inspectors;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifiedAt = modifiedAt;
+        this.modifiedBy = modifiedBy;
+        this.version = version;
+    }
 
     public void addBoat(UUID boatId, String message) {
         boats.add(createBoatBooking(boatId, message));
@@ -61,12 +77,21 @@ public class I9EventEntity {
         boats.add(markBoatBooking(boatId, message));
     }
 
+    public void unmarkBoat(UUID boatId, String message) {
+        deleteBoat(boatId);
+        boats.add(unmarkBoatBooking(boatId, message));
+    }
+
     private BoatBooking createBoatBooking(UUID boatId, String message) {
         return new BoatBooking(boatId, message, false);
     }
 
     private BoatBooking markBoatBooking(UUID boatId, String message) {
         return new BoatBooking(boatId, message, true);
+    }
+
+    private BoatBooking unmarkBoatBooking(UUID boatId, String message) {
+        return new BoatBooking(boatId, message, false);
     }
 
     public void addInspector(String inspectorName, String message) {
@@ -79,20 +104,6 @@ public class I9EventEntity {
 
     private InspectorRegistration createRegistration(String inspectorName, String message) {
         return new InspectorRegistration(inspectorName, message);
-    }
-
-    public I9EventEntity(UUID i9eventId, String place, OffsetDateTime starts, OffsetDateTime ends, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
-        this.i9eventId = i9eventId;
-        this.place = place;
-        this.starts = starts;
-        this.ends = ends;
-        this.boats = ConcurrentHashMap.newKeySet();
-        this.inspectors = ConcurrentHashMap.newKeySet();
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.modifiedAt = modifiedAt;
-        this.modifiedBy = modifiedBy;
-        this.version = version;
     }
 
     public UUID getI9eventId() {
@@ -115,8 +126,16 @@ public class I9EventEntity {
         return boats;
     }
 
+    public void setBoats(Set<BoatBooking> boats) {
+        this.boats = boats;
+    }
+
     public Set<InspectorRegistration> getInspectors() {
         return inspectors;
+    }
+
+    public void setInspectors(Set<InspectorRegistration> inspectors) {
+        this.inspectors = inspectors;
     }
 
     public Instant getCreatedAt() {
