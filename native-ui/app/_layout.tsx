@@ -1,46 +1,24 @@
-import { useUser } from "@/hooks/useUser";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import 'react-native-reanimated';
 
-const queryClient = new QueryClient();
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
-{/* 
+export const unstable_settings = {
+  anchor: '(tabs)',
+};
+
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <QueryClientProvider client={queryClient}>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
-    </QueryClientProvider>
-  );
-}
-*/}
-
-export default function Root() {
-
-  // Set up the auth context and render our layout inside of it.
-  return (
-    <QueryClientProvider client={queryClient}>
-      {/* <SplashScreenController /> */}
-      <RootNavigator />
-    </QueryClientProvider>
-  );
-}
-
-// Separate this into a new component so it can access the SessionProvider context later
-function RootNavigator() {
-  const { user } = useUser();
-  console.log("User is authenticated: ", user.isAuthenticated);
-
-  return (
-    <Stack>
-      <Stack.Protected guard={user.isAuthenticated}>
-        <Stack.Screen name="(tabs)" />
-      </Stack.Protected>
-
-      <Stack.Protected guard={!user.isAuthenticated}>
-        <Stack.Screen name="sign-in" />
-      </Stack.Protected>
-    </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
   );
 }

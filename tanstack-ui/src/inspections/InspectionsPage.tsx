@@ -17,13 +17,13 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { MyInspectionsDto, useDeleteInspection } from "./inspection";
 import {
   BoatBookingDto,
-  useUnmarkBoatBooking,
+  useMarkBoatBooking,
 } from "@/inspectionevents/inspectionevent";
 
 export default function InspectionsPage() {
   const { myInspections } = useUser();
   const navigate = useNavigate();
-  const { mutateAsync: unmarkBooking } = useUnmarkBoatBooking();
+  const { mutateAsync: markBooking } = useMarkBoatBooking();
   const { mutateAsync: deleteInspection } = useDeleteInspection();
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
@@ -47,7 +47,7 @@ export default function InspectionsPage() {
       taken: false,
     };
 
-    await unmarkBooking({ id: inspection.eventId, dto: dto });
+    await markBooking({ id: inspection.eventId, dto: dto });
     await deleteInspection(inspection.inspectionId);
   };
 

@@ -72,26 +72,17 @@ public class I9EventEntity {
         boats.removeIf(b -> b.getBoatId().equals(boatId));
     }
 
-    public void markBoat(UUID boatId, String message) {
+    public void markBoat(UUID boatId, String message, boolean taken) {
         deleteBoat(boatId);
-        boats.add(markBoatBooking(boatId, message));
-    }
-
-    public void unmarkBoat(UUID boatId, String message) {
-        deleteBoat(boatId);
-        boats.add(unmarkBoatBooking(boatId, message));
+        boats.add(markBoatBooking(boatId, message, taken));
     }
 
     private BoatBooking createBoatBooking(UUID boatId, String message) {
         return new BoatBooking(boatId, message, false);
     }
 
-    private BoatBooking markBoatBooking(UUID boatId, String message) {
-        return new BoatBooking(boatId, message, true);
-    }
-
-    private BoatBooking unmarkBoatBooking(UUID boatId, String message) {
-        return new BoatBooking(boatId, message, false);
+    private BoatBooking markBoatBooking(UUID boatId, String message, boolean taken) {
+        return new BoatBooking(boatId, message, taken);
     }
 
     public void addInspector(String inspectorName, String message) {

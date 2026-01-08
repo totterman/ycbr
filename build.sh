@@ -12,7 +12,10 @@ else
   SED="sed -i -e"
 fi
 
-host=$(echo $HOSTNAME  | tr '[A-Z]' '[a-z]')
+#host=$(echo $HOSTNAME  | tr '[A-Z]' '[a-z]')
+host=`hostname -f`
+#host="localhost"
+echo "Detected hostname: ${host}"
 
 cd backend
 cd api-server
@@ -34,6 +37,16 @@ echo ""
 ./gradlew clean build
 ./gradlew bootBuildImage --imageName=ycbr/bff-server
 cd ..
+
+cd reverse-proxy
+echo ""
+echo "*****************************************************************************************************************************************"
+echo "./gradlew bootBuildImage" --imageName=ycbr/reverse-proxy
+echo "*****************************************************************************************************************************************"
+echo ""
+./gradlew clean build
+./gradlew bootBuildImage --imageName=ycbr/reverse-proxy
+cd ..
 cd ..
 
 rm -f "compose-${host}.yml"
@@ -46,14 +59,14 @@ cp ycbr-realm.json keycloak/import/ycbr-realm.json
 $SED "s/LOCALHOST_NAME/${host}/g" keycloak/import/ycbr-realm.json
 rm "keycloak/import/ycbr-realm.json''"
 
-cd native-ui/
-rm .env.development
-cp ../native-ui.env.development .env.development
-$SED "s/LOCALHOST_NAME/${host}/g" .env.development
-rm ".env.development''"
-npm i
-npm run build
-cd ..
+# cd native-ui/
+# rm .env.development
+# cp ../native-ui.env.development .env.development
+# $SED "s/LOCALHOST_NAME/${host}/g" .env.development
+# rm ".env.development''"
+# npm i
+# npm run build
+# cd ..
 
 cd tanstack-ui/
 rm .env
@@ -78,7 +91,7 @@ cd ../..
 
 
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
-docker build -t ycbr/native-ui ./native-ui
+#docker build -t ycbr/native-ui ./native-ui
 docker build -t ycbr/tanstack-ui ./tanstack-ui
 
 docker compose -f compose-${host}.yml up -d

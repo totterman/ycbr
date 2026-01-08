@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
+const APP_URI = "http://king.in.totterman.com:7080/tanstack-ui";
 
 test("Book boat", async ({ page }) => {
 
-await page.goto('http://king:7080/tanstack-ui');
+await page.goto(APP_URI);
 await page.getByRole('button', { name: 'Logga in' }).click();
 await page.getByRole('textbox', { name: 'Username or email' }).click();
 await page.getByRole('textbox', { name: 'Username or email' }).fill('ronja');

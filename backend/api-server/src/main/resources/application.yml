@@ -8,7 +8,6 @@ username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
 resource-server-port: 7084
 api-server-port: 7085
-# dbhost: 172.17.0.1:6543
 audience:
 
 server:
@@ -18,9 +17,9 @@ server:
 
 spring:
   datasource:
-    username: ycbr
-    password: ycbr-secret
-    url: jdbc:postgresql://${hostname}:5432/ycbr
+    username: ${POSTGRES_USER:ycbr}
+    password: ${POSTGRES_PASSWORD:ycbr-secret}
+    url: jdbc:postgresql://${hostname}:5432/${POSTGRES_DB:ycbr}
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 30
@@ -45,7 +44,7 @@ com:
           - /me
 #          - /i9events/**
 #          - /inspections/**
-#          - /v3/api-docs/**
+#          - /v1/api-docs/**
 #          - /swagger-ui/**
           - /actuator/info
           - /actuator/health
@@ -89,13 +88,11 @@ logging:
 spring:
   config:
     activate:
-      on-profile: "docker"
+      on-profile: docker
   datasource:
-    url: jdbc:postgresql://${hostname}:5432/ycbr
-server:
-  port: 8080
-
-
+    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB:ycbr}
+  main:
+    banner-mode: off
 ---
 spring:
   config:
@@ -120,7 +117,7 @@ spring:
   config:
     activate:
       on-profile: auth0
-issuer: https://dev-ch4mpy.eu.auth0.com/
+issuer: ${AUTH0_ISSUER}
 username-claim-json-path: $['https://c4-soft.com/user']['name']
 authorities-json-path: $['https://c4-soft.com/user']['roles']
-audience: bff.baeldung.com
+audience: ${AUTH0_AUDIENCE}

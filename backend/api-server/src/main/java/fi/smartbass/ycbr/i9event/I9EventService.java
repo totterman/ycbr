@@ -152,20 +152,11 @@ public class I9EventService {
         if (dto == null || dto.boatId() == null) throw new NullPointerException();
         I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
 //        if (eventId.getBoats().stream().noneMatch(b -> b.getBoatId().equals(dto.boatId()))) {
-            event.markBoat(dto.boatId(), dto.message());
+            event.markBoat(dto.boatId(), dto.message(), dto.taken());
             I9EventEntity newEvent = eventRepository.save(event);
             return mapper.toDTO(newEvent);
 //        }
 //        throw new BookingExistsException(dto.boatId());
-    }
-
-    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
-    public I9EventDto unmarkBoatForInspector(UUID id, BoatBookingDto dto) {
-        if (dto == null || dto.boatId() == null) throw new NullPointerException();
-        I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
-        event.unmarkBoat(dto.boatId(), dto.message());
-        I9EventEntity newEvent = eventRepository.save(event);
-        return mapper.toDTO(newEvent);
     }
 
     private Iterable<I9EventComplete> toComplete(Iterable<I9EventEntity> events) {

@@ -115,14 +115,6 @@ public class I9EventController {
         return service.markBoatForInspector(id, boat);
     }
 
-    @PostMapping("/{id}/unmark")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
-    public I9EventDto unmarkBoat(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody BoatBookingDto boat) {
-        LOGGER.info("unmarkBoat({}, {}) called: {}", id, boat.boatId(), auth);
-        return service.unmarkBoatForInspector(id, boat);
-    }
-
     @DeleteMapping("/{id}/boats")
     @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
     public I9EventDto removeBoat(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody BoatBookingDto boat) {

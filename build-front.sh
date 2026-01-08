@@ -25,7 +25,9 @@ else
     MAVEN_PROFILE_ARG=-P$(IFS=, ; echo "${MAVEN_PROFILES[*]}")
 fi
 
-host=$(echo $HOSTNAME  | tr '[A-Z]' '[a-z]')
+#host=$(echo $HOSTNAME  | tr '[A-Z]' '[a-z]')
+host=`hostname -f`
+echo "Detected hostname: ${host}"
 
 rm -f "compose-${host}.yml"
 cp compose.yml "compose-${host}.yml"
@@ -51,14 +53,14 @@ rm -f "compose-${host}.yml''"
 # npm run build
 # cd ..
 
-cd native-ui/
-rm .env.development
-cp ../native-ui.env.development .env.development
-$SED "s/LOCALHOST_NAME/${host}/g" .env.development
-rm ".env.development''"
-npm i
-npm run build
-cd ..
+# cd native-ui/
+# rm .env.development
+# cp ../native-ui.env.development .env.development
+# $SED "s/LOCALHOST_NAME/${host}/g" .env.development
+# rm ".env.development''"
+# npm i
+# npm run build
+# cd ..
 
 echo Building tanstack-ui...
 cd tanstack-ui/
@@ -80,7 +82,7 @@ cd ..
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
 # docker build -t ycbr/react-ui ./react-ui
 # docker build -t ycbr/nextjs-ui ./nextjs-ui
-docker build -t ycbr/native-ui ./native-ui
+# docker build -t ycbr/native-ui ./native-ui
 docker build -t ycbr/tanstack-ui ./tanstack-ui
 
 docker compose -f compose-${host}.yml up -d

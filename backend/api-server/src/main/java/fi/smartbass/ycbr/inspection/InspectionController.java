@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,14 @@ public class InspectionController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     InspectionDto getInspection(Authentication auth, @PathVariable("id") UUID id) {
         LOGGER.info("GET inspection: {}", id);
         return inspectionService.read(id);
     }
 
     @GetMapping("/inspector")
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     public Iterable<InspectionDto> getByInspector(Authentication auth, @RequestParam("name") String inspector) {
         LOGGER.info("GET inspections for: {}", inspector);
         return inspectionService.fetchByInspector(inspector);
@@ -34,30 +37,35 @@ public class InspectionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     InspectionDto postInspection(Authentication auth, @Valid @RequestBody NewInspectionDto dto) {
         LOGGER.info("POST new inspection: eventId {}, boatId {}, inspector {}", dto.eventId(), dto.boatId(), dto.inspectorName());
         return inspectionService.create(dto);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     InspectionDto putInspection(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody InspectionDto dto) {
         LOGGER.info("PUT inspection: inspectionId {}, boatId {}, inspector {}", dto.inspectionId(), dto.boatId(), dto.inspector());
         return inspectionService.update(id, dto);
     }
 
     @GetMapping("/my")
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     public Iterable<MyInspectionsDto> getMyInspections(Authentication auth, @RequestParam("name") String inspectorName) {
         LOGGER.info("GET My Inspections for: {}", inspectorName);
         return inspectionService.fetchMyInspections(inspectorName);
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     public Iterable<MyInspectionsDto> getAllInspections(Authentication auth) {
         LOGGER.info("GET All Inspections");
         return inspectionService.fetchAllInspections();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     void deleteInspection(Authentication auth, @PathVariable("id") UUID id) {
         LOGGER.info("DELETE inspection: {}", id);
         inspectionService.delete(id);

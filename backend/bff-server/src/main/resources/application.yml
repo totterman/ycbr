@@ -6,8 +6,8 @@ reverse-proxy-port: 7080
 reverse-proxy-uri: ${scheme}://${hostname}:${reverse-proxy-port}
 authorization-server-prefix: /auth
 issuer: ${reverse-proxy-uri}${authorization-server-prefix}/realms/ycbr
-client-id: ycbr-confidential
-client-secret: secret
+client-id: ${KEYCLOAK_CLIENT_ID:ycbr-confidential}
+client-secret: ${KEYCLOAK_CLIENT_SECRET:secret}
 username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
 bff-port: 7081
@@ -80,21 +80,27 @@ com:
             enabled: true
             # internal-logout-uri: ${reverse-proxy-uri}${bff-prefix}/logout
             # should work too,  but there is no reason to go through the reverse proxy for this internal call
-            internal-logout-uri: ${scheme}://localhost:${bff-port}/logout
+            internal-logout-uri: ${scheme}://${hostname}:${bff-port}/logout
         # SecurityFilterChain with oauth2ResourceServer() (sessions and CSRF protection disabled)
         resourceserver:
           permit-all:
             - /login-options
             - /error
-            - /v3/api-docs/**
+            - /v1/api-docs/**
             - /swagger-ui/**
+            - /actuator/info
+            - /actuator/health
             - /actuator/health/readiness
             - /actuator/health/liveness
+            - /actuator/prometheus
 
 management:
   endpoint:
     health:
       probes:
+        enabled: true
+        show-details: always
+      prometheus:
         enabled: true
   endpoints:
     web:
@@ -109,11 +115,21 @@ management:
 logging:
   level:
     root: INFO
+    fi.smartbass.ycbr: DEBUG
     org:
       springframework:
         boot: INFO
-        security: TRACE
+        cloud: DEBUG
+        security: DEBUG
         web: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  main:
+    banner-mode: off
 
 ---
 spring:
@@ -151,12 +167,12 @@ spring:
   config:
     activate:
       on-profile: auth0
-issuer: https://dev-ch4mpy.eu.auth0.com/
-client-id: yWgZDRJLAksXta8BoudYfkF5kus2zv2Q
-client-secret: change-me
+issuer: ${AUTH0_ISSUER:https://dev-xyz.us.auth0.com/}
+client-id: ${AUTH0_CLIENT_ID:YOUR_CLIENT_ID}
+client-secret: ${AUTH0_CLIENT_SECRET:YOUR_CLIENT_SECRET}
 username-claim-json-path: $['https://c4-soft.com/user']['name']
 authorities-json-path: $['https://c4-soft.com/user']['roles']
-audience: bff.baeldung.com
+audience: ${AUTH0_AUDIENCE:https://api.ycbr.example.com/}
 com:
   c4-soft:
     springaddons:
