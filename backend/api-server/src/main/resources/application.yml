@@ -63,7 +63,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health,info,metrics,prometheus
   health:
     livenessstate:
       enabled: true
@@ -81,7 +81,7 @@ logging:
           core: DEBUG
         security: INFO
         transaction:
-          interceptor: TRACE
+          interceptor: DEBUG
         web: INFO
         
 ---

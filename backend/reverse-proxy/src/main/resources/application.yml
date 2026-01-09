@@ -15,7 +15,7 @@ reverse-proxy-port: 7080
 #react-prefix: /react-ui
 #react-uri: http://${hostname}:${react-port}${react-prefix}
 tanstack-port: 4206
-tanstack-prefix: /tanstack-ui
+tanstack-prefix: /ui
 tanstack-uri: ${scheme}://${hostname}:${tanstack-port}${tanstack-prefix}
 authorization-server-port: 8080
 authorization-server-prefix: /auth
@@ -50,7 +50,7 @@ spring:
 #          uri: ${react-uri}
 #          predicates:
 #            - Path=${react-prefix}/**
-            - id: tanstack-ui
+            - id: ui
               uri: ${tanstack-uri}
               predicates:
                 - Path=${tanstack-prefix}/**
@@ -74,10 +74,13 @@ management:
     health:
       probes:
         enabled: true
+        show-details: always
+      prometheus:
+        enabled: true
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health,info,metrics,prometheus
   health:
     livenessstate:
       enabled: true
@@ -92,7 +95,7 @@ logging:
       springframework:
         boot: INFO
         cloud: DEBUG
-        security: DEBUG
+        security: INFO
         web: INFO
 
 ---
@@ -135,7 +138,7 @@ spring:
 #          uri: ${react-uri}
 #          predicates:
 #            - Path=${react-prefix}/**
-        - id: tanstack-ui
+        - id: ui
           uri: ${tanstack-uri}
           predicates:
             - Path=${tanstack-prefix}/**

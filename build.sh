@@ -68,9 +68,9 @@ rm "keycloak/import/ycbr-realm.json''"
 # npm run build
 # cd ..
 
-cd tanstack-ui/
+cd ui/
 rm .env
-cp ../tanstack-ui.env .env
+cp ../ui.env .env
 $SED "s/LOCALHOST_NAME/${host}/g" .env
 rm ".env''"
 npm i
@@ -92,7 +92,7 @@ cd ../..
 
 docker build -t ycbr/nginx-reverse-proxy ./nginx-reverse-proxy
 #docker build -t ycbr/native-ui ./native-ui
-docker build -t ycbr/tanstack-ui ./tanstack-ui
+docker build -t ycbr/ui ./ui
 
 docker compose -f compose-${host}.yml up -d
 
@@ -105,4 +105,4 @@ echo "http://${host}:7080/auth/admin/master/console/#/ycbr"
 
 echo ""
 echo "Sample frontends as user / user"
-echo http://${host}:7080/tanstack-ui/
+echo http://${host}:7080/ui/
