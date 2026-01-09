@@ -25,6 +25,9 @@ spring:
       maximum-pool-size: 30
   liquibase:
     enabled: false
+  sql:
+    init:
+      mode: always
   threads:
     virtual:
       enabled: true
