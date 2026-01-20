@@ -153,7 +153,7 @@ $ docker exec -it {containerID} bash
 In the container bash shell:
 
 ```
-# cd keycloak/bin
+# cd /opt/keycloak/bin
 # ./kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user admin --password <ADMIN_PASSWORD>
 # ./kcadm.sh update realms/master -s sslRequired=NONE
 # ./kcadm.sh update realms/ycbr -s sslRequired=NONE
