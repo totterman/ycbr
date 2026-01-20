@@ -100,11 +100,11 @@ Built using the **spring-addons** project by **ch4mpy**, big thanks!
 ### Web frontend
 
 Served through a nginx container.
-Built using React 19, Material UI, and Tanstack Query, Router, and Form libraries.
+Built using `React 19`, `Material UI`, and `Tanstack Query`, `Tanstack Router`, and `Tanstack Form` libraries.
 
-Unit tests with Jest and React Testing Library.
+Unit tests with `Jest` and `React Testing Library`.
 
-End-to-end tests with Playwright.
+End-to-end tests with `Playwright`.
 
 ### Mobile frontend
 
@@ -116,7 +116,7 @@ Actually two interchangeable implementations: nginx and Spring Cloud Gateway.
 
 ### Backend-for-Frontend server
 
-Spring Cloud Gateway with Java 25 running netty (reactive!) heavily using spring-addons libraries for OAuth2 integration.
+Spring Cloud Gateway with Java 25 running netty (reactive!) heavily using `spring-addons` libraries for OAuth2 integration.
 
 ### Authentication Provider
 
@@ -125,6 +125,9 @@ Keycloak 24 running in a container. Should be interchangeable with any OAuth2 pr
 ### Application server
 
 Spring Boot 3.5.9 application in Java 25 running Tomcat with virtual threads (project loom). Using JDBC to connect to a Postgres database.
+
+Unit tests with `JUnit 5` and `Mockito`.
+Integration tests with `Testcontainers` and `Spring Boot Test`.
 
 ### Database
 
@@ -156,4 +159,11 @@ In the container bash shell:
 # ./kcadm.sh update realms/ycbr -s sslRequired=NONE
 ```
 
+## Future improvements
 
+- Connect to real boat register
+- Connect to real user management system
+- Add rate limiting and caching to BFF
+- Improve error handling and logging
+- Improve mobile frontend
+- Add more unit and integration tests
