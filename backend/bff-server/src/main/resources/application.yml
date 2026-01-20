@@ -35,6 +35,10 @@ spring:
               - TokenRelay=
               - SaveSession
               - StripPrefix=1
+          - id: direct-access
+            uri: ${scheme}://${hostname}:${api-server-port}
+            predicates:
+              - Path=/resources/**
   security:
     oauth2:
       client:

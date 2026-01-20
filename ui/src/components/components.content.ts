@@ -10,6 +10,7 @@ interface ComponentsPageContent {
   inspections: string;
   my_boats: string;
   my_inspections: string;
+  office: string;
 }
 
 export default {
@@ -59,6 +60,11 @@ export default {
       en: "My Inspections",
       fi: "Katsastukseni",
       sv: "Mina besiktningar",
+    }),
+    office: t({
+      en: "Office",
+      fi: "Toimisto",
+      sv: "Kansli",
     }),
   },
 } satisfies Dictionary<ComponentsPageContent>;

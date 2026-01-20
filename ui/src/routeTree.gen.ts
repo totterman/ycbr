@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as OfficeRouteRouteImport } from './routes/office.route'
 import { Route as I9eventRouteRouteImport } from './routes/i9event.route'
 import { Route as DispatchRouteRouteImport } from './routes/dispatch.route'
 import { Route as BoatsRouteRouteImport } from './routes/boats.route'
@@ -20,6 +21,11 @@ import { Route as InspectInspectionIdRouteImport } from './routes/inspect.$inspe
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OfficeRouteRoute = OfficeRouteRouteImport.update({
+  id: '/office',
+  path: '/office',
   getParentRoute: () => rootRouteImport,
 } as any)
 const I9eventRouteRoute = I9eventRouteRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/boats': typeof BoatsRouteRoute
   '/dispatch': typeof DispatchRouteRoute
   '/i9event': typeof I9eventRouteRoute
+  '/office': typeof OfficeRouteRoute
   '/about': typeof AboutRoute
   '/inspect/$inspectionId': typeof InspectInspectionIdRoute
   '/inspect': typeof InspectIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/boats': typeof BoatsRouteRoute
   '/dispatch': typeof DispatchRouteRoute
   '/i9event': typeof I9eventRouteRoute
+  '/office': typeof OfficeRouteRoute
   '/about': typeof AboutRoute
   '/inspect/$inspectionId': typeof InspectInspectionIdRoute
   '/inspect': typeof InspectIndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/boats': typeof BoatsRouteRoute
   '/dispatch': typeof DispatchRouteRoute
   '/i9event': typeof I9eventRouteRoute
+  '/office': typeof OfficeRouteRoute
   '/about': typeof AboutRoute
   '/inspect/$inspectionId': typeof InspectInspectionIdRoute
   '/inspect/': typeof InspectIndexRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/boats'
     | '/dispatch'
     | '/i9event'
+    | '/office'
     | '/about'
     | '/inspect/$inspectionId'
     | '/inspect'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/boats'
     | '/dispatch'
     | '/i9event'
+    | '/office'
     | '/about'
     | '/inspect/$inspectionId'
     | '/inspect'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/boats'
     | '/dispatch'
     | '/i9event'
+    | '/office'
     | '/about'
     | '/inspect/$inspectionId'
     | '/inspect/'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   BoatsRouteRoute: typeof BoatsRouteRoute
   DispatchRouteRoute: typeof DispatchRouteRoute
   I9eventRouteRoute: typeof I9eventRouteRoute
+  OfficeRouteRoute: typeof OfficeRouteRoute
   AboutRoute: typeof AboutRoute
   InspectInspectionIdRoute: typeof InspectInspectionIdRoute
   InspectIndexRoute: typeof InspectIndexRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/office': {
+      id: '/office'
+      path: '/office'
+      fullPath: '/office'
+      preLoaderRoute: typeof OfficeRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/i9event': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   BoatsRouteRoute: BoatsRouteRoute,
   DispatchRouteRoute: DispatchRouteRoute,
   I9eventRouteRoute: I9eventRouteRoute,
+  OfficeRouteRoute: OfficeRouteRoute,
   AboutRoute: AboutRoute,
   InspectInspectionIdRoute: InspectInspectionIdRoute,
   InspectIndexRoute: InspectIndexRoute,

@@ -42,7 +42,7 @@ export interface RigData {
 }
 
 export interface EngineData {
-  installation: boolean,
+  installation: boolean;
   controls: boolean;
   fuel_system: boolean;
   cooling: boolean;
@@ -108,7 +108,6 @@ export interface SafetyData {
   detector: boolean;
 }
 
-
 export interface InspectionProps {
   data: InspectionDto;
 }
@@ -150,31 +149,40 @@ export const inspectionQueryOptions = (inspectionId: string) =>
     // placeholderData: keepPreviousData,
   });
 
-  export const inspectionsQueryOptions = (inspector: string) =>
+export const inspectionsQueryOptions = (inspector: string) =>
   queryOptions({
     queryKey: ["inspections", inspector],
     queryFn: () => fetchMyInspections(inspector),
     // placeholderData: keepPreviousData,
   });
 
+export const allInspectionsQueryOptions = queryOptions({
+    queryKey: ["inspections"],
+    queryFn: () => fetchAllInspections(),
+    // placeholderData: keepPreviousData,
+  });
+
 export const useUpdateInspection = (inspectionId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['inspections', 'update', inspectionId],
+    mutationKey: ["inspections", "update", inspectionId],
     mutationFn: updateInspection,
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["inspections", inspectionId] }),
-  })
-}
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["inspections", inspectionId],
+      }),
+  });
+};
 
 export const useDeleteInspection = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['inspections'],
+    mutationKey: ["inspections"],
     mutationFn: deleteInspection,
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["inspections"] }),
-  })
-}
-
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["inspections"] }),
+  });
+};
 
 async function createInspection(dto: NewInspection) {
   const response = await axios
@@ -206,9 +214,23 @@ async function fetchInspection(inspectionId: string) {
 
 async function fetchMyInspections(inspector: string) {
   return await axios
-    .get<InspectionDto[]>("/bff/api/inspections/inspector", { params: {
+    .get<InspectionDto[]>("/bff/api/inspections/inspector", {
+      params: {
         name: inspector,
-      } })
+      },
+    })
+    .then((res) => {
+      return res.data ?? null;
+    })
+    .catch((err: AxiosError) => {
+      console.log("Axios err: ", err);
+      throw err;
+    });
+}
+
+async function fetchAllInspections() {
+  return await axios
+    .get<MyInspectionsDto[]>('/bff/api/inspections/all')
     .then((res) => {
       return res.data ?? null;
     })

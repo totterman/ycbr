@@ -16,7 +16,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
-import { boatsQueryOptions, BoatType } from "@/boats/boat";
+import { boatsQueryOptions } from "@/boats/boat";
 import { NewInspection , useCreateInspection  } from "./inspection";
 import { useNavigate } from "@tanstack/react-router";
 import { useIntlayer, useLocale } from "react-intlayer";

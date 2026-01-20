@@ -1,3 +1,28 @@
+DROP TABLE IF EXISTS boats;
+DROP INDEX IF EXISTS idx_boats_created_at;
+DROP INDEX IF EXISTS idx_boats_make;
+DROP INDEX IF EXISTS idx_boats_name;
+DROP INDEX IF EXISTS idx_boats_owner;
+
+DROP TABLE IF EXISTS i9events;
+DROP INDEX IF EXISTS idx_i9events_place;
+DROP INDEX IF EXISTS idx_i9events_starts;
+
+DROP TABLE IF EXISTS boat_bookings;
+DROP TABLE IF EXISTS inspector_registrations;
+
+DROP TABLE IF EXISTS inspections;
+DROP INDEX IF EXISTS idx_inspections_boat_id;
+DROP INDEX IF EXISTS idx_inspections_inspector;
+
+DROP TABLE IF EXISTS inspection_data;
+DROP TABLE IF EXISTS hull_data;
+DROP TABLE IF EXISTS rig_data;
+DROP TABLE IF EXISTS engine_data;
+DROP TABLE IF EXISTS equipment_data;
+DROP TABLE IF EXISTS maritime_data;
+DROP TABLE IF EXISTS safety_data;
+
 CREATE TABLE IF NOT EXISTS boats (
 	boat_id UUID DEFAULT uuidv7() UNIQUE NOT NULL,
 	"owner" varchar(50) NOT NULL,

@@ -14,4 +14,12 @@ export const Route = createFileRoute('/boats')({
       </div>
     );
   },
+  errorComponent: () => {
+    return (
+      <div>
+        <p>This is the ErrorComponent configured on Boats route</p>
+        <Link to="/inspect">Try again</Link>
+      </div>
+    );
+  },
 });

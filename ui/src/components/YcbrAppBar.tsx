@@ -80,6 +80,9 @@ export default function YcbrAppBar() {
           {user.hasAnyRole("staff", "inspector") && (
             <StyledCustomLink to="/inspect/">{content.inspections}</StyledCustomLink>
           )}
+          {user.hasAnyRole("staff") && (
+            <StyledCustomLink to="/office/">{content.office}</StyledCustomLink>
+          )}
         </Box>
         <LocaleButton />
         <ProfileButton />
