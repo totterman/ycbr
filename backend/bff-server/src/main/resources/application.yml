@@ -174,8 +174,8 @@ spring:
 issuer: ${AUTH0_ISSUER:https://dev-xyz.us.auth0.com/}
 client-id: ${AUTH0_CLIENT_ID:YOUR_CLIENT_ID}
 client-secret: ${AUTH0_CLIENT_SECRET:YOUR_CLIENT_SECRET}
-username-claim-json-path: $['https://c4-soft.com/user']['name']
-authorities-json-path: $['https://c4-soft.com/user']['roles']
+username-claim-json-path: $['https://smartbass-ycbr/user']['name']
+authorities-json-path: $['https://smartbass-ycbr/user']['roles']
 audience: ${AUTH0_AUDIENCE:https://api.ycbr.example.com/}
 com:
   c4-soft:

@@ -23,6 +23,8 @@ spring:
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 30
+  lifecycle:
+    timeout-per-shutdown-phase: 10s
   liquibase:
     enabled: false
   sql:
@@ -121,6 +123,6 @@ spring:
     activate:
       on-profile: auth0
 issuer: ${AUTH0_ISSUER}
-username-claim-json-path: $['https://c4-soft.com/user']['name']
-authorities-json-path: $['https://c4-soft.com/user']['roles']
+username-claim-json-path: $['https://smartbass-ycbr/user']['name']
+authorities-json-path: $['https://smartbass-ycbr/user']['roles']
 audience: ${AUTH0_AUDIENCE}
