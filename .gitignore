@@ -10,7 +10,8 @@
 **/*.factorypath
 compose-*.yml
 compose-*.yml''
-keycloak/import/baeldung-realm.json''
+keycloak/import/ycbr-realm.json
+nginx-reverse-proxy/nginx.conf
 db-data
 .idea
 .env
