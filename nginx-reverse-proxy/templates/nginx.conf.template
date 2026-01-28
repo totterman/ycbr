@@ -41,8 +41,8 @@ http {
   limit_req_zone $binary_remote_addr zone=back:1m rate=3r/s;
 
   server {
-    listen       7080;
-    server_name  LOCALHOST_NAME;
+    listen       ${NGINX_APP_PORT};
+    server_name  ${NGINX_APP_HOST};
     error_page   404  /404.html;
     error_page   503  /503.html;
     location = /404.html {
@@ -54,34 +54,21 @@ http {
     location / {
         return 404;
     }
-    location /react-ui {
-      proxy_pass http://LOCALHOST_NAME:4203/react-ui;
-    }
-    location /native-ui {
-      proxy_pass http://LOCALHOST_NAME:4204/native-ui;
-    }
-    location /nextjs-ui {
-      proxy_pass http://LOCALHOST_NAME:4205/nextjs-ui;
-    }
     location /ui {
-      proxy_pass http://LOCALHOST_NAME:4206/ui;
+      proxy_pass http://${NGINX_APP_HOST}:7084/ui;
     }
     location /bff {
       rewrite /bff/(.*) /$1  break;
       limit_req zone=back burst=5 nodelay;
-      proxy_pass http://LOCALHOST_NAME:7081;
-    }
-    location /resource-server {
-      rewrite /resource-server/(.*) /$1  break;
-      proxy_pass http://LOCALHOST_NAME:7084;
+      proxy_pass http://${NGINX_APP_HOST}:7081;
     }
     location /api-server {
       rewrite /api-server/(.*) /$1  break;
       limit_req zone=back burst=5 nodelay;
-      proxy_pass http://LOCALHOST_NAME:7085;
+      proxy_pass http://${NGINX_APP_HOST}:7082;
     }
     location /auth {
-      proxy_pass http://LOCALHOST_NAME:8080/auth;
+      proxy_pass http://keycloak:8080/auth;
     }
   }
 }

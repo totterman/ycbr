@@ -1,34 +1,22 @@
-volumes:
-   baeldung_bff_keycloak_postgres_data:
-
 services:
-
-  nginx-reverse-proxy:
-    container_name: ycbr.nginx-reverse-proxy
-    image: ycbr/nginx-reverse-proxy
+  reverse-proxy:
+    container_name: ycbr.reverse-proxy
+    image: nginx:alpine
+    volumes:
+      - ./nginx-reverse-proxy/templates:/etc/nginx/templates
     ports:
-    - 7080:7080
+      - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
     mem_limit: 64m
     extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
-
-#  reverse-proxy:
-#    container_name: ycbr.reverse-proxy
-#    image: ycbr/reverse-proxy
-#    ports:
-#      - 7080:7080
-#    environment:
-#      SPRING_PROFILES_ACTIVE: docker
-#      HOSTNAME: LOCALHOST_NAME
-#      SERVER_ADDRESS: 0.0.0.0
-#    depends_on:
-#      keycloak:
-#        condition: service_healthy
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#      - "LOCALHOST_NAME:host-gateway"
-
+      - "host.docker.internal:host-gateway"
+      - "LOCALHOST_NAME:host-gateway"
+    environment:
+      NGINX_APP_HOST: LOCALHOST_NAME
+      NGINX_APP_PORT: ${REVERSE_PROXY_PORT}
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+    networks:
+      - frontend
+      - backend
 
   postgres:
     container_name: ycbr.db
@@ -55,6 +43,8 @@ services:
     extra_hosts:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
+    networks:
+      - backend
 
   keycloak:
     container_name: ycbr.auth
@@ -69,18 +59,12 @@ services:
       - ./keycloak/import/:/opt/keycloak/data/import/
     mem_limit: 1280m
     environment:
-#      KC_DB: postgres
-#      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak
-#      KC_DB_SCHEMA: public
-#      KC_DB_USERNAME: keycloak
-#      KC_DB_PASSWORD: secret
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_HTTP_PORT: 8080
-      KC_HOSTNAME_URL: http://LOCALHOST_NAME:7080/auth
-      KC_HOSTNAME_ADMIN_URL: http://LOCALHOST_NAME:7080/auth
+      KC_HOSTNAME_URL: http://LOCALHOST_NAME:${REVERSE_PROXY_PORT}/auth
+      KC_HOSTNAME_ADMIN_URL: http://LOCALHOST_NAME:${REVERSE_PROXY_PORT}/auth
       KC_HOSTNAME_STRICT_BACKCHANNEL: true
-      #KC_HOSTNAME_DEBUG: true
       KC_HTTP_RELATIVE_PATH: /auth/
       KC_HTTP_ENABLED: true
       KC_HEALTH_ENABLED: true
@@ -89,50 +73,41 @@ services:
     extra_hosts:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
-#    depends_on:
-#      postgres-keycloak:
-#        condition: service_healthy
     healthcheck:
       test: ['CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:8080/auth/health/live']
       interval: 5s
       timeout: 5s
       retries: 20
-
-#  native-ui:
-#    container_name: ycbr.native-ui
-#    image: ycbr/native-ui
-#    ports:
-#      - 4204:4204
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#      - "LOCALHOST_NAME:host-gateway"
+    networks:
+      - backend
 
   ui:
     container_name: ycbr.ui
     image: ycbr/ui
     mem_limit: 64m
     ports:
-      - 4206:80
+      - 7084:80
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"
+    networks:
+      - frontend
 
   api-server:
     container_name: ycbr.api-server
     image: ycbr/api-server
     ports:
-    - 7085:7085
+    - 7082:7082
     mem_limit: 64m
     environment:
-      SPRING_PROFILES_ACTIVE: docker #,auth0
+      SPRING_PROFILES_ACTIVE: docker
       HOSTNAME: LOCALHOST_NAME
+      REVERSE_PROXY_PORT: ${REVERSE_PROXY_PORT}
       SERVER_ADDRESS: 0.0.0.0
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       PGUSER: ${PGUSER}
-#      AUTH0_ISSUER: ${AUTH0_ISSUER}
-#      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
     depends_on:
       keycloak:
         condition: service_healthy
@@ -141,6 +116,8 @@ services:
     extra_hosts:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
+    networks:
+      - backend
 
   bff-server:
     container_name: ycbr.bff-server
@@ -149,21 +126,20 @@ services:
     - 7081:7081
     mem_limit: 64m
     environment:
-      SPRING_PROFILES_ACTIVE: docker #,auth0
+      SPRING_PROFILES_ACTIVE: docker
       HOSTNAME: LOCALHOST_NAME
+      REVERSE_PROXY_PORT: ${REVERSE_PROXY_PORT}
       SERVER_ADDRESS: 0.0.0.0
       KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
       KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
-#      AUTH0_ISSUER: ${AUTH0_ISSUER}
-#      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
-#      AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
-#      AUTH0_CLIENT_SECRET: ${AUTH0_CLIENT_SECRET}
     depends_on:
       keycloak:
         condition: service_healthy
     extra_hosts:
     - "host.docker.internal:host-gateway"
     - "LOCALHOST_NAME:host-gateway"
+    networks:
+      - backend
 
   prometheus:
     image: prom/prometheus
@@ -177,6 +153,8 @@ services:
     volumes:
       - ./monitoring/prometheus:/etc/prometheus
       - ./monitoring/prometheus/prom_data:/prometheus
+    networks:
+      - backend
 
   grafana:
     image: grafana/grafana
@@ -190,3 +168,9 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - ./monitoring/grafana:/etc/grafana/provisioning/datasources
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:

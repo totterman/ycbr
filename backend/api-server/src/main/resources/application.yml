@@ -6,8 +6,7 @@ authorization-server-prefix: /auth
 issuer: ${reverse-proxy-uri}${authorization-server-prefix}/realms/ycbr
 username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
-resource-server-port: 7084
-api-server-port: 7085
+api-server-port: 7082
 audience:
 
 server:
@@ -79,6 +78,7 @@ logging:
   level:
     root: INFO
     fi.smartbass.ycbr: DEBUG
+    com.c4-soft.springaddons: DEBUG
     org:
       springframework:
         boot: INFO
