@@ -52,6 +52,15 @@ spring:
             client-id: ${client-id}
             client-secret: ${client-secret}
             scope: openid,profile,email,offline_access
+  ssl:
+    bundle:
+      pem:
+        bff-server:
+          keystore:
+            certificate: 'file:/opt/certfile.pem'
+            private-key: 'file:/opt/keyfile.pem'
+          truststore:
+            certificate: 'file:/opt/certfile.pem'
 
 com:
   c4-soft:
@@ -143,6 +152,9 @@ spring:
       on-profile: ssl
 server:
   ssl:
+    enabled: true
+    bundle: "bff-server"
+  http2:
     enabled: true
 scheme: https
 

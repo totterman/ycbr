@@ -14,7 +14,7 @@ http {
   default_type  application/octet-stream;
   log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$http_x_forwarded_for"';
+                    '"$http_user_agent" "$http_x_forwarded_for" [$http_origin]';
   access_log  /var/log/nginx/access.log  main;
   sendfile        on;
   keepalive_timeout  65;
@@ -41,34 +41,34 @@ http {
   limit_req_zone $binary_remote_addr zone=back:1m rate=3r/s;
 
   server {
-    listen       ${NGINX_APP_PORT};
+    listen       ${NGINX_APP_PORT} ssl;
     server_name  ${NGINX_APP_HOST};
+
+    ssl_certificate     /etc/nginx/ssl/certfile.pem;
+    ssl_certificate_key /etc/nginx/ssl/keyfile.pem;
+
     error_page   404  /404.html;
-    error_page   503  /503.html;
     location = /404.html {
-      root   /usr/share/nginx/html;
-    }
-    location = /503.html {
       root   /usr/share/nginx/html;
     }
     location / {
         return 404;
     }
     location /ui {
-      proxy_pass http://${NGINX_APP_HOST}:7084/ui;
+      proxy_pass http://host.docker.internal:7084/ui;
     }
     location /bff {
       rewrite /bff/(.*) /$1  break;
       limit_req zone=back burst=5 nodelay;
-      proxy_pass http://${NGINX_APP_HOST}:7081;
+      proxy_pass https://host.docker.internal:7081;
     }
     location /api-server {
       rewrite /api-server/(.*) /$1  break;
       limit_req zone=back burst=5 nodelay;
-      proxy_pass http://${NGINX_APP_HOST}:7082;
+      proxy_pass https://host.docker.internal:7082;
     }
     location /auth {
-      proxy_pass http://keycloak:8080/auth;
+      proxy_pass https://host.docker.internal:8443/auth;
     }
   }
 }

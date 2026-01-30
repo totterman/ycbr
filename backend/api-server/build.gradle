@@ -1,8 +1,8 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.8'
+	id 'org.springframework.boot' version '3.5.10'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.graalvm.buildtools.native' version '0.10.6'
+//	id 'org.graalvm.buildtools.native' version '0.11.4'
 }
 
 group = 'fi.smartbass.ycbr'
@@ -27,7 +27,7 @@ repositories {
 
 ext {
     set('mapstructVersion', '1.6.3')
-    set('springCloudVersion', "2025.0.0")
+    set('springCloudVersion', "2025.0.1")
     set('springAddonsVersion', "8.1.24")
     set('testcontainersVersion', "2.0.2")
 }
@@ -37,7 +37,16 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation ('org.springframework.boot:spring-boot-starter-web') {
+        // Exclude the Tomcat dependency
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    // Use Jetty instead
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
+    implementation 'org.eclipse.jetty.http2:jetty-http2-server'
+    implementation 'org.eclipse.jetty:jetty-alpn-java-server'
+
     implementation "com.c4-soft.springaddons:spring-addons-starter-oidc:${springAddonsVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation 'org.liquibase:liquibase-core'
@@ -66,8 +75,11 @@ dependencyManagement {
 }
 
 tasks.named("bootBuildImage") {
+//    bindings = ["$rootDir/bindings/ca-certificates:/platform/bindings/ca-certificates"]
+//    verboseLogging = true
+//    environment["BP_EMBED_CERTS"] = "true"
     environment["BPE_DELIM_JAVA_TOOL_OPTIONS"] = " "
-    environment["BPE_APPEND_JAVA_TOOL_OPTIONS"] = "-Xms512m -Xmx512m -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError=\"shutdown -r\""
+    environment["BPE_APPEND_JAVA_TOOL_OPTIONS"] = "-Xms128m -Xmx128m -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError=\"shutdown -r\""
 }
 
 tasks.named('test') {

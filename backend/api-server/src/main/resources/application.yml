@@ -29,6 +29,15 @@ spring:
   sql:
     init:
       mode: always
+  ssl:
+    bundle:
+      pem:
+        api-server:
+          keystore:
+            certificate: 'file:/opt/certfile.pem'
+            private-key: 'file:/opt/keyfile.pem'
+          truststore:
+            certificate: 'file:/opt/certfile.pem'
   threads:
     virtual:
       enabled: true
@@ -106,8 +115,10 @@ spring:
 server:
   ssl:
     enabled: true
+    bundle: "api-server"
+  http2:
+    enabled: true
 scheme: https
-
 ---
 spring:
   config:

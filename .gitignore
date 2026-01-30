@@ -1,5 +1,8 @@
-**/*.pem
 **/*.crt
+**/*.jks
+**/*.key
+**/*.pem
+**/*.p12
 **/.env
 **/target/
 **/build/
@@ -10,7 +13,7 @@
 **/*.factorypath
 compose-*.yml
 compose-*.yml''
-build-front.sh
+build-*.sh
 keycloak/import/ycbr-realm.json
 nginx-reverse-proxy/nginx.conf
 db-data

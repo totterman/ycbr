@@ -4,6 +4,8 @@ services:
     image: nginx:alpine
     volumes:
       - ./nginx-reverse-proxy/templates:/etc/nginx/templates
+      - ./certs/cert.pem:/etc/nginx/ssl/certfile.pem
+      - ./certs/key.pem:/etc/nginx/ssl/keyfile.pem
     ports:
       - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
     mem_limit: 64m
@@ -55,18 +57,24 @@ services:
     - --features=login2
     ports:
     - 8080:8080
+    - 8443:8443
     volumes:
       - ./keycloak/import/:/opt/keycloak/data/import/
+      - ./certs/cert.pem:/opt/keycloak/conf/certfile.pem
+      - ./certs/key.pem:/opt/keycloak/conf/keyfile.pem
     mem_limit: 1280m
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HTTP_PORT: 8080
-      KC_HOSTNAME_URL: http://LOCALHOST_NAME:${REVERSE_PROXY_PORT}/auth
-      KC_HOSTNAME_ADMIN_URL: http://LOCALHOST_NAME:${REVERSE_PROXY_PORT}/auth
+      KC_HTTPS_PORT: 8443
+      KC_HOSTNAME_URL: https://LOCALHOST_NAME:${REVERSE_PROXY_PORT}/auth
+      KC_HOSTNAME_ADMIN_URL: https://LOCALHOST_NAME:${REVERSE_PROXY_PORT}/auth
       KC_HOSTNAME_STRICT_BACKCHANNEL: true
+      #KC_HOSTNAME_ENABLED: true
       KC_HTTP_RELATIVE_PATH: /auth/
       KC_HTTP_ENABLED: true
+      KC_HTTPS_CERTIFICATE_FILE: '/opt/keycloak/conf/certfile.pem'
+      KC_HTTPS_CERTIFICATE_KEY_FILE: '/opt/keycloak/conf/keyfile.pem'
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
       #KC_LOG_LEVEL: DEBUG
@@ -98,9 +106,12 @@ services:
     image: ycbr/api-server
     ports:
     - 7082:7082
-    mem_limit: 64m
+    mem_limit: 1024m
+    volumes:
+      - ./certs/cert.pem:/opt/certfile.pem
+      - ./certs/key.pem:/opt/keyfile.pem
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: docker,ssl
       HOSTNAME: LOCALHOST_NAME
       REVERSE_PROXY_PORT: ${REVERSE_PROXY_PORT}
       SERVER_ADDRESS: 0.0.0.0
@@ -124,9 +135,12 @@ services:
     image: ycbr/bff-server
     ports:
     - 7081:7081
-    mem_limit: 64m
+    mem_limit: 1024m
+    volumes:
+      - ./certs/cert.pem:/opt/certfile.pem
+      - ./certs/key.pem:/opt/keyfile.pem
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: docker,ssl
       HOSTNAME: LOCALHOST_NAME
       REVERSE_PROXY_PORT: ${REVERSE_PROXY_PORT}
       SERVER_ADDRESS: 0.0.0.0

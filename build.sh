@@ -15,7 +15,7 @@ fi
 #host=$(echo $HOSTNAME  | tr '[A-Z]' '[a-z]')
 host=`hostname -f`
 #host="localhost"
-reverse_proxy_port=7070
+reverse_proxy_port=7443
 
 echo "Detected hostname: ${host}"
 echo "Reverse proxy port: ${reverse_proxy_port}"
@@ -39,18 +39,21 @@ echo "**************************************************************************
 echo ""
 ./gradlew clean build
 ./gradlew bootBuildImage --imageName=ycbr/bff-server
-cd ../..
+cd ..
+cd ..
 
 rm -f "compose-${host}.yml"
 cp compose.yml "compose-${host}.yml"
 $SED "s/LOCALHOST_NAME/${host}/g" "compose-${host}.yml"
 rm -f "compose-${host}.yml''"
+echo "compose-${host}.yml created."
 
 rm -f keycloak/import/ycbr-realm.json
 cp keycloak/ycbr-template.json keycloak/import/ycbr-realm.json
 $SED "s/LOCALHOST_NAME/${host}/g" keycloak/import/ycbr-realm.json
 $SED "s/REVERSE_PROXY_PORT/${reverse_proxy_port}/g" keycloak/import/ycbr-realm.json
 rm -f "keycloak/import/ycbr-realm.json''"
+echo "keycloak/import/ycbr-realm.json created."
 
 cd ui/
 rm -f .env
@@ -60,12 +63,14 @@ $SED "s/REVERSE_PROXY_PORT/${reverse_proxy_port}/g" .env
 npm ci
 npm run build
 cd ..
+echo "UI built."
 
 cd monitoring/prometheus/
 rm prometheus.yml
 cp prometheus-base.yml prometheus.yml
 $SED "s/LOCALHOST_NAME/${host}/g" prometheus.yml
 cd ../..
+echo "Prometheus configuration created."
 
 docker build -t ycbr/ui ./ui
 docker compose -f compose-${host}.yml up -d
