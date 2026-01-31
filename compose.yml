@@ -92,9 +92,13 @@ services:
   ui:
     container_name: ycbr.ui
     image: ycbr/ui
+    volumes:
+      - ./certs/cert.pem:/etc/nginx/ssl/certfile.pem
+      - ./certs/key.pem:/etc/nginx/ssl/keyfile.pem
     mem_limit: 64m
     ports:
-      - 7084:80
+#      - 7084:80
+      - 7084:443
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "LOCALHOST_NAME:host-gateway"

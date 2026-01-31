@@ -55,7 +55,7 @@ http {
         return 404;
     }
     location /ui {
-      proxy_pass http://host.docker.internal:7084/ui;
+      proxy_pass https://host.docker.internal:7084/ui;
     }
     location /bff {
       rewrite /bff/(.*) /$1  break;

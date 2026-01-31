@@ -26,4 +26,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html/ui
 
 # Expose port 80 to allow traffic to the Nginx server
-EXPOSE 4206
+EXPOSE 7084
