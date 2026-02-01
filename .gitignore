@@ -18,6 +18,6 @@ keycloak/import/ycbr-realm.json
 nginx-reverse-proxy/nginx.conf
 db-data
 .idea
-.env
+*.env
 monitoring/prometheus/prom_data/
 monitoring/prometheus/prometheus.yml

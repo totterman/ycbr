@@ -12,10 +12,14 @@ else
   SED="sed -i -e"
 fi
 
+if [ -f ./build.env ]; then
+ . ./build.env
+fi
+
 #host=$(echo $HOSTNAME  | tr '[A-Z]' '[a-z]')
 host=`hostname -f`
 #host="localhost"
-reverse_proxy_port=7443
+reverse_proxy_port=${REVERSE_PROXY_PORT:-7080}
 
 echo "Detected hostname: ${host}"
 echo "Reverse proxy port: ${reverse_proxy_port}"
@@ -24,7 +28,7 @@ cd backend
 cd api-server
 echo ""
 echo "*****************************************************************************************************************************************"
-echo "./gradlew bootBuildImage" --imageName=ycbr/api-server
+echo "./gradlew bootBuildImage --imageName=ycbr/api-server"
 echo "*****************************************************************************************************************************************"
 echo ""
 ./gradlew clean build
@@ -34,11 +38,11 @@ cd ..
 cd bff-server
 echo ""
 echo "*****************************************************************************************************************************************"
-echo "./gradlew bootBuildImage" --imageName=ycbr/bff-server
+echo "./gradlew bootBuildImage --imageName=/ycbr/bff-server"
 echo "*****************************************************************************************************************************************"
 echo ""
 ./gradlew clean build
-./gradlew bootBuildImage --imageName=ycbr/bff-server
+./gradlew bootBuildImage --imageName=/ycbr/bff-server
 cd ..
 cd ..
 
@@ -62,6 +66,7 @@ $SED "s/LOCALHOST_NAME/${host}/g" .env
 $SED "s/REVERSE_PROXY_PORT/${reverse_proxy_port}/g" .env
 npm ci
 npm run build
+docker build -t ycbr/ui .
 cd ..
 echo "UI built."
 
@@ -72,16 +77,20 @@ $SED "s/LOCALHOST_NAME/${host}/g" prometheus.yml
 cd ../..
 echo "Prometheus configuration created."
 
-docker build -t ycbr/ui ./ui
-docker compose -f compose-${host}.yml up -d
+
+if [[ ${host} == `hostname -f` ]]; then
+  docker compose -f compose-${host}.yml up -d
+else
+  echo "Build for ${host} completed."
+fi
 
 echo ""
 echo "Open the following in a new private navigation window."
 
 echo ""
 echo "Keycloak as admin / admin:"
-echo "http://${host}:${reverse_proxy_port}/auth/admin/master/console/#/ycbr"
+echo "https://${host}:${reverse_proxy_port}/auth/admin/master/console/#/ycbr"
 
 echo ""
 echo "Sample frontends as user / user"
-echo http://${host}:${reverse_proxy_port}/ui/
+echo https://${host}:${reverse_proxy_port}/ui/

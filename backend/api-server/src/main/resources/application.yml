@@ -29,15 +29,6 @@ spring:
   sql:
     init:
       mode: always
-  ssl:
-    bundle:
-      pem:
-        api-server:
-          keystore:
-            certificate: 'file:/opt/certfile.pem'
-            private-key: 'file:/opt/keyfile.pem'
-          truststore:
-            certificate: 'file:/opt/certfile.pem'
   threads:
     virtual:
       enabled: true
@@ -107,6 +98,16 @@ spring:
     url: jdbc:postgresql://postgres:5432/${POSTGRES_DB:ycbr}
   main:
     banner-mode: off
+  ssl:
+    bundle:
+      pem:
+        api-server:
+          keystore:
+            certificate: 'file:/opt/certfile.pem'
+            private-key: 'file:/opt/keyfile.pem'
+          truststore:
+            certificate: 'file:/opt/certfile.pem'
+
 ---
 spring:
   config:
