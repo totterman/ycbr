@@ -1,6 +1,6 @@
-# Yacht Club Boat Register
+# Leisure Boat Inspection App
 
-App to support the Finnish Leisure Boat Inspection procedures in yacht clubs
+App to support the Finnish Leisure Boat Inspection procedures in Finnish yacht clubs.
 
 ## Getting Started
 ### Prerequisites
@@ -41,7 +41,7 @@ All system parts run in containers.
 #### Users
 
 Currently, the app is not connected to any user management system. 
-Instead, 5 users in different roles are hardcoded in the Authentication Provider.
+Instead, 4 users in different roles are hardcoded in the Authentication Provider.
 
 | Name	                | Username	  | Password	| Role |
 |:---------------------|:----------:| :-------: | :----: |
@@ -49,7 +49,6 @@ Instead, 5 users in different roles are hardcoded in the Authentication Provider
 | Ronja Rorsman	    |   ronja	   | ronja	| Boatowner |
 | Kalle Kanslist	    |   kalle	   | kalle	| Staff |
 | Bengt Besiktningsman |   bengt	   | bengt	| Inspector |
-| Jenny Gast	        |   jenny	   | jenny	| Guest |
 
 #### Boats
 
@@ -85,10 +84,6 @@ Inspections are stored for later access.
 #### Staff
 
 Staff members are allowed to *see*, *create*, *update*, and *delete* all Boats, Inspection Events, and Inspections.
-
-#### Guest
-
-A Guest can *see* the boat register, but not the boat details.
 
 ## Tech stack
 
@@ -163,7 +158,7 @@ In the container bash shell:
 
 - Connect to real boat register
 - Connect to real user management system
-- Add rate limiting and caching to BFF
+- Add caching to API server
 - Improve error handling and logging
 - Improve mobile frontend
 - Add more unit and integration tests

@@ -42,7 +42,7 @@ echo "./gradlew bootBuildImage --imageName=/ycbr/bff-server"
 echo "*****************************************************************************************************************************************"
 echo ""
 ./gradlew clean build
-./gradlew bootBuildImage --imageName=/ycbr/bff-server
+./gradlew bootBuildImage --imageName=ycbr/bff-server
 cd ..
 cd ..
 
@@ -80,17 +80,14 @@ echo "Prometheus configuration created."
 
 if [[ ${host} == `hostname -f` ]]; then
   docker compose -f compose-${host}.yml up -d
+  echo ""
+  echo "Keycloak as admin / admin:"
+  echo "https://${host}:${reverse_proxy_port}/auth/admin/master/console/#/ycbr"
+  echo "App frontend:"
+  echo https://${host}:${reverse_proxy_port}/ui/
+  echo ""
 else
   echo "Build for ${host} completed."
+  echo ""
 fi
 
-echo ""
-echo "Open the following in a new private navigation window."
-
-echo ""
-echo "Keycloak as admin / admin:"
-echo "https://${host}:${reverse_proxy_port}/auth/admin/master/console/#/ycbr"
-
-echo ""
-echo "Sample frontends as user / user"
-echo https://${host}:${reverse_proxy_port}/ui/

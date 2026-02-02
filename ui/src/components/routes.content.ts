@@ -50,8 +50,8 @@ export default {
         }),
         about: t({
             en: "This application is a show-case for a React + Vite + Tanstack app consuming a REST API through an OAuth2 BFF.",
-            fi: "Sovellus on näyte miten React + Vite + Tanstack -ohjelma käyttää REST APIa OAuth2 -autentikoinnin kautta.",
-            sv: "Programmet visar exempel hur en React + Vite + Tanstack -applikation använder REST API genom OAuth2 -auktorisering.",
+            fi: "Sovellus on näyte miten React + Vite + Tanstack -ohjelma käyttää REST APIa OAuth2 BFF autentikoinnin kautta.",
+            sv: "Programmet visar exempel hur en React + Vite + Tanstack -applikation använder REST API genom OAuth2 BFF auktorisering.",
         }),
         author: t({
             en: "Written by Petri Tötterman, AB Smartbass, 2025",

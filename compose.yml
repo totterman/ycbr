@@ -91,7 +91,7 @@ services:
 
   ui:
     container_name: ycbr.ui
-    image: ghcr.io/totterman/ycbr/ui
+    image: ycbr/ui
     volumes:
       - ./certs/cert.pem:/etc/nginx/ssl/certfile.pem
       - ./certs/key.pem:/etc/nginx/ssl/keyfile.pem
@@ -107,7 +107,7 @@ services:
 
   api-server:
     container_name: ycbr.api-server
-    image: ghcr.io/totterman/ycbr/api-server
+    image: ycbr/api-server
     ports:
     - 7082:7082
     mem_limit: 1024m
@@ -136,7 +136,7 @@ services:
 
   bff-server:
     container_name: ycbr.bff-server
-    image: ghcr.io/totterman/ycbr/bff-server
+    image: ycbr/bff-server
     ports:
     - 7081:7081
     mem_limit: 1024m
