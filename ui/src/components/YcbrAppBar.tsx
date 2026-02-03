@@ -52,8 +52,7 @@ export default function YcbrAppBar() {
             activeOptions={{ exact: true }}
           >
             {content.home}
-          </StyledCustomLink>{" "}
-          {/*
+          </StyledCustomLink>{/*{" "}
           <StyledCustomLink
             to="/about"
             activeProps={{
@@ -61,7 +60,7 @@ export default function YcbrAppBar() {
             }}
           >
             {content.about}
-          </StyledCustomLink>{" "}
+          </StyledCustomLink>{" "}*/}
           {user.isAuthenticated && (
             <StyledCustomLink
               to="/boats"
@@ -71,7 +70,7 @@ export default function YcbrAppBar() {
             >
               {content.boats}
             </StyledCustomLink>
-          )} */}
+          )}
           {user.hasAnyRole("boatowner", "staff", "inspector") && (
             <StyledCustomLink to="/i9event">{content.i9events}</StyledCustomLink>
           )}

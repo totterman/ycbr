@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "@tanstack/react-router";
 import axios from "axios";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useTransition } from "react";
 import { useIntlayer } from "react-intlayer";
 
 interface LoginOptionDto {
@@ -15,7 +15,7 @@ export default function Login() {
   const content = useIntlayer("auth");
   const [errorMessage, setErrorMessage] = useState("");
   const currentPath = useLocation({
-    select: (loc) => loc.pathname,
+    select: (loc: { pathname: any; }) => loc.pathname,
   });
   const queryClient = useQueryClient();
 
@@ -32,23 +32,25 @@ export default function Login() {
     mutationKey: ['doLogin'],
     mutationFn: async (loginUri: string) => {
       const url = new URL(loginUri);
-      /*
+      
       console.log(
         "post_login_success_uri",
-        `${import.meta.env.VITE_REVERSE_PROXY}${currentPath}`
+//        `${import.meta.env.VITE_REVERSE_PROXY}${currentPath}`
+        `${import.meta.env.VITE_BASE_URI}`
       );
       console.log(
         "post_login_failure_uri",
-        `${import.meta.env.VITE_REVERSE_PROXY}/login-error`
+        `${import.meta.env.VITE_BASE_URI}/login-error`
       );
-      */
+      
       url.searchParams.append(
         "post_login_success_uri",
-        `${import.meta.env.VITE_REVERSE_PROXY}${currentPath}`
+//        `${import.meta.env.VITE_REVERSE_PROXY}${currentPath}`
+        `${import.meta.env.VITE_BASE_URI}`
       );
       url.searchParams.append(
         "post_login_failure_uri",
-        `${import.meta.env.VITE_REVERSE_PROXY}/login-error`
+        `${import.meta.env.VITE_BASE_URI}/login-error`
       );
       await axios.post(url.toString());
     },
@@ -63,15 +65,27 @@ export default function Login() {
     },
   });
 
+  // DEPRECATED
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!loginOptions.data) return;
     loginMutation.mutate(loginOptions.data);
   }
 
+  // REACT 19
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = async () => {
+    startTransition(async () => {
+    if (!loginOptions.data) return;
+    loginMutation.mutate(loginOptions.data);
+    });
+  };
+
   return (
     <span>
-      <form onSubmit={onSubmit}>
+      {/*<form onSubmit={onSubmit}>*/}
+      <form autoComplete="off" action={handleSubmit}>
         <Button
           color="inherit"
           variant="text"

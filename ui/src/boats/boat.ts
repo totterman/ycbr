@@ -35,6 +35,26 @@ export const boatsQueryOptions = queryOptions({
   placeholderData: keepPreviousData,
 });
 
+export const myBoatsQueryOptions = (owner: string) => queryOptions({
+  queryKey: ["boats"],
+  queryFn: async () => {
+    const data = await axios
+      .get<BoatType[]>("/bff/api/boats/owner", {
+      params: {
+        name: owner,
+      },
+    })
+      .then((res) => {
+        return res.data ?? null;
+      })
+      .catch((err: AxiosError) => {
+        throw err;
+      });
+    return data;
+  },
+  placeholderData: keepPreviousData,
+});
+
 export const boatQueryOptions = (boatId: string) => queryOptions({
   queryKey: ["boats", boatId],
   queryFn: async () => {

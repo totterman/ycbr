@@ -22,7 +22,7 @@ public class BoatController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector', 'guest')")
+    @PreAuthorize("hasAnyAuthority('boatowner', 'staff', 'inspector')")
     public Iterable<BoatDto> get(Authentication auth) {
         LOGGER.info("get() called: {}", auth);
         return boatService.getAllBoats();

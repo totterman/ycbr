@@ -1,7 +1,7 @@
-import { BoatType } from '@/boats/boat';
-import { InspectionDto, MyInspectionsDto } from '@/inspections/inspection';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { BoatType } from "@/boats/boat";
+import { MyInspectionsDto } from "@/inspections/inspection";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 interface UserinfoDto {
   username: string;
@@ -20,7 +20,7 @@ export class User {
     readonly email: string,
     readonly firstname: string,
     readonly lastname: string,
-    readonly roles: string[]
+    readonly roles: string[],
   ) {}
 
   get isAuthenticated(): boolean {
@@ -28,38 +28,37 @@ export class User {
   }
 
   hasAnyRole(...roles: string[]): boolean {
-    return roles.some(r => this.roles.includes(r));
+    return roles.some((r) => this.roles.includes(r));
   }
 
   get isBoatowner(): boolean {
-    return this.roles.includes('boatowner');
+    return this.roles.includes("boatowner");
   }
 
   get isInspector(): boolean {
-    return this.roles.includes('inspector');
+    return this.roles.includes("inspector");
   }
 
   get isStaff(): boolean {
-    return this.roles.includes('staff');
+    return this.roles.includes("staff");
   }
-
 }
 
 export function useUser() {
   const query = useQuery({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: async () => {
-      const { data } = await axios.get<UserinfoDto>('/bff/api/me');
+      const { data } = await axios.get<UserinfoDto>("/bff/api/me");
       return data;
     },
-    select: (data) =>
+    select: (data: UserinfoDto) =>
       data.username
         ? new User(
             data.username || "",
             data.email || "",
             data.firstname || "",
             data.lastname || "",
-            data.roles || []
+            data.roles || [],
           )
         : User.ANONYMOUS,
     refetchInterval: (query) => {
@@ -73,7 +72,7 @@ export function useUser() {
   });
 
   if (query.isError) {
-      console.error("Failed to fetch user data: ", query.error);
+    console.error("Failed to fetch user data: ", query.error);
   }
 
   //
@@ -82,13 +81,17 @@ export function useUser() {
   //
   //
   const {
-    status: boatStatus, fetchStatus: fetchBoatStatus, data: myBoats
+    status: boatStatus,
+    fetchStatus: fetchBoatStatus,
+    data: myBoats,
   } = useQuery({
-    queryKey: ['boats', query.data?.name],
+    queryKey: ["boats", query.data?.name],
     queryFn: async () => {
-      const { data } = await axios.get<BoatType[]>('/bff/api/boats/owner', { params: {
-        name: query.data?.name,
-      } });
+      const { data } = await axios.get<BoatType[]>("/bff/api/boats/owner", {
+        params: {
+          name: query.data?.name,
+        },
+      });
       return data;
     },
     enabled: !!query.data && query.data.isBoatowner,
@@ -99,32 +102,38 @@ export function useUser() {
   // inspectors only: fetch own inspections
   //
   //
-    const {
-    status: inspectionStatus, fetchStatus: fetchinspectionStatus, data: myInspections
+  const {
+    status: inspectionStatus,
+    fetchStatus: fetchinspectionStatus,
+    data: myInspections,
   } = useQuery({
-    queryKey: ['inspections', query.data?.name],
+    queryKey: ["inspections", query.data?.name],
     queryFn: async () => {
-      const { data } = await axios.get<MyInspectionsDto[]>('/bff/api/inspections/my', { params: {
-        name: query.data?.name,
-      } });
+      const { data } = await axios.get<MyInspectionsDto[]>(
+        "/bff/api/inspections/my",
+        {
+          params: {
+            name: query.data?.name,
+          },
+        },
+      );
       return data;
     },
     enabled: !!query.data && query.data.isInspector,
   });
 
-      const {
-    data: myEvents
-  } = useQuery({
-    queryKey: ['i9events', query.data?.name],
+  const { data: myEvents } = useQuery({
+    queryKey: ["i9events", query.data?.name],
     queryFn: async () => {
-      const { data } = await axios.get<string[]>('/bff/api/i9events/my', { params: {
-        name: query.data?.name,
-      } });
+      const { data } = await axios.get<string[]>("/bff/api/i9events/my", {
+        params: {
+          name: query.data?.name,
+        },
+      });
       return data;
     },
     enabled: !!query.data && query.data.isInspector,
   });
-
 
   return {
     user: query.data || User.ANONYMOUS,

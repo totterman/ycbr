@@ -12,6 +12,7 @@ import {
   boatQueryOptions,
   boatsQueryOptions,
   BoatType,
+  myBoatsQueryOptions,
   useCreateBoat,
   useDeleteBoat,
   useUpdateBoat,
@@ -99,9 +100,8 @@ export default function BoatsPage() {
     [locale]
   );
 
-  const boatsQuery = useSuspenseQuery(boatsQueryOptions);
-  const boats = boatsQuery.data;
-  const { user } = useUser();
+  const { user, myBoats } = useUser();
+  const boats = (user.isStaff ? useSuspenseQuery(boatsQueryOptions).data : myBoats) || [] as BoatType[];
 
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string | undefined>

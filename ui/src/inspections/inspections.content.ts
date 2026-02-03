@@ -1,6 +1,7 @@
 import { type Dictionary, insert, t } from "intlayer";
 
 interface InspectionsContent {
+  inspections: string;
   no_inspections: string;
   my_inspections: string;
   inspected_boat: string;
@@ -32,6 +33,11 @@ interface InspectionsContent {
 export default {
   key: "inspections",
   content: {
+    inspections: t({
+      en: "Inspections",
+      fi: "Katsastukset",
+      sv: "Besiktningar",
+    }),
     no_inspections: t({
       en: "No inspections",
       fi: "Ei katsastuksia",

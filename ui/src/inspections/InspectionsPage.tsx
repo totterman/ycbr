@@ -14,20 +14,23 @@ import { Locale } from "intlayer";
 import { useIntlayer, useLocale } from "react-intlayer";
 import SailingIcon from "@mui/icons-material/Sailing";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { MyInspectionsDto, useDeleteInspection } from "./inspection";
+import { allInspectionsQueryOptions, inspectionsQueryOptions, MyInspectionsDto, useDeleteInspection } from "./inspection";
 import {
   BoatBookingDto,
   useMarkBoatBooking,
 } from "@/inspectionevents/inspectionevent";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export default function InspectionsPage() {
-  const { myInspections } = useUser();
+  const { user, myInspections } = useUser();
   const navigate = useNavigate();
   const { mutateAsync: markBooking } = useMarkBoatBooking();
   const { mutateAsync: deleteInspection } = useDeleteInspection();
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
+
+  const inspections = user.isInspector ? myInspections : useSuspenseQuery(allInspectionsQueryOptions).data;
 
   const handleListItemClick = (id: string) => {
     console.log("Inspection id", id, "selected.");
@@ -51,17 +54,17 @@ export default function InspectionsPage() {
     await deleteInspection(inspection.inspectionId);
   };
 
-  return myInspections === undefined || myInspections.length < 1 ? (
+  return inspections === undefined || inspections.length < 1 ? (
     <Typography variant="h6" gutterBottom>
       {content.no_inspections}
     </Typography>
   ) : (
     <>
       <Typography variant="h6" gutterBottom>
-        {content.my_inspections}
+        {user.isStaff ? content.inspections : content.my_inspections}
       </Typography>
       <List>
-        {myInspections.map((inspection) => {
+        {inspections.map((inspection) => {
           const placeday =
             inspection.place +
             " " +

@@ -32,7 +32,7 @@ public class InspectionController {
     @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     public Iterable<InspectionDto> getByInspector(Authentication auth, @RequestParam("name") String inspector) {
         LOGGER.info("GET inspections for: {}", inspector);
-        return inspectionService.fetchByInspector(inspector);
+        return (inspectionService.fetchByInspector(inspector));
     }
 
     @PostMapping

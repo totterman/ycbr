@@ -28,6 +28,8 @@ interface RoutesPageContent {
     staff_text: string;
     guest_title: string;
     guest_text: string;
+    loginerror_title: string;
+    loginerror_text: string;
 }
 
 export default {
@@ -167,6 +169,16 @@ export default {
             en: "A Guest may only look at the boat register.",
             fi: "Vieras voi ainoastaan katsella venerekisteriä.",
             sv: "En Gäst kan endast se på båtförteckningen.",
+        }),
+        loginerror_title: t({
+            en: "Error during login",
+            fi: "Virhe sisäänkirjautumisessa",
+            sv: "Fel vid inloggning",
+        }),
+        loginerror_text: t({
+            en: "Start Over",
+            fi: "Aloitussivulle",
+            sv: "Till startsidan",
         }),
  },
 } satisfies Dictionary<RoutesPageContent>;

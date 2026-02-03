@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginerrorRouteImport } from './routes/loginerror'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as OfficeRouteRouteImport } from './routes/office.route'
 import { Route as I9eventRouteRouteImport } from './routes/i9event.route'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InspectIndexRouteImport } from './routes/inspect.index'
 import { Route as InspectInspectionIdRouteImport } from './routes/inspect.$inspectionId'
 
+const LoginerrorRoute = LoginerrorRouteImport.update({
+  id: '/loginerror',
+  path: '/loginerror',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -66,8 +72,9 @@ export interface FileRoutesByFullPath {
   '/i9event': typeof I9eventRouteRoute
   '/office': typeof OfficeRouteRoute
   '/about': typeof AboutRoute
+  '/loginerror': typeof LoginerrorRoute
   '/inspect/$inspectionId': typeof InspectInspectionIdRoute
-  '/inspect': typeof InspectIndexRoute
+  '/inspect/': typeof InspectIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/i9event': typeof I9eventRouteRoute
   '/office': typeof OfficeRouteRoute
   '/about': typeof AboutRoute
+  '/loginerror': typeof LoginerrorRoute
   '/inspect/$inspectionId': typeof InspectInspectionIdRoute
   '/inspect': typeof InspectIndexRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/i9event': typeof I9eventRouteRoute
   '/office': typeof OfficeRouteRoute
   '/about': typeof AboutRoute
+  '/loginerror': typeof LoginerrorRoute
   '/inspect/$inspectionId': typeof InspectInspectionIdRoute
   '/inspect/': typeof InspectIndexRoute
 }
@@ -99,8 +108,9 @@ export interface FileRouteTypes {
     | '/i9event'
     | '/office'
     | '/about'
+    | '/loginerror'
     | '/inspect/$inspectionId'
-    | '/inspect'
+    | '/inspect/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/i9event'
     | '/office'
     | '/about'
+    | '/loginerror'
     | '/inspect/$inspectionId'
     | '/inspect'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/i9event'
     | '/office'
     | '/about'
+    | '/loginerror'
     | '/inspect/$inspectionId'
     | '/inspect/'
   fileRoutesById: FileRoutesById
@@ -130,12 +142,20 @@ export interface RootRouteChildren {
   I9eventRouteRoute: typeof I9eventRouteRoute
   OfficeRouteRoute: typeof OfficeRouteRoute
   AboutRoute: typeof AboutRoute
+  LoginerrorRoute: typeof LoginerrorRoute
   InspectInspectionIdRoute: typeof InspectInspectionIdRoute
   InspectIndexRoute: typeof InspectIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/loginerror': {
+      id: '/loginerror'
+      path: '/loginerror'
+      fullPath: '/loginerror'
+      preLoaderRoute: typeof LoginerrorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -181,7 +201,7 @@ declare module '@tanstack/react-router' {
     '/inspect/': {
       id: '/inspect/'
       path: '/inspect'
-      fullPath: '/inspect'
+      fullPath: '/inspect/'
       preLoaderRoute: typeof InspectIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   I9eventRouteRoute: I9eventRouteRoute,
   OfficeRouteRoute: OfficeRouteRoute,
   AboutRoute: AboutRoute,
+  LoginerrorRoute: LoginerrorRoute,
   InspectInspectionIdRoute: InspectInspectionIdRoute,
   InspectIndexRoute: InspectIndexRoute,
 }

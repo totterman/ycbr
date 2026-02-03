@@ -1,9 +1,12 @@
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { useIntlayer } from "react-intlayer";
+import { CustomLink } from "./CustomLink";
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Link from "@mui/material/Link";
+import { useUser } from "@/auth/useUser";
 
 export default function ProfileButton() {
   const content = useIntlayer("components");
@@ -11,6 +14,8 @@ export default function ProfileButton() {
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const { user, myBoats, myInspections } = useUser();
 
   const handleMyBoats = () => {
     console.log("handleMyBoats");
@@ -50,10 +55,23 @@ export default function ProfileButton() {
           horizontal: "right",
         }}
         open={Boolean(anchorEl)}
+        onClick={handleClose}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleMyBoats}>{content.my_boats}</MenuItem>
-        <MenuItem onClick={handleMyInspections}>{content.my_inspections}</MenuItem>
+        {user.hasAnyRole("staff", "boatowner") && (
+        <MenuItem>
+          <CustomLink to="/boats" underline="none">
+            {user.isStaff ? content.boats : content.my_boats}
+          </CustomLink>
+        </MenuItem>
+        )}
+        {user.hasAnyRole("staff", "inspector") && (
+        <MenuItem>
+          <CustomLink to="/inspect" underline="none">
+            {user.isStaff ? content.inspections : content.my_inspections}
+          </CustomLink>
+        </MenuItem>
+        )}
       </Menu>
     </div>
   );
