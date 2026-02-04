@@ -53,7 +53,7 @@ public class BoatIntegrationTest extends BaseIntegrationTest {
         List<BoatDto> firstList = om.readValue(getAll.getResponse().getContentAsString(), new TypeReference<List<BoatDto>>(){});
         System.out.println(" Empty JSON: " + getAll.getResponse().getContentAsString());
 
-        NewBoatDto newBoat = new NewBoatDto("owner11", "BoatName", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        NewBoatDto newBoat = new NewBoatDto("owner11", "BoatName", "S", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         String newBoatJson = om.writeValueAsString(newBoat);
         MvcTestResult addNew = mvc.post()
                 .uri("/boats")
@@ -80,7 +80,7 @@ public class BoatIntegrationTest extends BaseIntegrationTest {
     void findAndUpdate() throws Exception {
         assert postgres.isRunning();
 
-        NewBoatDto newBoat = new NewBoatDto("owner12", "BoatName2", "Reg112234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        NewBoatDto newBoat = new NewBoatDto("owner12", "BoatName2", "S", "Reg112234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         String newBoatJson = om.writeValueAsString(newBoat);
         MvcTestResult addNew = mvc.post()
                 .uri("/boats")
@@ -109,7 +109,7 @@ public class BoatIntegrationTest extends BaseIntegrationTest {
         BoatDto before = om.readValue(getOne.getResponse().getContentAsString(), BoatDto.class);
         System.out.println(" Before JSON: " + getOne.getResponse().getContentAsString());
 
-        BoatDto updated = new BoatDto(before.boatId(), before.owner() + "x", before.name(), before.sign() + "X", before.make(), before.model(), before.loa(), before.draft(), before.beam(), before.deplacement(), before.engines(), before.year());
+        BoatDto updated = new BoatDto(before.boatId(), before.owner() + "x", before.name(), "S", before.sign() + "X", before.make(), before.model(), before.loa(), before.draft(), before.beam(), before.deplacement(), before.engines(), before.year());
         String updatedJson = om.writeValueAsString(updated);
         MvcTestResult replaceOld = mvc.put()
                 .uri("/boats/" + boatId)
@@ -132,7 +132,7 @@ public class BoatIntegrationTest extends BaseIntegrationTest {
     void findAndDelete() throws Exception {
         assert postgres.isRunning();
 
-        NewBoatDto newBoat = new NewBoatDto("owner13", "BoatName3", "Reg13234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        NewBoatDto newBoat = new NewBoatDto("owner13", "BoatName3", "S", "Reg13234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         String newBoatJson = om.writeValueAsString(newBoat);
         MvcTestResult addNew = mvc.post()
                 .uri("/boats")

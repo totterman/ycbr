@@ -106,7 +106,7 @@ public class I9EventRepositoryTest {
     }
 
     @Test
-    @DisplayName("Check inspector registrations")
+    @DisplayName("Check inspectorName registrations")
     void testInspectorRegistrations() {
         I9EventEntity event = new I9EventEntity(null, "Gumbostrand", OffsetDateTime.parse("2026-05-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         event.addInspector("inspector1", "message1");

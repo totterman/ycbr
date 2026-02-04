@@ -12,11 +12,14 @@ public record InspectionDto(
         String timestamp,
         @NotBlank(message = "Inspector must be defined")
         @Size(max = 50, message = "Inspector Name must be at most 50 characters")
-        String inspector,
+        String inspectorName,
         @NotNull(message = "Inspection Event must be defined")
         UUID eventId,
         @NotNull(message = "BoatEntity to Inspect must be defined")
         UUID boatId,
+        @NotNull(message = "Inspection class must be defined")
+        @Size(max = 1, message = "Inspection Class must be just 1 character")
+        String inspectionClass,
         InspectionDataDto inspection,
         @Nullable
         String completed

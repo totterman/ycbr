@@ -90,6 +90,7 @@ export default function InspectionsPage() {
                   primary={inspection.boatName}
                   secondary={placeday}
                 />
+                <ListItemText primary={inspection.inspectionClass} />
               </ListItemButton>
               <ListItemIcon>
                 {inspection.completed === null && (

@@ -15,5 +15,9 @@ public record NewInspectionDto(
         UUID eventId,
 
         @NotNull(message = "Boat to Inspect must be defined")
-        UUID boatId
-) {}
+        UUID boatId,
+
+        @NotNull(message = "Inspection class must be defined")
+        @Size(max = 1, message = "Inspection Class must be just 1 character")
+        String inspectionClass
+        ) {}

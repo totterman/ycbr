@@ -29,9 +29,9 @@ public class YcbrController {
     }
 
     @GetMapping("/inspect")
-    @PreAuthorize("hasAuthority('inspector')")
+    @PreAuthorize("hasAuthority('inspectorName')")
     public YcbrDto getYcbrInspections() {
-        return new YcbrDto("Hello, inspector!");
+        return new YcbrDto("Hello, inspectorName!");
     }
 
     public static record YcbrDto(String greeting) {}

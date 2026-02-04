@@ -28,18 +28,19 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     private final UUID boatId = UUID.randomUUID();
     private final String inspectorName = "Inspector Name";
 
-    private final NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId);
+    private final NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.PROTECTED_WATERS);
     private final InspectionDto dto = new InspectionDto(
             inspectionId,
             OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
             inspectorName,
             eventId,
             boatId,
+            InspectionClass.PROTECTED_WATERS,
             getInspectionDataDto(),
             null
     );
     private final List<InspectionDto> dtos = List.of(dto);
-    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
+    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, "Place X", OffsetDateTime.now(), null);
     private final List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
 
     private InspectionDataDto getInspectionDataDto() {
@@ -67,16 +68,16 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         assertThat(inspection).isNotNull();
         assertThat(inspection.boatId()).isEqualByComparingTo(created.boatId());
         assertThat(inspection.eventId()).isEqualByComparingTo(created.eventId());
-        assertThat(inspection.inspector()).isEqualTo(created.inspector());
+        assertThat(inspection.inspectorName()).isEqualTo(created.inspectorName());
     }
 
     @Test
-    @DisplayName("Create and read inspections by inspector name")
+    @DisplayName("Create and read inspections by inspectorName name")
     @WithJwt("bengt.json")
     void testReadByInspectorName() throws Exception {
         InspectionDto created = createOne(newInspectionDto);
         MvcTestResult getByName = mvc.get()
-                .uri("/inspections/inspector?name=" + created.inspector())
+                .uri("/inspections/inspectorName?name=" + created.inspectorName())
                 .exchange();
         assertThat(getByName)
                 .hasStatus(HttpStatus.OK);
@@ -85,7 +86,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         assertThat(inspections).isNotNull();
         assertThat(inspections.getFirst().boatId()).isEqualByComparingTo(created.boatId());
         assertThat(inspections.getFirst().eventId()).isEqualByComparingTo(created.eventId());
-        assertThat(inspections.getFirst().inspector()).isEqualTo(created.inspector());
+        assertThat(inspections.getFirst().inspectorName()).isEqualTo(created.inspectorName());
     }
 
     @Test
@@ -96,10 +97,10 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         I9EventDto eventDto = createEvent();
 
         String anotherInspector = "Another Inspector";
-        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId()));
+        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId(), InspectionClass.UNDEFINED));
 
         MvcTestResult getMyInspections = mvc.get()
-                .uri("/inspections/my?name=" + created.inspector())
+                .uri("/inspections/my?name=" + created.inspectorName())
                 .exchange();
         assertThat(getMyInspections)
                 .hasStatus(HttpStatus.OK);
@@ -108,7 +109,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         assertThat(inspections).isNotNull();
         assertThat(inspections.size()).isEqualTo(1);
         MyInspectionsDto myDto = inspections.getFirst();
-        assertThat(myDto.inspectorName()).isEqualTo(created.inspector());
+        assertThat(myDto.inspectorName()).isEqualTo(created.inspectorName());
         assertThat(myDto.boatName()).isEqualTo(boatDto.name());
         assertThat(myDto.place()).isEqualTo(eventDto.place());
     }
@@ -121,7 +122,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         I9EventDto eventDto = createEvent();
 
         String anotherInspector = "Another Inspector";
-        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId()));
+        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId(), InspectionClass.UNDEFINED));
 
         MvcTestResult getAllInspections = mvc.get()
                 .uri("/inspections/all")
@@ -133,7 +134,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         assertThat(inspections).isNotNull();
         assertThat(inspections.size()).isEqualTo(1);
         MyInspectionsDto myDto = inspections.getFirst();
-        assertThat(myDto.inspectorName()).isEqualTo(created.inspector());
+        assertThat(myDto.inspectorName()).isEqualTo(created.inspectorName());
         assertThat(myDto.boatName()).isEqualTo(boatDto.name());
         assertThat(myDto.place()).isEqualTo(eventDto.place());
     }
@@ -150,6 +151,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
                 "Updated Inspector",
                 created.eventId(),
                 created.boatId(),
+                created.inspectionClass(),
                 created.inspection(),
                 created.completed()
         );
@@ -164,14 +166,14 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         InspectionDto inspection = om.readValue(updateResult.getResponse().getContentAsString(), om.getTypeFactory().constructType(InspectionDto.class));
         System.out.println("Updated Inspection JSON: " + updateResult.getResponse().getContentAsString());
         assertThat(inspection).isNotNull();
-        assertThat(inspection.inspector()).isEqualTo(updated.inspector());
+        assertThat(inspection.inspectorName()).isEqualTo(updated.inspectorName());
     }
 
     @Test
     @DisplayName("Insert throws on invalid data")
     @WithJwt("bengt.json")
     void insertThrows() throws Exception {
-        NewInspectionDto newDto = new NewInspectionDto("All_too_long_name_breaks_50_characters_limit_and_validation_fails",eventId, boatId);
+        NewInspectionDto newDto = new NewInspectionDto("All_too_long_name_breaks_50_characters_limit_and_validation_fails",eventId, boatId, InspectionClass.PROTECTED_WATERS);
         String newJson = om.writeValueAsString(newDto);
         MvcTestResult addNew = mvc.post()
                 .uri("/inspections")
@@ -200,7 +202,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     }
 
     private BoatDto createBoat() throws Exception {
-        NewBoatDto newBoatDto = new NewBoatDto("owner11", "BoatName", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        NewBoatDto newBoatDto = new NewBoatDto("owner11", "BoatName", "S", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         String newBoatJson = om.writeValueAsString(newBoatDto);
         MvcTestResult addNew = mvc.post()
                 .uri("/boats")

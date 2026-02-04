@@ -50,6 +50,7 @@ export default function DispatchPage() {
           inspectorName: user.name,
           eventId: i9event.i9eventId,
           boatId: boat.boatId,
+          inspectionClass: "0",
         };
         const newInspection = await createInspection(ni);
         const inspectionStr = newInspection ? newInspection.inspectionId : '';

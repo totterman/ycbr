@@ -131,7 +131,7 @@ class I9EventServiceTest {
     }
 
     @Test
-    @DisplayName("Finds inspector registration")
+    @DisplayName("Finds inspectorName registration")
     void findInspectorsByEventId() {
         I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         event.addInspector("inspector1", "message1");

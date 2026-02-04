@@ -269,7 +269,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("Handle inspector registrations")
+    @DisplayName("Handle inspectorName registrations")
     @WithJwt("kalle.json")
     void inspectorRegistrations() throws Exception {
         assert postgres.isRunning();

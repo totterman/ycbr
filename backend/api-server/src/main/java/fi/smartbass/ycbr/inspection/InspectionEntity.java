@@ -2,6 +2,7 @@ package fi.smartbass.ycbr.inspection;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.InsertOnlyProperty;
 import org.springframework.data.relational.core.mapping.Table;
@@ -18,13 +19,16 @@ public class InspectionEntity {
     private OffsetDateTime timestamp;
 
     @NotBlank(message = "Inspector must be defined")
-    private String inspector;
+    private String inspectorName;
 
     @NotNull(message = "Inspection Event must be defined")
     private UUID eventId;
 
     @NotNull(message = "BoatEntity to Inspect must be defined")
     private UUID boatId;
+
+    @Size(max = 1, message = "Inspection Class must be just 1 character")
+    private String inspectionClass;
 
     private InspectionData inspection;
     private OffsetDateTime completed;
@@ -46,12 +50,13 @@ public class InspectionEntity {
     @Version
     private int version;
 
-    public InspectionEntity(UUID inspectionId, OffsetDateTime timestamp, String inspector, UUID eventId, UUID boatId, InspectionData inspection, OffsetDateTime completed, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+    public InspectionEntity(UUID inspectionId, OffsetDateTime timestamp, String inspectorName, UUID eventId, UUID boatId, String inspectionClass, InspectionData inspection, OffsetDateTime completed, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
         this.inspectionId = inspectionId;
         this.timestamp = timestamp;
-        this.inspector = inspector;
+        this.inspectorName = inspectorName;
         this.eventId = eventId;
         this.boatId = boatId;
+        this.inspectionClass = inspectionClass;
         this.inspection = inspection;
         this.completed = completed;
         this.createdAt = createdAt;
@@ -69,8 +74,8 @@ public class InspectionEntity {
         return timestamp;
     }
 
-    public @NotBlank(message = "Inspector must be defined") String getInspector() {
-        return inspector;
+    public @NotBlank(message = "Inspector must be defined") String getInspectorName() {
+        return inspectorName;
     }
 
     public @NotNull(message = "Inspection Event must be defined") UUID getEventId() {
@@ -79,6 +84,10 @@ public class InspectionEntity {
 
     public @NotNull(message = "BoatEntity to Inspect must be defined") UUID getBoatId() {
         return boatId;
+    }
+
+    public String getInspectionClass() {
+        return inspectionClass;
     }
 
     public InspectionData getInspection() {
@@ -118,9 +127,10 @@ public class InspectionEntity {
         return "InspectionEntity{" +
                 "inspectionId=" + inspectionId +
                 ", timestamp=" + timestamp +
-                ", inspector='" + inspector + '\'' +
+                ", inspectorName='" + inspectorName + '\'' +
                 ", eventId=" + eventId +
                 ", boatId=" + boatId +
+                ", inspectionClass=" + inspectionClass +
                 ", inspection=" + inspection +
                 ", completed=" + completed +
                 ", createdAt=" + createdAt +

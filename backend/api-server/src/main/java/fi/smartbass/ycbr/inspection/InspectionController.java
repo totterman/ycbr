@@ -28,7 +28,7 @@ public class InspectionController {
         return inspectionService.read(id);
     }
 
-    @GetMapping("/inspector")
+    @GetMapping("/inspectorName")
     @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     public Iterable<InspectionDto> getByInspector(Authentication auth, @RequestParam("name") String inspector) {
         LOGGER.info("GET inspections for: {}", inspector);
@@ -39,14 +39,14 @@ public class InspectionController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     InspectionDto postInspection(Authentication auth, @Valid @RequestBody NewInspectionDto dto) {
-        LOGGER.info("POST new inspection: eventId {}, boatId {}, inspector {}", dto.eventId(), dto.boatId(), dto.inspectorName());
+        LOGGER.info("POST new inspection: eventId {}, boatId {}, inspectorName {}", dto.eventId(), dto.boatId(), dto.inspectorName());
         return inspectionService.create(dto);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('inspector', 'staff')")
     InspectionDto putInspection(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody InspectionDto dto) {
-        LOGGER.info("PUT inspection: inspectionId {}, boatId {}, inspector {}", dto.inspectionId(), dto.boatId(), dto.inspector());
+        LOGGER.info("PUT inspection: inspectionId {}, boatId {}, inspectorName {}", dto.inspectionId(), dto.boatId(), dto.inspectorName());
         return inspectionService.update(id, dto);
     }
 

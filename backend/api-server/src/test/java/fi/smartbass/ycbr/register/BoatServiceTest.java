@@ -45,7 +45,7 @@ class BoatServiceTest {
     @Test
     @DisplayName("Find boatId by UUID is OK")
     void getBoatByBoatId_returnsBoat_whenFound() {
-        BoatEntity boat = new BoatEntity(boatId1, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(boatId1, "owner", "name", "M", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
         when(boatRepository.findByBoatId(boatId1)).thenReturn(Optional.of(boat));
         BoatDto result = boatService.getBoatByBoatId(boatId1);
         assertThat(result.name()).isEqualTo(boat.getName());
@@ -71,9 +71,9 @@ class BoatServiceTest {
     @Test
     @DisplayName("Creating boatId is OK when inspectionId is null")
     void addBoatToRegister_savesBoat_whenIdIsNull() {
-        BoatEntity newBoat = new BoatEntity(null, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
-        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
-        NewBoatDto dto = new NewBoatDto("owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        BoatEntity newBoat = new BoatEntity(null, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        NewBoatDto dto = new NewBoatDto("owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.save(newBoat)).thenReturn(boat);
         BoatDto result = boatService.create(dto);
         assertThat(result.sign()).isEqualTo(boat.getSign());
@@ -83,8 +83,8 @@ class BoatServiceTest {
     @Test
     @DisplayName("Creating boatId throws when inspectionId is not null")
     void create_throws_whenIdExists() {
-        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
-        BoatDto dto = new BoatDto(boatId2, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        BoatDto dto = new BoatDto(boatId2, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.existsByBoatId(boatId2)).thenReturn(true);
         assertThatThrownBy(() -> boatService.create(dto))
                 .isInstanceOf(BoatAlreadyExistsException.class);
@@ -93,8 +93,8 @@ class BoatServiceTest {
     @Test
     @DisplayName("Creating saves boatId when not exists in DB")
     void create_saves_whenIdNotExists() {
-        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
-        NewBoatDto dto = new NewBoatDto("owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        BoatEntity boat = new BoatEntity(boatId2, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", null, null, null, null, 0);
+        NewBoatDto dto = new NewBoatDto("owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.save(any(BoatEntity.class))).thenReturn(boat);
         BoatDto result = boatService.create(dto);
         assertThat(result.sign()).isEqualTo(boat.getSign());
@@ -121,9 +121,9 @@ class BoatServiceTest {
     @DisplayName("Updating boatId is OK when boatId exists")
     void upsert_updates_whenExists() {
         Instant createdAt = Instant.now();
-        BoatEntity before = new BoatEntity(boatId3, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", createdAt, "createdBy", null, null, 0);
-        BoatDto updated = new BoatDto(boatId3, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
-        BoatEntity after = new BoatEntity(boatId3, "newOwner", "newName", "newSign", "newMake", "newModel", 2.0, 2.0, 2.0, 2.0, "newEngines", "newYear", null, null, null, null, 0);
+        BoatEntity before = new BoatEntity(boatId3, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", createdAt, "createdBy", null, null, 0);
+        BoatDto updated = new BoatDto(boatId3, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        BoatEntity after = new BoatEntity(boatId3, "newOwner", "newName", "S", "newSign", "newMake", "newModel", 2.0, 2.0, 2.0, 2.0, "newEngines", "newYear", null, null, null, null, 0);
         when(boatRepository.findByBoatId(boatId3)).thenReturn(Optional.of(before));
         when(boatRepository.save(any(BoatEntity.class))).thenReturn(after);
         BoatDto result = boatService.upsert(boatId3, updated);
@@ -134,8 +134,8 @@ class BoatServiceTest {
     @Test
     @DisplayName("Updating boatId becomes Save when boatId not exists")
     void upsert_adds_whenNotExists() {
-        BoatEntity updated = new BoatEntity(boatId3, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", Instant.now(), null, null, null, 0);
-        BoatDto dto = new BoatDto(boatId3, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        BoatEntity updated = new BoatEntity(boatId3, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year", Instant.now(), null, null, null, 0);
+        BoatDto dto = new BoatDto(boatId3, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         when(boatRepository.findByBoatId(boatId3)).thenReturn(Optional.empty());
         when(boatRepository.save(any(BoatEntity.class))).thenReturn(updated);
         BoatDto result = boatService.upsert(boatId3, dto);
@@ -146,7 +146,7 @@ class BoatServiceTest {
     @Test
     @DisplayName("Updating boatId throws if UUIDs do not match")
     void upsert_throws_whenMalformed() {
-        BoatDto dto = new BoatDto(boatId2, "owner", "name", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
+        BoatDto dto = new BoatDto(boatId2, "owner", "name", "S", "sign", "make", "model", 1.0, 1.0, 1.0, 1.0, "engines", "year");
         assertThatThrownBy(() -> boatService.upsert(boatId3, dto))
                 .isInstanceOf(BoatRequestMalformedException.class);
     }

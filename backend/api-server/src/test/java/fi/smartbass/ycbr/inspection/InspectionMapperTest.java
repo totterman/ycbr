@@ -30,6 +30,7 @@ class InspectionMapperTest {
                 "Inspector Name",
                 eventId,
                 boatId,
+                "2",
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, true, false, false, false, false, false, false, 20),
                         new RigDataDto(false, false, false, false),
@@ -45,6 +46,7 @@ class InspectionMapperTest {
                 "Inspector Name",
                 eventId,
                 boatId,
+                "2",
                 new InspectionData(
                         new HullData(false, false, false, false, false, false, false, false, false, false, 30),
                         new RigData(true, false, true, false),
@@ -69,7 +71,7 @@ class InspectionMapperTest {
         InspectionDto dto = mapper.toDTO(testEntity);
         assertEquals(testEntity.getInspectionId(), dto.inspectionId());
         assertEquals(testEntity.getTimestamp(), OffsetDateTime.parse(dto.timestamp()));
-        assertEquals(testEntity.getInspector(), dto.inspector());
+        assertEquals(testEntity.getInspectorName(), dto.inspectorName());
         assertEquals(testEntity.getEventId(), dto.eventId());
         assertEquals(testEntity.getBoatId(), dto.boatId());
         assertNull(testEntity.getCompleted());
@@ -85,7 +87,7 @@ class InspectionMapperTest {
         InspectionEntity entity = mapper.toEntity(testDto);
         assertEquals(testDto.inspectionId(), entity.getInspectionId());
         assertEquals(testDto.timestamp(), entity.getTimestamp().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        assertEquals(testDto.inspector(), entity.getInspector());
+        assertEquals(testDto.inspectorName(), entity.getInspectorName());
         assertEquals(testDto.eventId(), entity.getEventId());
         assertEquals(testDto.boatId(), entity.getBoatId());
         assertNull(testDto.completed());

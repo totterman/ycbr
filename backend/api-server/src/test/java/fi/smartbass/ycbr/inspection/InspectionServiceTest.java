@@ -68,12 +68,12 @@ class InspectionServiceTest {
     void setUp() {
         OffsetDateTime now = OffsetDateTime.now();
         Instant instantNow = Instant.now();
-        newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, getInspectionData(), null, instantNow, "system", instantNow, "system", 0);
-        oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, getInspectionData(), null, instantNow, "system", instantNow, "system", 1);
+        newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, instantNow, "system", instantNow, "system", 0);
+        oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, instantNow, "system", instantNow, "system", 1);
         entityList = List.of(oldEntity);
-        myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
+        myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.UNDEFINED, "Place X", OffsetDateTime.now(), null);
         myInspectionsDtoList = List.of(myInspectionsDto);
-        newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId);
+        newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.UNDEFINED);
     }
 
     @Test
@@ -82,7 +82,7 @@ class InspectionServiceTest {
         when(repository.findById(inspectionId)).thenReturn(Optional.of(oldEntity));
         InspectionDto dto = service.read(inspectionId);
         assertThat(dto).isNotNull();
-        assertThat(dto.inspector()).isEqualTo(oldEntity.getInspector());
+        assertThat(dto.inspectorName()).isEqualTo(oldEntity.getInspectorName());
     }
 
     @Test
@@ -94,17 +94,17 @@ class InspectionServiceTest {
     }
 
     @Test
-    @DisplayName("Fetch inspections by inspector name")
+    @DisplayName("Fetch inspections by inspectorName name")
     void fetchByInspector() {
-        when(repository.findByInspector(inspectorName)).thenReturn(entityList);
+        when(repository.findByInspectorName(inspectorName)).thenReturn(entityList);
         Iterable<InspectionDto> dtos = service.fetchByInspector(inspectorName);
         assertThat(dtos).isNotNull();
         InspectionDto dto = dtos.iterator().next();
-        assertThat(dto.inspector()).isEqualTo(inspectorName);
+        assertThat(dto.inspectorName()).isEqualTo(inspectorName);
     }
 
     @Test
-    @DisplayName("Fetch my inspections by inspector name")
+    @DisplayName("Fetch my inspections by inspectorName name")
     void fetchMyInspections() {
         when(repository.fetchMyInspections(inspectorName)).thenReturn(myInspectionsDtoList);
         Iterable<MyInspectionsDto> dtos = service.fetchMyInspections(inspectorName);
@@ -129,7 +129,7 @@ class InspectionServiceTest {
         when(repository.save(any(InspectionEntity.class))).thenReturn(oldEntity);
         InspectionDto dto = service.create(newInspectionDto);
         assertThat(dto).isNotNull();
-        assertThat(dto.inspector()).isEqualTo(newEntity.getInspector());
+        assertThat(dto.inspectorName()).isEqualTo(newEntity.getInspectorName());
     }
 
     @Test

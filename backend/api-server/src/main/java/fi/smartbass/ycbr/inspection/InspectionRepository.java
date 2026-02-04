@@ -6,20 +6,20 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
 public interface InspectionRepository extends CrudRepository<InspectionEntity, UUID> {
-    Iterable<InspectionEntity> findByInspector(String inspector);
+    Iterable<InspectionEntity> findByInspectorName(String inspectorName);
 
     @Query("""
-            SELECT i.inspection_id , i.event_id , i.boat_id , i.inspector as inspector_name,
+            SELECT i.inspection_id , i.event_id , i.boat_id , i.inspection_class , i.inspector_name,
                 b."name" as boat_name, ie.starts as "day", ie.place , i.completed
             FROM inspections i
             JOIN boats b ON b.boat_id = i.boat_id
             JOIN i9events ie ON ie.i9event_id = i.event_id
-            WHERE i.inspector = :inspectorName
+            WHERE i.inspector_name = :inspectorName
             """)
     Iterable<MyInspectionsDto> fetchMyInspections(String inspectorName);
 
     @Query("""
-            SELECT i.inspection_id , i.event_id , i.boat_id , i.inspector as inspector_name, 
+            SELECT i.inspection_id , i.event_id , i.boat_id , i.inspection_class , i.inspector_name,
                 b."name" as boat_name, ie.starts as "day", ie.place , i.completed
             FROM inspections i
             JOIN boats b ON b.boat_id = i.boat_id

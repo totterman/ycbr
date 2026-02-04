@@ -1,7 +1,7 @@
-INSERT INTO boats (owner, name, sign, make, model, loa, draft, beam, deplacement, engines, year, created_at, created_by, version) VALUES
-('ronja', 'Spray', 'A12345', 'Sunwind', '27', 8.01, 1.70, 3.20, 3200, 'Yanmar', '1982', CURRENT_TIMESTAMP, 'system', 1),
-('stina', 'Endeavour', 'U22211', 'Buster', 'RS', 4.58, 0.40, 2.15, 350, 'Yamaha 30', '1987', CURRENT_TIMESTAMP, 'system', 1),
-('stina', 'Taihoro', 'P54112', 'Finngulf', '28e', 8.72, 1.65, 2.90, 3000, 'VP MD2010', '2001', CURRENT_TIMESTAMP, 'system', 1);
+INSERT INTO boats (owner, name, sign, kind, make, model, loa, draft, beam, deplacement, engines, year, created_at, created_by, version) VALUES
+('ronja', 'Spray', 'A12345', 'S', 'Swan', '40', 12.01, 2.10, 4.20, 9000, 'Yanmar', '1992', CURRENT_TIMESTAMP, 'system', 1),
+('stina', 'Endeavour', 'U22211', 'M', 'Targa', '27', 8.40, 1.00, 3.20, 5000, 'VP 280', '1997', CURRENT_TIMESTAMP, 'system', 1),
+('stina', 'Taihoro', 'P54112', 'S', 'Finngulf', '28e', 8.72, 1.65, 2.90, 3000, 'VP MD2010', '2001', CURRENT_TIMESTAMP, 'system', 1);
 
 INSERT INTO public.i9events (place, starts, ends, created_at, created_by, version) VALUES
 ('Björkholmen', '2025-05-06T17:00:00.000+02:00', '2025-05-06T20:00:00.000+02:00', CURRENT_TIMESTAMP, 'system', 1),

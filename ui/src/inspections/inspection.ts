@@ -5,10 +5,35 @@ import {
 } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
+
 export interface NewInspection {
   inspectorName: string;
   eventId: string;
   boatId: string;
+  inspectionClass: string;
+}
+
+export interface InspectionDto {
+  inspectionId: string;
+  timestamp: string;
+  inspector: string;
+  eventId: string;
+  boatId: string;
+  inspectionClass: string;
+  inspection: InspectionData;
+  completed: string;
+}
+
+export interface MyInspectionsDto {
+  inspectionId: string;
+  eventId: string;
+  boatId: string;
+  inspectorName: string;
+  boatName: string;
+  inspectionClass: string;
+  place: string;
+  day: string;
+  completed: string;
 }
 
 export interface InspectionData {
@@ -110,27 +135,6 @@ export interface SafetyData {
 
 export interface InspectionProps {
   data: InspectionDto;
-}
-
-export interface InspectionDto {
-  inspectionId: string;
-  timestamp: string;
-  inspector: string;
-  eventId: string;
-  boatId: string;
-  inspection: InspectionData;
-  completed: string;
-}
-
-export interface MyInspectionsDto {
-  inspectionId: string;
-  eventId: string;
-  boatId: string;
-  inspectorName: string;
-  boatName: string;
-  place: string;
-  day: string;
-  completed: string;
 }
 
 export function useCreateInspection() {

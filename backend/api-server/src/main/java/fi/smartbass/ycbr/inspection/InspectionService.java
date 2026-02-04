@@ -30,14 +30,14 @@ public class InspectionService {
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Iterable<InspectionDto> fetchByInspector(final String inspector) {
         if (inspector == null) throw new NameNotFoundException("NULL");
-        return mapper.toDTOs(repository.findByInspector(inspector));
+        return mapper.toDTOs(repository.findByInspectorName(inspector));
     }
 
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Iterable<MyInspectionsDto> fetchMyInspections(final String inspectorName) {
         if (inspectorName == null) throw new NameNotFoundException("NULL");
         List<MyInspectionsDto> inspections = (List<MyInspectionsDto>) repository.fetchMyInspections(inspectorName);
-        LOGGER.info("Found {} inspections for inspector {}", inspections.size(), inspectorName);
+        LOGGER.info("Found {} inspections for inspectorName {}", inspections.size(), inspectorName);
         LOGGER.info("Inspections: {}", inspections);
         return repository.fetchMyInspections(inspectorName);
     }
@@ -63,6 +63,7 @@ public class InspectionService {
                 newDto.inspectorName(),
                 newDto.eventId(),
                 newDto.boatId(),
+                newDto.inspectionClass(),
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, false, false, false, false, false, false, false, 0),
                         new RigDataDto(false, false, false, false),
@@ -98,9 +99,10 @@ public class InspectionService {
         InspectionDto dto = new InspectionDto(
                 null,
                 Instant.now().toString(),
-                from.inspector(),
+                from.inspectorName(),
                 from.eventId(),
                 from.boatId(),
+                from.inspectionClass(),
                 from.inspection(),
                 from.completed());
         LOGGER.info("DTO: {}", dto);

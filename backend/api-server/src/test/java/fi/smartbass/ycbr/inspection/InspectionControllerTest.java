@@ -47,11 +47,12 @@ class InspectionControllerTest {
             inspectorName,
             eventId,
             boatId,
+            "1",
             getInspectionDataDto(),
             null
     );
     private final List<InspectionDto> dtos = List.of(dto);
-    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", "Place X", OffsetDateTime.now(), null);
+    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, "Place X", OffsetDateTime.now(), null);
     private final List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
     private final ObjectMapper om = new ObjectMapper();
 
@@ -86,11 +87,11 @@ class InspectionControllerTest {
     }
 
     @Test
-    @DisplayName("GET /inspections/inspector?name={inspectorName} returns 200 OK")
+    @DisplayName("GET /inspections/inspectorName?name={inspectorName} returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void getByInspector() throws Exception {
         when(service.fetchByInspector(inspectorName)).thenReturn(dtos);
-        mockMvc.perform(get("/inspections/inspector?name=" + inspectorName)
+        mockMvc.perform(get("/inspections/inspectorName?name=" + inspectorName)
                         .principal(authentication))
                 .andExpect(status().isOk());
         verify(service).fetchByInspector(inspectorName);
@@ -100,14 +101,15 @@ class InspectionControllerTest {
     @DisplayName("POST /inspections returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void postInspection() throws Exception {
-        NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId);
+        NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.COASTAL);
         String newInspectionJson = """
                 {
                     "inspectorName": "%s",
                     "eventId": "%s",
-                    "boatId": "%s"
+                    "boatId": "%s",
+                    "inspectionClass": "%s"
                 }
-                """.formatted(inspectorName, eventId, boatId);
+                """.formatted(inspectorName, eventId, boatId, InspectionClass.COASTAL);
         when(service.create(newInspectionDto)).thenReturn(dto);
         mockMvc.perform(post("/inspections")
                         .principal(authentication)

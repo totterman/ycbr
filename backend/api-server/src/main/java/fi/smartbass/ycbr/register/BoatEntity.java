@@ -23,6 +23,9 @@ public class BoatEntity {
     @Size(min = 3, max = 50, message = "Boat name length must be at most 50 characters")
     private String name;
 
+    @Size(max = 1, message = "Boat Kind is 1 character")
+    private String kind;
+
     @Size(max = 50, message = "Boat Sign length must be at most 50 characters")
     private String sign;
 
@@ -71,10 +74,11 @@ public class BoatEntity {
     public BoatEntity() {
     }
 
-    public BoatEntity(UUID boatId, String owner, String name, String sign, String make, String model, Double loa, Double draft, Double beam, Double deplacement, String engines, String year, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+    public BoatEntity(UUID boatId, String owner, String name, String kind, String sign, String make, String model, Double loa, Double draft, Double beam, Double deplacement, String engines, String year, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
         this.boatId = boatId;
         this.owner = owner;
         this.name = name;
+        this.kind = kind;
         this.sign = sign;
         this.make = make;
         this.model = model;
@@ -113,6 +117,14 @@ public class BoatEntity {
 
     public void setName(@NotBlank(message = "BoatEntity name must be defined") @Size(min = 3, max = 50, message = "Boat name length must be at most 50 characters") String name) {
         this.name = name;
+    }
+
+    public @Size(max = 1, message = "Boat Kind is 1 character") String getKind() {
+        return kind;
+    }
+
+    public void setKind(@Size(max = 1, message = "Boat Kind is 1 character") String kind) {
+        this.kind = kind;
     }
 
     public @Size(max = 50, message = "Boat Sign length must be at most 50 characters") String getSign() {

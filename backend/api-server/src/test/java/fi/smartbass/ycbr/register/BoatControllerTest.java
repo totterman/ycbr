@@ -48,8 +48,8 @@ class BoatControllerTest {
 
     private final UUID boatId1 = UUID.randomUUID();
     private final UUID boatId2 = UUID.randomUUID();
-    private final BoatDto boat1 = new BoatDto(boatId1, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
-    private final BoatDto boat2 = new BoatDto(boatId2, "owner2", "AnotherBoat", "Reg5678", "SailsRUs", "2019", 10.0, 2.0, 3.5, 4500.0, "Inboard", "1995");
+    private final BoatDto boat1 = new BoatDto(boatId1, "owner1", "BoatName", "M", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+    private final BoatDto boat2 = new BoatDto(boatId2, "owner2", "AnotherBoat", "S", "Reg5678", "SailsRUs", "2019", 10.0, 2.0, 3.5, 4500.0, "Inboard", "1995");
     private final List<BoatDto> boats = List.of(boat1, boat2);
 
     @Test
@@ -101,7 +101,7 @@ class BoatControllerTest {
     @WithMockAuthentication({ "guest" })
     void testPostBoat() throws Exception {
         String jsonBoat = "{\"owner\": \"owner1\", \"name\": \"BoatName\", \"sign\": \"Reg1234\", \"make\": \"Goodsail\",  \"model\": \"2020\", \"loa\": \"9.5\", \"draft\": \"1.5\", \"beam\": \"3.2\", \"deplacement\": \"4000.0\", \"engines\": \"VP\", \"year\": \"1988\" }";
-        BoatDto boat = new BoatDto(boatId1, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        BoatDto boat = new BoatDto(boatId1, "owner1", "BoatName", "S", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         when(boatService.create(any(NewBoatDto.class))).thenReturn(boat);
         mockMvc.perform(post("/boats")
                         .principal(authentication)
@@ -116,7 +116,7 @@ class BoatControllerTest {
     @WithMockAuthentication({ "guest" })
     void testPutBoat() throws Exception {
         String jsonBoat = "{\"inspectionId\": \"" + boatId2 + "\", \"owner\": \"owner1\", \"name\": \"BoatName\", \"sign\": \"Reg1234\", \"make\": \"Goodsail\",  \"model\": \"2020\", \"loa\": \"9.5\", \"draft\": \"1.5\", \"beam\": \"3.2\", \"deplacement\": \"4000.0\", \"engines\": \"VP\", \"year\": \"1988\" }";
-        BoatDto boat = new BoatDto(boatId2, "owner1", "BoatName", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        BoatDto boat = new BoatDto(boatId2, "owner1", "BoatName", "M", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
         when(boatService.upsert(eq(boatId2), any(BoatDto.class))).thenReturn(boat);
         mockMvc.perform(put("/boats/" + boatId2)
                         .principal(authentication)

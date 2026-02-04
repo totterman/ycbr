@@ -42,18 +42,18 @@ class InspectionRepositoryTest {
         MaritimeData maritimeData = new MaritimeData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         SafetyData safetyData = new SafetyData(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false);
         InspectionData inspectionData = new InspectionData(hullData, rigData, engineData, equipmentData, maritimeData, safetyData);
-        InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, inspectionData, null, Instant.now(), "system", Instant.now(), "system", 0);
+        InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, InspectionClass.COASTAL, inspectionData, null, Instant.now(), "system", Instant.now(), "system", 0);
         repository.save(entity);
     }
 
     @Test
-    @DisplayName("Find inspections by inspector name")
-    void findByInspector() {
-        Iterable<InspectionEntity> inspections = repository.findByInspector("inspector1");
+    @DisplayName("Find inspections by inspectorName name")
+    void findByInspectorName() {
+        Iterable<InspectionEntity> inspections = repository.findByInspectorName("inspector1");
         assertThat(inspections).isNotNull();
         assertThat(inspections.iterator().hasNext()).isTrue();
         InspectionEntity inspection = inspections.iterator().next();
-        assertThat(inspection.getInspector()).isEqualTo("inspector1");
+        assertThat(inspection.getInspectorName()).isEqualTo("inspector1");
         long count = StreamSupport.stream(inspections.spliterator(), false).count();
         assertThat(count).isEqualTo(1);
     }

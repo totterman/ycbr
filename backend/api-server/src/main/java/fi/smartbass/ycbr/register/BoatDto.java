@@ -18,6 +18,9 @@ public record BoatDto(
         @Size(min = 3, max = 50, message = "Boat name length must be at most 50 characters")
         String name,
 
+        @Size(max = 1, message = "Boat Kind is 1 character")
+        String kind,
+
         @Size(max = 50, message = "Boat Sign length must be at most 50 characters")
         String sign,
 

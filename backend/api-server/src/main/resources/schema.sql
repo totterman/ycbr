@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS inspector_registrations;
 
 DROP TABLE IF EXISTS inspections;
 DROP INDEX IF EXISTS idx_inspections_boat_id;
-DROP INDEX IF EXISTS idx_inspections_inspector;
+DROP INDEX IF EXISTS idx_inspections_inspector_name;
 
 DROP TABLE IF EXISTS inspection_data;
 DROP TABLE IF EXISTS hull_data;
@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS boats (
 	boat_id UUID DEFAULT uuidv7() UNIQUE NOT NULL,
 	"owner" varchar(50) NOT NULL,
 	"name" varchar(50) NOT NULL,
+	kind varchar(1) NOT NULL,
 	sign varchar(50) NULL,
 	make varchar(50) NULL,
 	model varchar(50) NULL,
@@ -82,11 +83,12 @@ CREATE TABLE IF NOT EXISTS boat_bookings (
 );
 
 CREATE TABLE IF NOT EXISTS inspections (
-    inspection_id UUID DEFAULT uuidv7() UNIQUE NOT NULL,
-    "timestamp" timestamptz(6) NULL,
-	inspector varchar(50) NOT NULL,
-	boat_id UUID NOT NULL,
-	event_id UUID NOT NULL,
+	inspection_id uuid DEFAULT uuidv7() NOT NULL,
+	"timestamp" timestamptz(6) NULL,
+	inspector_name varchar(50) NOT NULL,
+	boat_id uuid NOT NULL,
+	event_id uuid NOT NULL,
+	inspection_class varchar(1) NOT NULL,
 	completed timestamptz(6) NULL,
 	created_at timestamptz(6) NULL,
 	created_by varchar(50) NULL,
@@ -96,7 +98,7 @@ CREATE TABLE IF NOT EXISTS inspections (
 	CONSTRAINT inspections_pkey PRIMARY KEY (inspection_id)
 );
 CREATE INDEX IF NOT EXISTS idx_inspections_boat_id ON inspections USING btree (boat_id);
-CREATE INDEX IF NOT EXISTS idx_inspections_inspector ON inspections USING btree (inspector);
+CREATE INDEX IF NOT EXISTS idx_inspections_inspector_name ON inspections USING btree (inspector_name);
 
 CREATE TABLE IF NOT EXISTS inspection_data (
 	inspections UUID NOT NULL

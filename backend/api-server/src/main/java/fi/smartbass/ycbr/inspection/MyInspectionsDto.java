@@ -18,6 +18,9 @@ public record MyInspectionsDto(
         @NotBlank(message = "Boat Name must be defined")
         @Size(max = 50, message = "Boat Name must be at most 50 characters")
         String boatName,
+        @NotNull(message = "Inspection class must be defined")
+        @Size(max = 1, message = "Inspection Class must be just 1 character")
+        String inspectionClass,
         @NotBlank(message = "Inspection event Place must be defined")
         @Size(max = 50, message = "Inspection event Place must be at most 50 characters")
         String place,
