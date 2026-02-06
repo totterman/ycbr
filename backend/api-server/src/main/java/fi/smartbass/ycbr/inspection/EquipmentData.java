@@ -4,7 +4,7 @@ public class EquipmentData {
     public final boolean markings;
     public final boolean anchors;
     public final boolean sea_anchor;
-    public final int lines;
+    public final boolean lines;
     public final boolean tools;
     public final boolean paddel;
     public final boolean hook;
@@ -17,7 +17,7 @@ public class EquipmentData {
     public final boolean stove;
     public final boolean flag;
 
-    public EquipmentData(boolean markings, boolean anchors, boolean sea_anchor, int lines, boolean tools, boolean paddel, boolean hook, boolean resque_line, boolean fenders, boolean ladders, boolean defroster, boolean toilet, boolean gas_system, boolean stove, boolean flag) {
+    public EquipmentData(boolean markings, boolean anchors, boolean sea_anchor, boolean lines, boolean tools, boolean paddel, boolean hook, boolean resque_line, boolean fenders, boolean ladders, boolean defroster, boolean toilet, boolean gas_system, boolean stove, boolean flag) {
         this.markings = markings;
         this.anchors = anchors;
         this.sea_anchor = sea_anchor;
@@ -47,7 +47,7 @@ public class EquipmentData {
         return sea_anchor;
     }
 
-    public int getLines() {
+    public boolean getLines() {
         return lines;
     }
 

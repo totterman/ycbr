@@ -2,8 +2,8 @@ package fi.smartbass.ycbr.inspection;
 
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table(name = "maritime_data")
-public class MaritimeData {
+@Table(name = "navigation_data")
+public class NavigationData {
     public final boolean lights;
     public final boolean dayshapes;
     public final boolean horn;
@@ -20,7 +20,7 @@ public class MaritimeData {
     public final boolean hand_vhf;
     public final boolean documents;
 
-    public MaritimeData(boolean lights, boolean dayshapes, boolean horn, boolean reflector, boolean compass, boolean bearing, boolean log, boolean charts, boolean radio, boolean satnav, boolean radar, boolean spotlight, boolean vhf, boolean hand_vhf, boolean documents) {
+    public NavigationData(boolean lights, boolean dayshapes, boolean horn, boolean reflector, boolean compass, boolean bearing, boolean log, boolean charts, boolean radio, boolean satnav, boolean radar, boolean spotlight, boolean vhf, boolean hand_vhf, boolean documents) {
         this.lights = lights;
         this.dayshapes = dayshapes;
         this.horn = horn;
@@ -100,7 +100,7 @@ public class MaritimeData {
 
     @Override
     public String toString() {
-        return "MaritimeData{" +
+        return "NavigationData{" +
                 "lights=" + lights +
                 ", dayshapes=" + dayshapes +
                 ", horn=" + horn +

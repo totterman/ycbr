@@ -66,9 +66,9 @@ export default {
             sv: "Båtbesiktnings-appen",
         }),
         app_text: t({
-            en: "This simple app supports the process of boat inspections at Finnish boat clubs. It is based around the user roles of Boatowner, Inspector, and Staff, the main entities being Boat, Inspection Event, and Inspection. There is a separate OAuth2 authentication provider for maximal security. All system parts run in containers.",
-            fi: "Tämä yksinkertainen sovellus auttaa järjestämään suomalaisten veneseurojen venekatsastuksia. Se perustuu käyttäjärooleihin Veneenomistaja, Katsastaja ja Kanslia, jotka käsittelevät tietoja Vene, Katsastustapahtuma, ja Katsastus. Sisäänkirjautuminen tapahtuu erillisen OAuth2 -autentikointipalvelun avulla tietoturvasyistä. Kaikkia järjestelmän osia ajetaan containereina.",
-            sv: "Denna enkla app hjälper till att genomföra båtbesiktningar på finska båtklubbar. Den bygger på användarrollerna Båtägare, Besiktningsman och Kanslist, och behandlar data om båtar, Besiktningstillfällen och Besiktningar. Inloggning av användarna sker genom en separat OAuth2 -autentikeringstjänst för maximal datasäkerhet. Alla systemdelar körs i containers.",
+            en: "This simple app supports the process of boat inspections at Finnish boat clubs. It is based around the user roles of Boatowner, Inspector, and Staff, the main entities being Boat, Inspection Event, and Inspection. There is a separate authentication provider for maximal security. All system parts run in containers.",
+            fi: "Tämä yksinkertainen sovellus auttaa järjestämään suomalaisten veneseurojen venekatsastuksia. Se perustuu käyttäjärooleihin Veneenomistaja, Katsastaja ja Kanslia, jotka käsittelevät tietoja Vene, Katsastustapahtuma, ja Katsastus. Sisäänkirjautuminen tapahtuu erillisen autentikointipalvelun avulla tietoturvasyistä. Kaikkia järjestelmän osia ajetaan containereina.",
+            sv: "Denna enkla app hjälper till att genomföra båtbesiktningar på finska båtklubbar. Den bygger på användarrollerna Båtägare, Besiktare och Kanslist, och behandlar data om båtar, Besiktningstillfällen och Besiktningar. Inloggning av användarna sker genom en separat autentikeringstjänst för maximal datasäkerhet. Alla systemdelar körs i containers.",
         }),
         users_title: t({
             en: "Users",
@@ -76,9 +76,9 @@ export default {
             sv: "Användare",
         }),
         users_text: t({
-            en: "Currently, the app is not connected to any user management system. Instead, 5 users in different roles are hardcoded in the Authentication Provider.",
-            fi: "Sovellus ei ole yhteydessä mihinkään jäsenrekisteriin. Sen sijaan 5 esimerkkikäyttäjää on kiinteästi määritelty autentikaattoriin.",
-            sv: "Appen är inte kopplad till något medlemsregister. Istället finns 5 modellanvändare med olika roller i autentikeringssystemet.",
+            en: "Currently, the app is not connected to any user management system. Instead, 4 users in different roles are hardcoded in the Authentication Provider.",
+            fi: "Sovellus ei ole yhteydessä mihinkään jäsenrekisteriin. Sen sijaan 4 esimerkkikäyttäjää on kiinteästi määritelty autentikaattoriin.",
+            sv: "Appen är inte kopplad till något medlemsregister. Istället finns 4 modellanvändare med olika roller i autentikeringssystemet.",
         }),
         user_name: t({
             en: "Name",
@@ -106,9 +106,9 @@ export default {
             sv: "Båtar",
         }),
         boats_text: t({
-            en: "Currently, the app has no connection to any boat register, hence an AI generated boat register is used as substitute. For whatever reason, the AI decided on water jets instead of real boats.",
-            fi: "Sovellus ei ole yhteydessä mihinkään venerekisteriin, vaan käyttää omaa AI:n generoimaa veneluetteloa. Jostain syystä AI päätti luoda vesijettejä oikeiden veneiden sijasta.",
-            sv: "Appen är inte kopplad till något båtregister, utan har en liten AI-genererad båtförteckning. Av någon konstig anledning fastade AI:n för vattenjettar i stället för riktiga båtar.",
+            en: "Currently, the app has no connection to any boat register, hence a tiny AI generated boat register is used as substitute.",
+            fi: "Sovellus ei ole yhteydessä mihinkään venerekisteriin, vaan käyttää omaa pientä AI:n generoimaa veneluetteloa.",
+            sv: "Appen är inte kopplad till något båtregister, utan har en liten AI-genererad båtförteckning.",
         }),
         events_title: t({
             en: "Inspection Event",
@@ -118,7 +118,7 @@ export default {
         events_text: t({
             en: "An Inspection Event has a place and a time interval. Staff creates and updates Inspection Events. Inspectors can register in them, and Boatowners can book inspections for their boats.",
             fi: "Katsastustapahtumalla on paikka ja aikaväli. Kanslia voi luoda tapahtuman ja muuttaa sen tietoja. Katsastajat voivat ilmoittautua tapahtumman, ja veneenomistajat voivat varata veneilleen katsastuksen.",
-            sv: "Besiktningstillfällen har en plats och en tidsintervall. Kansliet kan skapa och ändra tillfällen. Besiktningsmän kan anmäla sig till besiktningstillfällen, och Båtägare kan boka besiktning för sina båtar.",
+            sv: "Besiktningstillfällen har en plats och en tidsintervall. Kansliet kan skapa och ändra tillfällen. Besiktare kan anmäla sig till besiktningstillfällen, och Båtägare kan boka besiktning för sina båtar.",
         }),
         inspections_title: t({
             en: "Inspection",
@@ -143,12 +143,12 @@ export default {
         inspector_title: t({
             en: "Inspector",
             fi: "Katsastaja",
-            sv: "Besiktningsman",
+            sv: "Besiktare",
         }),
         inspector_text: t({
-            en: "Inspectors are allowed to see all Boats, Inspection Events, and their own Inspections. They can register as Inspectors at an Inspection event. As registered inspectors, they can select uninspected Boats from named Inspection event, and begin a new Inspection. Their Inspections are stored for later access.",
-            fi: "Katsastajat näkevät kaikki veneet, katsastustapahtumat ja omat katsastuksensa. He voivat ilmoittautua katsastajiksi Katsastustilaisuudet -taulukosta. Kun katsastaja on ilmoittautunut Katsastustilaisuuteen, se näkyy Työnjako -sivulla, ja viereisessä sarakkeessa on tähän tilaisuuteen katsastusajan varanneet veneet. Valitsemalla Katsastustilaisuus ja Vene, voi katsastaja aloittaa katsastuksen. Kaikki katsastukset jäävät talteen ja näytetään Katsastukset -sivulle. ",
-            sv: "Besiktningsmän kan se alla båtar, besiktningstillfällen och sina egna besiktningar. De kan anmäla sig i tabellen Besiktningstillfällen. Anmälningarna syns på sidan Arbetsfördelning, och där finns också båtarna som har tidsbokning till besiktningstillfället. Genom att välja besiktningstillfälle och båt kan besiktningsmannen börja en ny besiktning.",
+            en: "Inspectors are allowed to see their Boats Under Inspection, Inspection Events, and their own Inspections. They can register as Inspectors at an Inspection event. As registered inspectors, they can select uninspected Boats from named Inspection event, and begin a new Inspection. Their Inspections are stored for later access.",
+            fi: "Katsastajat näkevät veneet joita ovat katsastamassa, katsastustapahtumat ja omat katsastuksensa. He voivat ilmoittautua katsastajiksi Katsastustilaisuudet -taulukosta. Kun katsastaja on ilmoittautunut Katsastustilaisuuteen, se näkyy Työnjako -sivulla, ja viereisessä sarakkeessa on tähän tilaisuuteen katsastusajan varanneet veneet. Valitsemalla Katsastustilaisuus ja Vene, voi katsastaja aloittaa katsastuksen. Kaikki katsastukset jäävät talteen ja näytetään Katsastukset -sivulle. ",
+            sv: "Besiktare kan se båtar som de är i färd att besikta, besiktningstillfällen och sina egna besiktningar. De kan anmäla sig i tabellen Besiktningstillfällen. Anmälningarna syns på sidan Arbetsfördelning, och där finns också båtarna som har tidsbokning till besiktningstillfället. Genom att välja besiktningstillfälle och båt kan besiktaren börja en ny besiktning.",
         }),
         staff_title: t({
             en: "Staff",

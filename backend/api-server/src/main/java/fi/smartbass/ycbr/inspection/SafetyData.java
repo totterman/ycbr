@@ -5,16 +5,16 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(name = "safety_data")
 public class SafetyData {
     public final boolean buoyancy;
-    public final int harness;
-    public final int lifebuoy;
+    public final boolean harness;
+    public final boolean lifebuoy;
     public final boolean signals_a;
     public final boolean signals_b;
-    public final int fixed_handpump;
+    public final boolean fixed_handpump;
     public final boolean electric_pump;
-    public final int hand_extinguisher;
+    public final boolean hand_extinguisher;
     public final boolean fire_blanket;
     public final boolean plugs;
-    public final int flashlight;
+    public final boolean flashlight;
     public final boolean firstaid;
     public final boolean spare_steering;
     public final boolean emergency_tools;
@@ -22,7 +22,7 @@ public class SafetyData {
     public final boolean liferaft;
     public final boolean detector;
 
-    public SafetyData(boolean buoyancy, int harness, int lifebuoy, boolean signals_a, boolean signals_b, int fixed_handpump, boolean electric_pump, int hand_extinguisher, boolean fire_blanket, boolean plugs, int flashlight, boolean firstaid, boolean spare_steering, boolean emergency_tools, boolean reserves, boolean liferaft, boolean detector) {
+    public SafetyData(boolean buoyancy, boolean harness, boolean lifebuoy, boolean signals_a, boolean signals_b, boolean fixed_handpump, boolean electric_pump, boolean hand_extinguisher, boolean fire_blanket, boolean plugs, boolean flashlight, boolean firstaid, boolean spare_steering, boolean emergency_tools, boolean reserves, boolean liferaft, boolean detector) {
         this.buoyancy = buoyancy;
         this.harness = harness;
         this.lifebuoy = lifebuoy;
@@ -46,11 +46,11 @@ public class SafetyData {
         return buoyancy;
     }
 
-    public int getHarness() {
+    public boolean getHarness() {
         return harness;
     }
 
-    public int getLifebuoy() {
+    public boolean getLifebuoy() {
         return lifebuoy;
     }
 
@@ -62,7 +62,7 @@ public class SafetyData {
         return signals_b;
     }
 
-    public int getFixed_handpump() {
+    public boolean getFixed_handpump() {
         return fixed_handpump;
     }
 
@@ -70,7 +70,7 @@ public class SafetyData {
         return electric_pump;
     }
 
-    public int getHand_extinguisher() {
+    public boolean getHand_extinguisher() {
         return hand_extinguisher;
     }
 
@@ -82,7 +82,7 @@ public class SafetyData {
         return plugs;
     }
 
-    public int getFlashlight() {
+    public boolean getFlashlight() {
         return flashlight;
     }
 

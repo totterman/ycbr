@@ -8,20 +8,21 @@ interface RigDataContent {
   reefing: string;
   submit: string;
   reset: string;
+  recommended: string;
 }
 
 export default {
   key: "rigdata",
   content: {
     rigTitle: t({
-      en: "Rig",
-      fi: "Riki",
-      sv: "Rigg",
-    }),
-    rig: t({
       en: "Rig Condition and Maintenance",
       fi: "Takila ja purjeet, mikäli asennettu",
-      sv: "Rigg och segel, om monterade",
+      sv: "Rigg och segel, ifall monterad",
+    }),
+    rig: t({
+      en: "Rig",
+      fi: "Rikin kunto ja ylläpito",
+      sv: "Riggens kondition och underhåll",
     }),
     sails: t({
       en: "Sails",
@@ -36,7 +37,7 @@ export default {
     reefing: t({
       en: "Reefing System",
       fi: "Reivausjärjestely ",
-      sv: "Revanordning",
+      sv: "Revningsanordning",
     }),
     submit: t({
       en: "Save",
@@ -47,6 +48,11 @@ export default {
       en: "Reset",
       fi: "Peruuta",
       sv: "Återställ",
+    }),
+    recommended: t({
+      en: " RECOMMENDED",
+      fi: " SUOSITUS",
+      sv: " REKOMMENDATION",
     }),
   },
 } satisfies Dictionary<RigDataContent>;

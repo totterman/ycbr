@@ -12,8 +12,9 @@ public class EngineData {
     private final boolean separate_batteries;
     private final boolean shore_power;
     private final boolean aggregate;
+    private final boolean reserve;
 
-    public EngineData(boolean installation, boolean controls, boolean fuel_system, boolean cooling, boolean strainer, boolean separate_batteries, boolean shore_power, boolean aggregate) {
+    public EngineData(boolean installation, boolean controls, boolean fuel_system, boolean cooling, boolean strainer, boolean separate_batteries, boolean shore_power, boolean aggregate, boolean reserve) {
         this.installation = installation;
         this.controls = controls;
         this.fuel_system = fuel_system;
@@ -22,6 +23,7 @@ public class EngineData {
         this.separate_batteries = separate_batteries;
         this.shore_power = shore_power;
         this.aggregate = aggregate;
+        this.reserve = reserve;
     }
 
     public boolean isInstallation() {
@@ -56,6 +58,8 @@ public class EngineData {
         return aggregate;
     }
 
+    public boolean isReserve() { return reserve; }
+
     @Override
     public String toString() {
         return "EngineData{" +
@@ -67,6 +71,7 @@ public class EngineData {
                 ", separate_batteries=" + separate_batteries +
                 ", shore_power=" + shore_power +
                 ", aggregate=" + aggregate +
+                ", reserve=" + reserve +
                 '}';
     }
 }

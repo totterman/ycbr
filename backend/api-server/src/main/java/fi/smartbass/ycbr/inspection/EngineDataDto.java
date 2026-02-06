@@ -7,5 +7,6 @@ public record EngineDataDto(boolean installation,
         boolean strainer,
         boolean separate_batteries,
         boolean shore_power,
-        boolean aggregate) {
+        boolean aggregate,
+        boolean reserve) {
 }

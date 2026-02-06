@@ -47,21 +47,21 @@ class InspectionServiceTest {
     private @NotNull InspectionData getInspectionData() {
         HullData hullData = new HullData(false, false, false, false, false, false, false, false, false, false, 30);
         RigData rigData = new RigData(false, false, false, false);
-        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false);
-        EquipmentData equipmentData = new EquipmentData(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false);
-        MaritimeData maritimeData = new MaritimeData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
-        SafetyData safetyData = new SafetyData(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false);
-        return new InspectionData(hullData, rigData, engineData, equipmentData, maritimeData, safetyData);
+        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false, false);
+        EquipmentData equipmentData = new EquipmentData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        NavigationData navigationData = new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        SafetyData safetyData = new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        return new InspectionData(hullData, rigData, engineData, equipmentData, navigationData, safetyData);
     }
 
     private @NotNull InspectionDataDto getInspectionDataDto() {
         HullDataDto hullData = new HullDataDto(false, false, false, false, false, false, false, false, false, false, 30);
         RigDataDto rigData = new RigDataDto(false, false, false, false);
-        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false);
-        EquipmentDataDto equipmentData = new EquipmentDataDto(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false);
-        MaritimeDataDto maritimeData = new MaritimeDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
-        SafetyDataDto safetyData = new SafetyDataDto(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false);
-        return new InspectionDataDto(hullData, rigData, engineData, equipmentData, maritimeData, safetyData);
+        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false, false);
+        EquipmentDataDto equipmentData = new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        NavigationDataDto navigationData = new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        SafetyDataDto safetyData = new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        return new InspectionDataDto(hullData, rigData, engineData, equipmentData, navigationData, safetyData);
     }
 
     @BeforeEach

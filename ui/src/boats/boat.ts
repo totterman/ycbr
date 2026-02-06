@@ -6,6 +6,7 @@ export interface BoatType {
   boatId: string;
   name: string;
   sign: string;
+  kind: string;
   make: string;
   model: string;
   loa: number; // Length overall in meters

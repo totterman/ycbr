@@ -38,6 +38,6 @@ public interface InspectionMapper {
     RigData toRigData(RigDataDto dto);
     EngineData toEngineData(EngineDataDto dto);
     EquipmentData toEquipmentData(EquipmentDataDto dto);
-    MaritimeData toMaritimeData(MaritimeDataDto dto);
+    NavigationData toNavigationData(NavigationDataDto dto);
     SafetyData toSafetyData(SafetyDataDto dto);
 }

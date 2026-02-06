@@ -50,7 +50,7 @@ export default function BoatsPage() {
         accessorKey: "boatId",
         header: "Id",
         enableEditing: false,
-        //        size: 80,
+        size: 20,
       },
       {
         accessorKey: "name",
@@ -59,6 +59,10 @@ export default function BoatsPage() {
       {
         accessorKey: "sign",
         header: content.boatSign,
+      },
+      {
+        accessorKey: "kind",
+        header: content.boatKind,
       },
       {
         accessorKey: "owner",
@@ -185,6 +189,7 @@ export default function BoatsPage() {
         "mrt-row-actions",
         "boatId",
         "name",
+        "kind",
         "sign",
         "owner",
         "make",

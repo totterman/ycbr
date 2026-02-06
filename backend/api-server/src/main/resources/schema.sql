@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS hull_data;
 DROP TABLE IF EXISTS rig_data;
 DROP TABLE IF EXISTS engine_data;
 DROP TABLE IF EXISTS equipment_data;
-DROP TABLE IF EXISTS maritime_data;
+DROP TABLE IF EXISTS navigation_data;
 DROP TABLE IF EXISTS safety_data;
 
 CREATE TABLE IF NOT EXISTS boats (
@@ -136,7 +136,8 @@ CREATE TABLE IF NOT EXISTS engine_data (
   	strainer bool NULL,
   	separate_batteries bool NULL,
   	shore_power bool NULL,
-  	"aggregate" bool NULL
+  	"aggregate" bool NULL,
+  	reserve bool NULL
 );
 
 CREATE TABLE IF NOT EXISTS equipment_data (
@@ -144,7 +145,7 @@ CREATE TABLE IF NOT EXISTS equipment_data (
 	markings bool NULL,
   	anchors bool NULL,
   	sea_anchor bool NULL,
-  	lines int NULL,
+  	lines bool NULL,
   	tools bool NULL,
   	paddel bool NULL,
   	hook bool NULL,
@@ -158,7 +159,7 @@ CREATE TABLE IF NOT EXISTS equipment_data (
   	flag bool null
 );
 
-CREATE TABLE IF NOT EXISTS maritime_data (
+CREATE TABLE IF NOT EXISTS navigation_data (
 	inspections UUID NOT NULL,
 	lights bool NULL,
   	dayshapes bool NULL,
@@ -180,16 +181,16 @@ CREATE TABLE IF NOT EXISTS maritime_data (
 CREATE TABLE IF NOT EXISTS safety_data (
 	inspections UUID NOT NULL,
 	buoyancy bool NULL,
-  	harness int NULL,
-  	lifebuoy int NULL,
+  	harness bool NULL,
+  	lifebuoy bool NULL,
   	signals_a bool NULL,
   	signals_b bool NULL,
-  	fixed_handpump int NULL,
+  	fixed_handpump bool NULL,
   	electric_pump bool NULL,
-  	hand_extinguisher int NULL,
+  	hand_extinguisher bool NULL,
   	fire_blanket bool NULL,
   	plugs bool NULL,
-  	flashlight int NULL,
+  	flashlight bool NULL,
   	firstaid bool NULL,
   	spare_steering bool NULL,
   	emergency_tools bool NULL,

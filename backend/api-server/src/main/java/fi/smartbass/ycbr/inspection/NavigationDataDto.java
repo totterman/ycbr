@@ -1,6 +1,6 @@
 package fi.smartbass.ycbr.inspection;
 
-public record MaritimeDataDto(
+public record NavigationDataDto(
         boolean lights,
         boolean dayshapes,
         boolean horn,

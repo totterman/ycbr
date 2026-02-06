@@ -11,8 +11,10 @@ interface EngineDataContent {
   separate_batteries: string;
   shore_power: string;
   aggregate: string;
+  reserve: string;
   submit: string;
   reset: string;
+  recommended: string;
 }
 
 export default {
@@ -21,27 +23,27 @@ export default {
     engine: t({
       en: "Engine and systems",
       fi: "Moottori ja sen järjestelmät",
-      sv: "Motorn och tillhörande system",
+      sv: "Motorn och dess system, ifall monterade",
     }),
     installation: t({
       en: "Engine installation and condition",
       fi: "Moottorin asennus ja kunto",
-      sv: "Motorns installation och skick",
+      sv: "Motorns installation och kondition",
     }),
     controls: t({
       en: "Engine controls",
       fi: "Moottorin hallintalaitteet ja niiden toimivuus",
-      sv: "Motorreglage och deras funktion",
+      sv: "Motorns reglage och deras funktion",
     }),
     fuel_system: t({
       en: "Fuel system (tanks, pipes, valves, filters)",
       fi: "Polttoainejärjestelmä (säiliöt, putkistot, sulkuventtiilit, suodattimet)",
-      sv: "Bränslesystem (tankar, rör, ventiler, filter)",
+      sv: "Bränslesystemet (tankar, rör, avstängningsventiler, filter)",
     }),
     cooling: t({
       en: "Cooling (bilges, throughulls, pipes)",
       fi: "Jäähdytysjärjestelmä (pohjakaivot, läpiviennit, putkistot)",
-      sv: "Kylsystem (genomföringar, rör)",
+      sv: "Kylsystemet (bottenbrunnar, genomföringar, rör, ventiler)",
     }),
     strainer: t({
       en: "Sea water strainer",
@@ -51,22 +53,27 @@ export default {
     electrical: t({
       en: "Electric systems",
       fi: "Sähköjärjestelmät",
-      sv: "Elsystem",
+      sv: "Elsystemet",
     }),
     separate_batteries: t({
-      en: "Separate start and drift batteries",
-      fi: "Erillinen käynnistys- ja käyttöakusto",
-      sv: "Separata start- och bruksbatterier",
+      en: "- separate start and drift batteries",
+      fi: "- erillinen käynnistys- ja käyttöakusto",
+      sv: "- separat start- och förbrukningsbatteribank",
     }),
     shore_power: t({
-      en: "Shore power system condition",
-      fi: "Maasähköärjestelmän kunto",
-      sv: "Landströmsinstallationens skick ",
+      en: "- shore power system condition",
+      fi: "- maasähköjärjestelmän (230 VAC) kunto, mikäli asennettu",
+      sv: "- landströmsystemet (230 VAC), ifall monterat",
     }),
     aggregate: t({
-      en: "Power aggregate system (230 V) condition",
-      fi: "Aggregaattijärjestelmän (230 V) kunto",
-      sv: "Aggregatsystemets (230 V) skick",
+      en: "- power aggregate system (230 V) condition",
+      fi: "- aggregaattijärjestelmän (230 V) kunto, mikäli asennettu",
+      sv: "- aggregatsystemets (230 V) kondition, ifall monterat",
+    }),
+    reserve: t({
+      en: "- reserve power systemn",
+      fi: "- varavoimajärjestelmä",
+      sv: "- reservkraftsystem",
     }),
     submit: t({
       en: "Save",
@@ -77,6 +84,11 @@ export default {
       en: "Reset",
       fi: "Peruuta",
       sv: "Återställ",
+    }),
+    recommended: t({
+      en: " RECOMMENDED",
+      fi: " SUOSITUS",
+      sv: " REKOMMENDATION",
     }),
   },
 } satisfies Dictionary<EngineDataContent>;

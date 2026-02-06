@@ -14,7 +14,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
 import EquipmentForm from "./EquipmentForm";
-import MaritimeForm from "./MaritimeForm";
+import NavigationForm from "./NavigationForm";
 import SafetyForm from "./SafetyForm";
 import { Divider } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
@@ -32,7 +32,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
    * 
    * *********************************************************************** */
   
-  const steps = [content.hull, content.rig, content.engine, content.equipment, content.maritime, content.safety];
+  const steps = [content.hull, content.rig, content.engine, content.equipment, content.navigation, content.safety];
   function getStepContent(step: number) {
     switch (step) {
       case 0:
@@ -44,7 +44,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
       case 3:
         return <EquipmentForm data={data} />;
       case 4:
-        return <MaritimeForm data={data} />;
+        return <NavigationForm data={data} />;
       case 5:
         return <SafetyForm data={data} />;
       default:

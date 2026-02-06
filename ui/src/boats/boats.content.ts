@@ -23,6 +23,11 @@ const boatContent = {
             fi: "Rekisteritunnus",
             sv: "Registerbeteckning",
         }),
+        boatKind: t({
+            en: "Boat Kind",
+            fi: "Veneen laji",
+            sv: "Båtens slag",
+        }),
         owner: t({
             en: "Owner",
             fi: "Omistaja",
@@ -92,6 +97,16 @@ const boatContent = {
             en: "Delete",
             fi: "Poista",
             sv: "Ta bort",
+        }),
+        motor_boat: t({
+            en: "Motor Boat",
+            fi: "Moottorivene",
+            sv: "Motorbåt",
+        }),
+        sail_boat: t({
+            en: "Sail Boat",
+            fi: "Purjevene",
+            sv: "Segelbåt",
         }),
     },
 } satisfies Dictionary;

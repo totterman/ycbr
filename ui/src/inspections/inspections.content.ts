@@ -11,7 +11,7 @@ interface InspectionsContent {
   rig: string;
   engine: string;
   equipment: string;
-  maritime: string,
+  navigation: string;
   safety: string;
   inspection_event: string;
   inspector: string;
@@ -28,6 +28,14 @@ interface InspectionsContent {
   already_completed: string;
   dispatch_text: string;
   release: string;
+  inspection_class: string;
+  undefined: string;
+  offshore: string;
+  coastal: string;
+  inshore: string;
+  protected_waters: string;
+  motor_boat: string;
+  sail_boat: string;
 }
 
 export default {
@@ -83,10 +91,10 @@ export default {
       fi: "Veneilyvarusteet",
       sv: "Båtutrustning",
     }),
-    maritime: t({
-      en: "Maritime Equipment",
+    navigation: t({
+      en: "Navigation Equipment",
       fi: "Merenkulkuvarusteet",
-      sv: "Sjöfartsutrustning",
+      sv: "Navigationsutrustning",
     }),
     safety: t({
       en: "Safety Equipment",
@@ -101,7 +109,7 @@ export default {
     inspector: t({
       en: "Inspector",
       fi: "Katsastaja",
-      sv: "Besiktningsman",
+      sv: "Besiktare",
     }),
     started: t({
       en: "Started",
@@ -167,6 +175,46 @@ export default {
       en: "Release",
       fi: "Vapauta",
       sv: "Frigör",
+    }),
+    inspection_class: t({
+      en: "Inspection Class",
+      fi: "Katsastusluokka",
+      sv: "Besiktningsklass",
+    }),
+    undefined: t({
+      en: "Undefined",
+      fi: "Ei määritelty",
+      sv: "Odefinierad",
+    }),
+    offshore: t({
+      en: "Offshore",
+      fi: "Avomeri",
+      sv: "Öppet hav",
+    }),
+    coastal: t({
+      en: "Coastal",
+      fi: "Rannikko",
+      sv: "Kusten",
+    }),
+    inshore: t({
+      en: "Inshore",
+      fi: "Saaristo",
+      sv: "Skärgården",
+    }),
+    protected_waters: t({
+      en: "Protected Waters",
+      fi: "Suojaiset vesialueet",
+      sv: "Skyddade vatten",
+    }),
+    motor_boat: t({
+      en: "Motor Boat",
+      fi: "Moottorivene",
+      sv: "Motorbåt",
+    }),
+    sail_boat: t({
+      en: "Sail Boat",
+      fi: "Purjevene",
+      sv: "Segelbåt",
     }),
   },
 } satisfies Dictionary<InspectionsContent>;

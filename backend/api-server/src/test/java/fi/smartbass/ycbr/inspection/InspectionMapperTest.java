@@ -34,10 +34,10 @@ class InspectionMapperTest {
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, true, false, false, false, false, false, false, 20),
                         new RigDataDto(false, false, false, false),
-                        new EngineDataDto(false, true, false, false, false, false, false, false),
-                        new EquipmentDataDto(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false),
-                        new MaritimeDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
-                        new SafetyDataDto(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false)
+                        new EngineDataDto(false, true, false, false, false, false, false, false, false),
+                        new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
                 ),
                 null);
         testEntity = new InspectionEntity(
@@ -50,10 +50,10 @@ class InspectionMapperTest {
                 new InspectionData(
                         new HullData(false, false, false, false, false, false, false, false, false, false, 30),
                         new RigData(true, false, true, false),
-                        new EngineData(false, false, false, false, false, false, false, false),
-                        new EquipmentData(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false),
-                        new MaritimeData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
-                        new SafetyData(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false)
+                        new EngineData(false, false, false, false, false, false, false, false, false),
+                        new EquipmentData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
                 ),
                 null,
                 instantNow,

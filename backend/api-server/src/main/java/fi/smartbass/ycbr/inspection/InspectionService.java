@@ -67,10 +67,10 @@ public class InspectionService {
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, false, false, false, false, false, false, false, 0),
                         new RigDataDto(false, false, false, false),
-                        new EngineDataDto(false, false, false, false, false, false, false, false),
-                        new EquipmentDataDto(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false),
-                        new MaritimeDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
-                        new SafetyDataDto(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false)
+                        new EngineDataDto(false, false, false, false, false, false, false, false, false),
+                        new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+                        new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
                 ),
                 null);
         LOGGER.info("DTO: {}", dto);

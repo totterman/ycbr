@@ -8,15 +8,15 @@ public class InspectionData {
     private final RigData rigData;
     private final EngineData engineData;
     private final EquipmentData equipmentData;
-    private final MaritimeData maritimeData;
+    private final NavigationData navigationData;
     private final SafetyData safetyData;
 
-    public InspectionData(HullData hullData, RigData rigData, EngineData engineData, EquipmentData equipmentData, MaritimeData maritimeData, SafetyData safetyData) {
+    public InspectionData(HullData hullData, RigData rigData, EngineData engineData, EquipmentData equipmentData, NavigationData navigationData, SafetyData safetyData) {
         this.hullData = hullData;
         this.rigData = rigData;
         this.engineData = engineData;
         this.equipmentData = equipmentData;
-        this.maritimeData = maritimeData;
+        this.navigationData = navigationData;
         this.safetyData = safetyData;
     }
 
@@ -36,8 +36,8 @@ public class InspectionData {
         return equipmentData;
     }
 
-    public MaritimeData getMaritimeData() {
-        return maritimeData;
+    public NavigationData getNavigationData() {
+        return navigationData;
     }
 
     public SafetyData getSafetyData() {
@@ -51,7 +51,7 @@ public class InspectionData {
                 ", rigData=" + rigData +
                 ", engineData=" + engineData +
                 ", equipmentData=" + equipmentData +
-                ", maritimeData=" + maritimeData +
+                ", navigationData=" + navigationData +
                 ", safetyData=" + safetyData +
                 '}';
     }

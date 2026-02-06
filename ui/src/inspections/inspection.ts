@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
-
 export interface NewInspection {
   inspectorName: string;
   eventId: string;
@@ -13,27 +12,20 @@ export interface NewInspection {
   inspectionClass: string;
 }
 
-export interface InspectionDto {
+interface BaseInspection extends NewInspection {
   inspectionId: string;
-  timestamp: string;
-  inspector: string;
-  eventId: string;
-  boatId: string;
-  inspectionClass: string;
-  inspection: InspectionData;
   completed: string;
+} 
+
+export interface InspectionDto extends BaseInspection {
+  timestamp: string;
+  inspection: InspectionData;
 }
 
-export interface MyInspectionsDto {
-  inspectionId: string;
-  eventId: string;
-  boatId: string;
-  inspectorName: string;
+export interface MyInspectionsDto extends BaseInspection {
   boatName: string;
-  inspectionClass: string;
   place: string;
   day: string;
-  completed: string;
 }
 
 export interface InspectionData {
@@ -41,7 +33,7 @@ export interface InspectionData {
   rigData: RigData;
   engineData: EngineData;
   equipmentData: EquipmentData;
-  maritimeData: MaritimeData;
+  navigationData: NavigationData;
   safetyData: SafetyData;
 }
 
@@ -75,13 +67,14 @@ export interface EngineData {
   separate_batteries: boolean;
   shore_power: boolean;
   aggregate: boolean;
+  reserve: boolean;
 }
 
 export interface EquipmentData {
   markings: boolean;
   anchors: boolean;
   sea_anchor: boolean;
-  lines: number;
+  lines: boolean;
   tools: boolean;
   paddel: boolean;
   hook: boolean;
@@ -95,7 +88,7 @@ export interface EquipmentData {
   flag: boolean;
 }
 
-export interface MaritimeData {
+export interface NavigationData {
   lights: boolean;
   dayshapes: boolean;
   horn: boolean;
@@ -115,16 +108,16 @@ export interface MaritimeData {
 
 export interface SafetyData {
   buoyancy: boolean;
-  harness: number;
-  lifebuoy: number;
+  harness: boolean;
+  lifebuoy: boolean;
   signals_a: boolean;
   signals_b: boolean;
-  fixed_handpump: number;
+  fixed_handpump: boolean;
   electric_pump: boolean;
-  hand_extinguisher: number;
+  hand_extinguisher: boolean;
   fire_blanket: boolean;
   plugs: boolean;
-  flashlight: number;
+  flashlight: boolean;
   firstaid: boolean;
   spare_steering: boolean;
   emergency_tools: boolean;

@@ -37,11 +37,11 @@ class InspectionRepositoryTest {
     void setUp() {
         HullData hullData = new HullData(false, false, false, false, false, false, false, false, false, false, 30);
         RigData rigData = new RigData(false, false, false, false);
-        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false);
-        EquipmentData equipmentData = new EquipmentData(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false);
-        MaritimeData maritimeData = new MaritimeData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
-        SafetyData safetyData = new SafetyData(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false);
-        InspectionData inspectionData = new InspectionData(hullData, rigData, engineData, equipmentData, maritimeData, safetyData);
+        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false, false);
+        EquipmentData equipmentData = new EquipmentData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        NavigationData navigationData = new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        SafetyData safetyData = new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        InspectionData inspectionData = new InspectionData(hullData, rigData, engineData, equipmentData, navigationData, safetyData);
         InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, InspectionClass.COASTAL, inspectionData, null, Instant.now(), "system", Instant.now(), "system", 0);
         repository.save(entity);
     }

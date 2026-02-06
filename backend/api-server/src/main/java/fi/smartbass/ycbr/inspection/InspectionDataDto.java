@@ -5,5 +5,5 @@ public record InspectionDataDto(
         RigDataDto rigData,
         EngineDataDto engineData,
         EquipmentDataDto equipmentData,
-        MaritimeDataDto maritimeData,
+        NavigationDataDto navigationData,
         SafetyDataDto safetyData) {}

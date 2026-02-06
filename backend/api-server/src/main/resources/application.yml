@@ -83,7 +83,7 @@ logging:
       springframework:
         boot: INFO
         jdbc:
-          core: DEBUG
+          core: INFO
         security: INFO
         transaction:
           interceptor: DEBUG

@@ -6,8 +6,7 @@ public record EquipmentDataDto(
         boolean markings,
         boolean anchors,
         boolean sea_anchor,
-        @PositiveOrZero
-        int lines,
+        boolean lines,
         boolean tools,
         boolean paddel,
         boolean hook,

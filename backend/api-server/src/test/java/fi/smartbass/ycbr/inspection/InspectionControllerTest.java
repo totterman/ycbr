@@ -59,10 +59,10 @@ class InspectionControllerTest {
     private InspectionDataDto getInspectionDataDto() {
         HullDataDto hullData = new HullDataDto(false, false, false, false, false, false, false, false, false, false, 30);
         RigDataDto rigData = new RigDataDto(false, false, false, false);
-        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false);
-        EquipmentDataDto equipmentData = new EquipmentDataDto(false, false, false, 0, false, false, false, false, false, false, false, false, false, false, false);
-        MaritimeDataDto maritimeData = new MaritimeDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
-        SafetyDataDto safetyData = new SafetyDataDto(false, 0, 0, false, false, 0, false, 0, false, false, 0, false, false, false, false, false, false);
+        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false, false);
+        EquipmentDataDto equipmentData = new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        NavigationDataDto maritimeData = new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        SafetyDataDto safetyData = new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         return new InspectionDataDto(hullData, rigData, engineData, equipmentData, maritimeData, safetyData);
     }
 

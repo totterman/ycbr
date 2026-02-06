@@ -43,7 +43,7 @@ function IndexComponent() {
     createData("Stina Skeppare", "stina", "stina", content.boatowner_title),
     createData("Ronja Rorsman", "ronja", "ronja", content.boatowner_title),
     createData("Kalle Kanslist", "kalle", "kalle", content.staff_title),
-    createData("Bengt Besiktningsman", "bengt", "bengt", content.inspector_title),
+    createData("Bengt Besiktare", "bengt", "bengt", content.inspector_title),
 //    createData("Jenny Gast", "jenny", "jenny", content.guest_title),
   ];
 
