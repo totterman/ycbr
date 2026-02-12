@@ -9,7 +9,9 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Table(name = "inspections")
 public class InspectionEntity {
@@ -32,6 +34,7 @@ public class InspectionEntity {
 
     private InspectionData inspection;
     private OffsetDateTime completed;
+    private Set<Remark> remarks;
 
     @CreatedDate
     @InsertOnlyProperty
@@ -50,7 +53,7 @@ public class InspectionEntity {
     @Version
     private int version;
 
-    public InspectionEntity(UUID inspectionId, OffsetDateTime timestamp, String inspectorName, UUID eventId, UUID boatId, String inspectionClass, InspectionData inspection, OffsetDateTime completed, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
+    public InspectionEntity(UUID inspectionId, OffsetDateTime timestamp, String inspectorName, UUID eventId, UUID boatId, String inspectionClass, InspectionData inspection, OffsetDateTime completed, Set<Remark> remarks, Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, int version) {
         this.inspectionId = inspectionId;
         this.timestamp = timestamp;
         this.inspectorName = inspectorName;
@@ -59,6 +62,7 @@ public class InspectionEntity {
         this.inspectionClass = inspectionClass;
         this.inspection = inspection;
         this.completed = completed;
+        this.remarks = remarks == null ? ConcurrentHashMap.newKeySet() : remarks;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.modifiedAt = modifiedAt;
@@ -97,6 +101,8 @@ public class InspectionEntity {
     public OffsetDateTime getCompleted() {
         return completed;
     }
+
+    public Set<Remark> getRemarks() { return remarks; }
 
     public Instant getCreatedAt() {
         return createdAt;

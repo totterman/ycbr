@@ -3,7 +3,6 @@ import { InspectionProps, RigData, useUpdateInspection } from "./inspection";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
-import { FormGrid } from "./form/FormGrid";
 import { useIntlayer } from "react-intlayer";
 import Stack from "@mui/material/Stack";
 import { useContext } from "react";
@@ -120,9 +119,10 @@ export default function RigDataForm({ data }: InspectionProps) {
             )}
           </Stack>
         </FormGroup>
+
         <Stack
           direction="row"
-          justifyContent="right"
+          justifyContent="left"
           spacing={4}
           sx={{ mt: 2 }}
         >

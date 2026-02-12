@@ -128,7 +128,7 @@ export default {
         inspections_text: t({
             en: "An Inspection is specific for one boat. The Inspector fills in information about the inspected boat.",
             fi: "Katsastus kohdistuu tiettyyn veneeseen. Katsastaja täyttää katsastettavan veneen tiedot.",
-            sv: "En besiktning är specifik för en båt. Besikningsmannen fyller i uppgifter on båten som besiktas.",
+            sv: "En besiktning är specifik för en båt. Besiktaren fyller i uppgifter on båten som besiktas.",
         }),
         boatowner_title: t({
             en: "Boatowner",

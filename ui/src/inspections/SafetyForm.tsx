@@ -464,7 +464,7 @@ export default function SafetyForm({ data }: InspectionProps) {
         </FormGroup>
         <Stack
           direction="row"
-          justifyContent="right"
+          justifyContent="left"
           spacing={4}
           sx={{ mt: 2 }}
         >

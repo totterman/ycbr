@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
@@ -42,7 +43,10 @@ class InspectionRepositoryTest {
         NavigationData navigationData = new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         SafetyData safetyData = new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         InspectionData inspectionData = new InspectionData(hullData, rigData, engineData, equipmentData, navigationData, safetyData);
-        InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, InspectionClass.COASTAL, inspectionData, null, Instant.now(), "system", Instant.now(), "system", 0);
+        Remark remark = new Remark(0, "7.1", "Needs overhaul");
+        Set<Remark> remarks = Set.of(remark);
+
+        InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, InspectionClass.COASTAL, inspectionData, null, remarks, Instant.now(), "system", Instant.now(), "system", 0);
         repository.save(entity);
     }
 

@@ -4,8 +4,7 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import React from "react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import HullDataForm from "./HullDataForm";
 import { InspectionProps, useUpdateInspection } from "./inspection";
 import RigDataForm from "./RigDataForm";
@@ -18,9 +17,9 @@ import NavigationForm from "./NavigationForm";
 import SafetyForm from "./SafetyForm";
 import { Divider } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
+import RemarkForm from "./RemarkForm";
 
 export default function InspectionStepper({ data }: InspectionProps) {
-
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
@@ -29,10 +28,17 @@ export default function InspectionStepper({ data }: InspectionProps) {
   /* *************************************************************************
    *
    * Insert steps and step components here
-   * 
+   *
    * *********************************************************************** */
-  
-  const steps = [content.hull, content.rig, content.engine, content.equipment, content.navigation, content.safety];
+
+  const steps = [
+    content.hull,
+    content.rig,
+    content.engine,
+    content.equipment,
+    content.navigation,
+    content.safety,
+  ];
   function getStepContent(step: number) {
     switch (step) {
       case 0:
@@ -52,7 +58,9 @@ export default function InspectionStepper({ data }: InspectionProps) {
     }
   }
 
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
+  const { mutateAsync: updateInspection } = useUpdateInspection(
+    data.inspectionId,
+  );
 
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{
@@ -111,13 +119,14 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleDone = async () => {
-    data.completed = dayjs().format('YYYY-MM-DDTHH:mm:ssZ');
-    console.log('Completed:', data);
+    data.completed = dayjs().format("YYYY-MM-DDTHH:mm:ssZ");
+    console.log("Completed:", data);
     await updateInspection(data);
     navigate({
-      to: '/inspect',
+      to: "/inspect",
       replace: true,
-    });  }
+    });
+  };
 
   return (
     <Box sx={{ width: "100%", mt: 8 }}>
@@ -132,20 +141,27 @@ export default function InspectionStepper({ data }: InspectionProps) {
       </Stepper>
       <div>
         {allStepsCompleted() ? (
-          <React.Fragment>
-            <Typography  variant='h5' sx={{ mt: 2, mb: 1 }}>{content.inspection_completed}</Typography>
+          <Fragment>
+            <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+              {content.inspection_completed}
+            </Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button onClick={handleDone}>{content.done}</Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleReset}>{content.reset}</Button>
             </Box>
-          </React.Fragment>
+          </Fragment>
         ) : (
-          <React.Fragment>
+          <Fragment>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2, mt: 8 }}>
-            {getStepContent(activeStep)}
+              {getStepContent(activeStep)}
             </Box>
-            <Divider sx={{ color: 'primary.main', mt: 4, mb: 1 }} />
+
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2, mt: 4 }}>
+              <RemarkForm data={data} step={activeStep} />
+            </Box>
+
+            <Divider sx={{ color: "primary.main", mt: 4, mb: 1 }} />
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
@@ -165,18 +181,17 @@ export default function InspectionStepper({ data }: InspectionProps) {
                     variant="caption"
                     sx={{ display: "inline-block" }}
                   >
-                    {content.step} { activeStep + 1 } {content.already_completed}
+                    {content.step} {activeStep + 1} {content.already_completed}
                   </Typography>
                 ) : (
                   <Button onClick={handleComplete}>
                     {completedSteps() === totalSteps() - 1
                       ? content.finish
-                      : content.complete_step
-                      }
+                      : content.complete_step}
                   </Button>
                 ))}
             </Box>
-          </React.Fragment>
+          </Fragment>
         )}
       </div>
     </Box>

@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +25,11 @@ class InspectionMapperTest {
         UUID inspectionId = UUID.randomUUID();
         UUID eventId = UUID.randomUUID();
         UUID boatId = UUID.randomUUID();
+        RemarkDto remarkDto = new RemarkDto(0, "7.1", "Needs overhaul");
+        Set<RemarkDto> remarkDtos = Set.of(remarkDto);
+        Remark remark = new Remark(0, "7.1", "Needs overhaul");
+        Set<Remark> remarks = Set.of(remark);
+
         testDto = new InspectionDto(
                 inspectionId,
                 offsetDateTimeNow.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
@@ -39,7 +45,8 @@ class InspectionMapperTest {
                         new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
                 ),
-                null);
+                null,
+                remarkDtos);
         testEntity = new InspectionEntity(
                 inspectionId,
                 offsetDateTimeNow,
@@ -56,6 +63,7 @@ class InspectionMapperTest {
                         new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
                 ),
                 null,
+                remarks,
                 instantNow,
                 "createdBy",
                 instantNow,

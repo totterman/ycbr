@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS engine_data;
 DROP TABLE IF EXISTS equipment_data;
 DROP TABLE IF EXISTS navigation_data;
 DROP TABLE IF EXISTS safety_data;
+DROP TABLE IF EXISTS remarks;
 
 CREATE TABLE IF NOT EXISTS boats (
 	boat_id UUID DEFAULT uuidv7() UNIQUE NOT NULL,
@@ -199,3 +200,9 @@ CREATE TABLE IF NOT EXISTS safety_data (
   	detector bool NULL
 );
 
+CREATE TABLE remarks (
+	inspections UUID NOT NULL,
+	id int NOT NULL,
+	item varchar(5) NOT NULL,
+	text varchar(255) NULL
+);

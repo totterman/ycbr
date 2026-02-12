@@ -4,11 +4,9 @@ import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
 import Stack from "@mui/material/Stack";
-import { FormGrid } from "./form/FormGrid";
 import { useIntlayer } from "react-intlayer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CategoryContext, isOfClass } from "./categorycontext";
-import { Grid2 } from "@mui/material";
 
 export default function HullDataForm({ data }: InspectionProps) {
   const defaultHull: HullData = data.inspection.hullData;
@@ -16,7 +14,9 @@ export default function HullDataForm({ data }: InspectionProps) {
     defaultValues: defaultHull,
   });
   const content = useIntlayer("hulldata");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
+  const { mutateAsync: updateInspection } = useUpdateInspection(
+    data.inspectionId,
+  );
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
@@ -26,12 +26,19 @@ export default function HullDataForm({ data }: InspectionProps) {
       // Do something with form data
       data.inspectionClass = category.inspectionClass;
       data.inspection.hullData = value;
-      console.log("HullData:", value, "Boat Kind:", category.kind, "Inspection Class:", category.inspectionClass);
+      console.log(
+        "HullData:",
+        value,
+        "Boat Kind:",
+        category.kind,
+        "Inspection Class:",
+        category.inspectionClass,
+      );
       await updateInspection(data);
     },
   });
 
-  const leaks = [0, 10, 20, 30, 40, 50];
+  const leaks = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   return (
     <Stack>
@@ -52,100 +59,145 @@ export default function HullDataForm({ data }: InspectionProps) {
             justifyContent: "space-between",
           }}
         >
-            <Stack direction="column" sx={{ width: 1000 }}>
-
-              {isOfClass(category, '1234') &&
+          <Stack direction="column" sx={{ width: 1000 }}>
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="hull"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.1" label={content.hullCondition.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.1"
+                    label={content.hullCondition.value}
+                  />
                 )}
-              />}
-              {isOfClass(category, '123') &&
+              />
+            )}
+            {isOfClass(category, "123") && (
               <form.AppField
                 name="openings"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.2" label={content.openings.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.2"
+                    label={content.openings.value}
+                  />
                 )}
-              />}
-              {isOfClass(category, '1234') &&
+              />
+            )}
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="material"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.3" label={content.material.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.3"
+                    label={content.material.value}
+                  />
                 )}
-              />}
-              {isOfClass(category, '1234') &&
+              />
+            )}
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="keel_rudder"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.4" label={content.keel_rudder.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.4"
+                    label={content.keel_rudder.value}
+                  />
                 )}
-              />}
-              {isOfClass(category, '1234') &&
+              />
+            )}
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="steering"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.5" label={content.steering.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.5"
+                    label={content.steering.value}
+                  />
                 )}
-              />}
-              {isOfClass(category, '1234') &&
+              />
+            )}
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="drive_shaft_prop"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.6"
+                  <field.YcbrCheckBoxField
+                    nr="1.6"
                     label={content.drive_shaft_prop.value}
                   />
                 )}
-              />}
-              {isOfClass(category, '123') &&
+              />
+            )}
+            {isOfClass(category, "123") && (
               <form.AppField
                 name="throughulls"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.7" label={content.throughulls} />
+                  <field.YcbrCheckBoxField
+                    nr="1.7"
+                    label={content.throughulls}
+                  />
                 )}
-              />}
-              {isOfClass(category, '4') &&
+              />
+            )}
+            {isOfClass(category, "4") && (
               <form.AppField
                 name="throughulls"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.7" label={content.throughulls} rec={content.recommended.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.7"
+                    label={content.throughulls}
+                    rec={content.recommended.value}
+                  />
                 )}
-              />}
-              
-              {isOfClass(category, '1234') &&
+              />
+            )}
+
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="fall_protection"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.8"
+                  <field.YcbrCheckBoxField
+                    nr="1.8"
                     label={content.fall_protection.value}
                   />
                 )}
-              />}
-              {isOfClass(category, '1234') &&
+              />
+            )}
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="heavy_objects"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.9" label={content.heavy_objects.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.9"
+                    label={content.heavy_objects.value}
+                  />
                 )}
-              />}
+              />
+            )}
 
-              {isOfClass(category, '123') &&
+            {isOfClass(category, "123") && (
               <form.AppField
                 name="fresh_water"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.10" label={content.fresh_water.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.10"
+                    label={content.fresh_water.value}
+                  />
                 )}
-              />}
-              {isOfClass(category, '4') &&
+              />
+            )}
+            {isOfClass(category, "4") && (
               <form.AppField
                 name="fresh_water"
                 children={(field) => (
-                  <field.YcbrCheckBoxField nr="1.10" label={content.fresh_water.value} rec={content.recommended.value} />
+                  <field.YcbrCheckBoxField
+                    nr="1.10"
+                    label={content.fresh_water.value}
+                    rec={content.recommended.value}
+                  />
                 )}
-              />}
-              
-              {isOfClass(category, '1234') &&
+              />
+            )}
+
+            {isOfClass(category, "1234") && (
               <form.AppField
                 name="lowest_leak"
                 children={(field) => (
@@ -154,10 +206,17 @@ export default function HullDataForm({ data }: InspectionProps) {
                     numbers={leaks}
                   />
                 )}
-              />}
-            </Stack>
+              />
+            )}
+          </Stack>
         </FormGroup>
-        <Stack direction="row" justifyContent="right" spacing={4} sx={{ mt: 2 }}>
+        
+        <Stack
+          direction="row"
+          justifyContent="left"
+          spacing={4}
+          sx={{ mt: 2 }}
+        >
           <form.AppForm>
             <form.SubscribeButton label={content.submit.value} />
           </form.AppForm>
@@ -166,6 +225,6 @@ export default function HullDataForm({ data }: InspectionProps) {
           </form.AppForm>
         </Stack>
       </form>
-      </Stack>
+    </Stack>
   );
 }

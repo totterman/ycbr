@@ -15,6 +15,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.mockito.Mockito.verify;
@@ -40,6 +41,8 @@ class InspectionControllerTest {
     private final UUID eventId = UUID.randomUUID();
     private final UUID boatId = UUID.randomUUID();
     private final String inspectorName = "Inspector Name";
+    private final RemarkDto remark = new RemarkDto(0, "7.1", "Needs overhaul");
+    private final Set<RemarkDto> remarks = Set.of(remark);
 
     private final InspectionDto dto = new InspectionDto(
             inspectionId,
@@ -49,7 +52,8 @@ class InspectionControllerTest {
             boatId,
             "1",
             getInspectionDataDto(),
-            null
+            null,
+            remarks
     );
     private final List<InspectionDto> dtos = List.of(dto);
     private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, "Place X", OffsetDateTime.now(), null);

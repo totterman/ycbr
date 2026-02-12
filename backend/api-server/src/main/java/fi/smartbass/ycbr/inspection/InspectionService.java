@@ -72,6 +72,7 @@ public class InspectionService {
                         new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
                 ),
+                null,
                 null);
         LOGGER.info("DTO: {}", dto);
         InspectionEntity newEntity = repository.save(mapper.toEntity(dto));
@@ -104,7 +105,8 @@ public class InspectionService {
                 from.boatId(),
                 from.inspectionClass(),
                 from.inspection(),
-                from.completed());
+                from.completed(),
+                from.remarks());
         LOGGER.info("DTO: {}", dto);
         InspectionEntity newEntity = repository.save(mapper.toEntity(dto));
         LOGGER.info("Entity: {}", newEntity);

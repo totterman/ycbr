@@ -26,6 +26,7 @@ export default function NavigationForm({ data }: InspectionProps) {
     // validators:
     onSubmit: async ({ value }) => {
       // Do something with form data
+      data.inspectionClass = category.inspectionClass;
       data.inspection.navigationData = value;
       console.log("NavigationData:", value);
       await updateInspection(data);
@@ -236,7 +237,7 @@ export default function NavigationForm({ data }: InspectionProps) {
         </FormGroup>
         <Stack
           direction="row"
-          justifyContent="right"
+          justifyContent="left"
           spacing={4}
           sx={{ mt: 2 }}
         >

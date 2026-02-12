@@ -18,7 +18,7 @@ import { useGetI9Event } from "@/inspectionevents/inspectionevent";
 import dayjs from "dayjs";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Category, CategoryContext } from "./categorycontext";
 
 export default function InspectionPage() {
@@ -34,8 +34,14 @@ export default function InspectionPage() {
   const boat = useGetBoat(data.boatId);
   const i9event = useGetI9Event(data.eventId);
 
+  /* ************************************************ **
+   *
+   * Inspection category
+   *
+   * ************************************************ */
+
   const classes = [
-//    { code: "0", title: content.undefined },
+    //    { code: "0", title: content.undefined },
     { code: "1", title: content.offshore },
     { code: "2", title: content.coastal },
     { code: "3", title: content.inshore },
@@ -73,7 +79,9 @@ export default function InspectionPage() {
                 gutterBottom
                 sx={{ color: "text.secondary", fontSize: 14 }}
               >
-                {boat?.kind === "M" ? content.motor_boat.value : content.sail_boat.value}
+                {boat?.kind === "M"
+                  ? content.motor_boat.value
+                  : content.sail_boat.value}
               </Typography>
               <Typography variant="h5" component="div">
                 {boat?.name}

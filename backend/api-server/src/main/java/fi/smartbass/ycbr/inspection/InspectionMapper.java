@@ -6,6 +6,7 @@ import org.mapstruct.MappingConstants;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, imports = { DateTimeFormatter.class, OffsetDateTime.class })
 public interface InspectionMapper {
@@ -40,4 +41,6 @@ public interface InspectionMapper {
     EquipmentData toEquipmentData(EquipmentDataDto dto);
     NavigationData toNavigationData(NavigationDataDto dto);
     SafetyData toSafetyData(SafetyDataDto dto);
+    Remark toRemark(RemarkDto dto);
+    Set<Remark> toRemarks(Set<RemarkDto> dtos);
 }

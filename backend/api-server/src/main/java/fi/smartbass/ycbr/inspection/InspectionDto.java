@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.Set;
 import java.util.UUID;
 
 public record InspectionDto(
@@ -22,6 +23,7 @@ public record InspectionDto(
         String inspectionClass,
         InspectionDataDto inspection,
         @Nullable
-        String completed
+        String completed,
+        Set<RemarkDto> remarks
 ) { }
 

@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,8 +69,10 @@ class InspectionServiceTest {
     void setUp() {
         OffsetDateTime now = OffsetDateTime.now();
         Instant instantNow = Instant.now();
-        newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, instantNow, "system", instantNow, "system", 0);
-        oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, instantNow, "system", instantNow, "system", 1);
+        Remark remark = new Remark(0, "7.1", "Needs overhaul");
+        Set<Remark> remarks = Set.of(remark);
+        newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, remarks, instantNow, "system", instantNow, "system", 0);
+        oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, remarks, instantNow, "system", instantNow, "system", 1);
         entityList = List.of(oldEntity);
         myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.UNDEFINED, "Place X", OffsetDateTime.now(), null);
         myInspectionsDtoList = List.of(myInspectionsDto);

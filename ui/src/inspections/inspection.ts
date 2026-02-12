@@ -5,6 +5,12 @@ import {
 } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
+export interface Remark {
+  id: number;
+  item: string;
+  text: string;
+}
+
 export interface NewInspection {
   inspectorName: string;
   eventId: string;
@@ -20,6 +26,7 @@ interface BaseInspection extends NewInspection {
 export interface InspectionDto extends BaseInspection {
   timestamp: string;
   inspection: InspectionData;
+  remarks: Remark[];
 }
 
 export interface MyInspectionsDto extends BaseInspection {
@@ -238,6 +245,7 @@ async function fetchAllInspections() {
 }
 
 async function updateInspection(dto: InspectionDto) {
+  console.log('Updating Inspection:', dto);
   const id = dto.inspectionId;
   const response = await axios
     .put<InspectionDto>(`/bff/api/inspections/${id}`, dto, {

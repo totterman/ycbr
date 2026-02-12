@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +29,10 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     private final UUID boatId = UUID.randomUUID();
     private final String inspectorName = "Inspector Name";
 
+    RemarkDto remarkDto = new RemarkDto(0, "7.1", "Needs overhaul");
+    Set<RemarkDto> remarkDtos = Set.of(remarkDto);
+
+
     private final NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.PROTECTED_WATERS);
     private final InspectionDto dto = new InspectionDto(
             inspectionId,
@@ -37,7 +42,8 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
             boatId,
             InspectionClass.PROTECTED_WATERS,
             getInspectionDataDto(),
-            null
+            null,
+            remarkDtos
     );
     private final List<InspectionDto> dtos = List.of(dto);
     private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, "Place X", OffsetDateTime.now(), null);
@@ -153,7 +159,8 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
                 created.boatId(),
                 created.inspectionClass(),
                 created.inspection(),
-                created.completed()
+                created.completed(),
+                remarkDtos
         );
         String updatedInspectionJson = om.writeValueAsString(updated);
         MvcTestResult updateResult = mvc.put()
