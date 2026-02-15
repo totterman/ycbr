@@ -136,6 +136,18 @@ public class I9EventService {
     }
 
     @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
+    public I9EventDto assignBoatTimeToEvent(UUID id, BoatTimeBookingDto dto) {
+        if (dto == null || dto.boatId() == null) throw new NullPointerException();
+        I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
+        if (event.getBoats().stream().noneMatch(b -> b.getBoatId().equals(dto.boatId()))) {
+            event.addBoat(dto.boatId(), dto.message());
+            I9EventEntity newEvent = eventRepository.save(event);
+            return mapper.toDTO(newEvent);
+        }
+        throw new BookingExistsException(dto.boatId());
+    }
+
+    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public I9EventDto removeBoatFromEvent(UUID id, UUID boatId) {
         I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
         if (event.getBoats().stream().noneMatch(b -> b.getBoatId().equals(boatId))) {

@@ -31,6 +31,14 @@ export interface BoatBookingDto {
   taken: boolean;
 }
 
+export interface BoatTimeBookingDto {
+  boatId: string;
+  message: string;
+  type: string;
+  time: string;
+  taken: boolean;
+}
+
 export interface InspectorDto {
   inspectorName: string;
   message: string;
@@ -160,6 +168,32 @@ export function useAddBoatBooking() {
       console.log("dto: ", dto);
       const response = await axios
         .post<BoatBookingDto>("/bff/api/i9events/" + id + "/boats", dto, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          return res.data ?? null;
+        })
+        .catch((err: AxiosError) => {
+          console.log("Axios err: ", err.message);
+          if (err.status === 409) {
+            console.log('Boat', dto.boatId, 'is already booked for event', id);
+          }
+        });
+      return response;
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["i9events"] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+export function useAddBoatTimeBooking() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, dto }: { id: string, dto: BoatTimeBookingDto }) => {
+      console.log("dto: ", dto);
+      const response = await axios
+        .post<BoatTimeBookingDto>("/bff/api/i9events/" + id + "/time", dto, {
           headers: {
             "Content-Type": "application/json",
           },
