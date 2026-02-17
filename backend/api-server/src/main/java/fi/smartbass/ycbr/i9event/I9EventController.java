@@ -107,14 +107,6 @@ public class I9EventController {
         return service.assignBoatToEvent(id, boat);
     }
 
-    @PostMapping("/{id}/time")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthority('boatowner', 'staff')")
-    public I9EventDto addBoatTime(Authentication auth, @PathVariable("id") UUID id, @Valid @RequestBody BoatTimeBookingDto boat) {
-        LOGGER.info("addBoatTime({}) called: {}", boat, auth);
-        return service.assignBoatTimeToEvent(id, boat);
-    }
-
     @PostMapping("/{id}/mark")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('inspector', 'staff')")

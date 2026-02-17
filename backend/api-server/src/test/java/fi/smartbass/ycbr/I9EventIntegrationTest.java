@@ -55,7 +55,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
         List<I9EventDto> firstList = om.readValue(getAll.getResponse().getContentAsString(), new TypeReference<List<I9EventDto>>(){});
         System.out.println(" Empty JSON: " + getAll.getResponse().getContentAsString());
 
-        I9EventDto newI9Event = new I9EventDto(null, "Blekholmen", "2026-05-18T00:00:00.000+03:00", "2026-05-18T18:00:00.000+03:00", "2026-05-18T20:00:00.000+03:00", 0, 0);
+        I9EventDto newI9Event = new I9EventDto(null, "Blekholmen", "2026-05-18T00:00:00.000+03:00", "2026-05-18T18:00:00.000+03:00", "2026-05-18T20:00:00.000+03:00", null, 0, 0);
         String newI9EventJson = om.writeValueAsString(newI9Event);
         MvcTestResult addNew = mvc.post()
                 .uri("/i9events")
@@ -111,7 +111,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
         I9EventDto before = om.readValue(getOne.getResponse().getContentAsString(), I9EventDto.class);
         System.out.println(" Before JSON: " + getOne.getResponse().getContentAsString());
 
-        I9EventDto updated = new I9EventDto(before.i9eventId(), before.place() + "x", before.day(), before.starts(), before.ends(), before.boats(), before.inspectors());
+        I9EventDto updated = new I9EventDto(before.i9eventId(), before.place() + "x", before.day(), before.starts(), before.ends(), before.bookings(), before.boats(), before.inspectors());
         String updatedJson = om.writeValueAsString(updated);
         MvcTestResult replaceOld = mvc.put()
                 .uri("/i9events/" + i9eventId)
@@ -221,7 +221,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
         I9EventDto created = firstList.getLast();
         assertThat(created.boats()).isEqualTo(0);
         UUID boatId = UUID.randomUUID();
-        BoatBookingDto bookingDTO = new BoatBookingDto(boatId, "BoatEntity Message", false);
+        BoatBookingDto bookingDTO = new BoatBookingDto(boatId, "BoatEntity Message","B","2026-05-19T01:00:00.000+03:00",  false);
         String bookingJson = om.writeValueAsString(bookingDTO);
         MvcTestResult updateOne = mvc.post()
                 .uri("/i9events/" + created.i9eventId() + "/boats")
@@ -234,7 +234,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
         System.out.println("Updated JSON: " + updateOne.getResponse().getContentAsString());
         assertThat(updated.boats()).isEqualTo(1);
 
-        BoatBookingDto secondDTO = new BoatBookingDto(boatId, "BoatEntity Message 2", false);
+        BoatBookingDto secondDTO = new BoatBookingDto(boatId, "BoatEntity Message 2", "B", "2026-05-19T01:00:00.000+03:00", false);
         String secondJson = om.writeValueAsString(secondDTO);
         MvcTestResult updateTwo = mvc.post()
                 .uri("/i9events/" + created.i9eventId() + "/boats")
@@ -245,7 +245,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
                 .hasStatus(HttpStatus.CONFLICT);
         System.out.println("Exception JSON: " + updateTwo.getResponse().getContentAsString());
 
-        BoatBookingDto thirdDTO = new BoatBookingDto(null, null, false);
+        BoatBookingDto thirdDTO = new BoatBookingDto(null, null, null,null, false);
         String thirdJson = om.writeValueAsString(thirdDTO);
         MvcTestResult updateThree = mvc.post()
                 .uri("/i9events/" + created.i9eventId() + "/boats")
@@ -274,7 +274,8 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
     void inspectorRegistrations() throws Exception {
         assert postgres.isRunning();
 
-        I9EventDto newI9Event = new I9EventDto(null, "Björkholmen", "2026-05-19T00:00:00.000+03:00", "2026-05-19T18:00:00.000+03:00", "2026-05-19T20:00:00.000+03:00", 0, 0);        String newI9EventJson = om.writeValueAsString(newI9Event);
+        I9EventDto newI9Event = new I9EventDto(null, "Björkholmen", "2026-05-19T00:00:00.000+03:00", "2026-05-19T18:00:00.000+03:00", "2026-05-19T20:00:00.000+03:00", null, 0, 0);
+        String newI9EventJson = om.writeValueAsString(newI9Event);
         MvcTestResult addNew = mvc.post()
                 .uri("/i9events")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -345,7 +346,7 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Insert throws on invalid data")
     @WithJwt("kalle.json")
     void insertThrows() throws Exception {
-        I9EventDto newI9Event = new I9EventDto(null, "All_too_long_name_breaks_50_characters_limit_and_validation_fails", "2026-05-18T00:00:00.000+03:00", "2026-05-18T18:00:00.000+03:00", "2026-05-18T20:00:00.000+03:00", 0, 0);
+        I9EventDto newI9Event = new I9EventDto(null, "All_too_long_name_breaks_50_characters_limit_and_validation_fails", "2026-05-18T00:00:00.000+03:00", "2026-05-18T18:00:00.000+03:00", "2026-05-18T20:00:00.000+03:00", null, 0, 0);
         String newI9EventJson = om.writeValueAsString(newI9Event);
         MvcTestResult addNew = mvc.post()
                 .uri("/i9events")

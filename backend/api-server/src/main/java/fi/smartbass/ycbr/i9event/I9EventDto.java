@@ -1,9 +1,11 @@
 package fi.smartbass.ycbr.i9event;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.List;
 import java.util.UUID;
 
 public record I9EventDto(
@@ -22,6 +24,9 @@ public record I9EventDto(
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         @Size(max = 30, message = "Inspection End Time must be at most 30 characters")
         String ends,
+
+        @Nullable
+        List<String> bookings,
 
         @PositiveOrZero
         int boats,

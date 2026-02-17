@@ -13,12 +13,14 @@ public interface I9EventMapper {
     @Mapping(target = "day", expression = "java(entity.getStarts().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "starts", expression = "java(entity.getStarts().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "ends", expression = "java(entity.getEnds().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
+//    @Mapping(target = "bookings", expression = "java(entity.getBookings())")
     @Mapping(target = "boats", expression = "java(entity.getBoats().size())")
     @Mapping(target = "inspectors", expression = "java(entity.getInspectors().size())")
     I9EventDto toDTO(I9EventEntity entity);
 
     @Mapping(target = "starts", expression = "java(OffsetDateTime.parse(dto.starts(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "ends", expression = "java(OffsetDateTime.parse(dto.ends(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
+    @Mapping(target = "bookings", ignore = true)
     @Mapping(target = "boats", ignore = true)
     @Mapping(target = "inspectors", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -31,6 +33,7 @@ public interface I9EventMapper {
     @Mapping(target = "i9eventId", ignore = true)
     @Mapping(target = "starts", expression = "java(OffsetDateTime.parse(dto.starts(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
     @Mapping(target = "ends", expression = "java(OffsetDateTime.parse(dto.ends(), DateTimeFormatter.ISO_OFFSET_DATE_TIME))")
+    @Mapping(target = "bookings", ignore = true)
     @Mapping(target = "boats", ignore = true)
     @Mapping(target = "inspectors", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -47,6 +50,5 @@ public interface I9EventMapper {
     Iterable<I9EventEntity> toEntities(Iterable<I9EventDto> dtos);
 
     BoatBookingDto toBoatBookingDto(BoatBooking boatBooking);
-
     InspectorRegistrationDto toInspectorRegistrationDTO(InspectorRegistration registration);
 }

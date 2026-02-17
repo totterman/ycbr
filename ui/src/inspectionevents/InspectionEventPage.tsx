@@ -171,7 +171,7 @@ export function InspectionEventPage() {
     createDisplayMode: "modal",
     displayColumnDefOptions: {
       "mrt-row-actions": {
-        size: 300,
+        size: 100,
         muiTableBodyCellProps: { align: "center" },
       },
     },

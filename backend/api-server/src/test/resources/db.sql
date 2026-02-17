@@ -80,6 +80,8 @@ CREATE TABLE boat_bookings (
 	i9events UUID NULL,
 	boat_id UUID NOT NULL,
 	message varchar(50) NULL,
+	type varchar(1) NULL,
+	time varchar(30) NULL,
 	taken bool DEFAULT false NULL,
 	created_at timestamptz NULL,
 	created_by varchar(50) NULL

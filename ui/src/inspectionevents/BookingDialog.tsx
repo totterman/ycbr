@@ -1,5 +1,5 @@
 import { MRT_Row } from "material-react-table";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { useUser } from "@/auth/useUser";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -13,10 +13,8 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import {
   BoatBookingDto,
-  BoatTimeBookingDto,
   I9EventDto,
   useAddBoatBooking,
-  useAddBoatTimeBooking,
 } from "./inspectionevent";
 import {
   FormControl,
@@ -28,10 +26,8 @@ import {
 import { BoatType } from "@/boats/boat";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import dayjs, { Dayjs } from "dayjs";
-import { TimePickerProps } from "@mui/x-date-pickers/TimePicker";
-import { DateTimePicker, TimeView } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import { BookingTimePicker } from "./BookingTimePicker";
 
 type RowProps = {
   row: MRT_Row<I9EventDto>;
@@ -55,13 +51,10 @@ export default function BookingDialog({ row }: RowProps) {
   const eventId = row.original.i9eventId;
 
   const [boat, setBoat] = useState<BoatType>();
-  const [itype, setItype] = useState("");
+  const [itype, setItype] = useState("Y");
   const [itime, setItime] = useState(minTime);
 
-  const { mutateAsync: createBooking } = useAddBoatTimeBooking();
-
-  console.log("minTime:", minTime);
-  console.log("maxTime:", maxTime);
+  const { mutateAsync: createBooking } = useAddBoatBooking();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -77,16 +70,6 @@ export default function BookingDialog({ row }: RowProps) {
     { key: "B", text: "Grundbesiktning" },
   ];
 
-  const dayToTest = "2026-05-12";
-  const timesBooked = [
-    `${dayToTest}T18:10:00.000+02:00`,
-    `${dayToTest}T18:20:00.000+02:00`,
-
-    `${dayToTest}T19:20:00.000+02:00`,
-    `${dayToTest}T19:30:00.000+02:00`,
-    `${dayToTest}T19:40:00.000+02:00`,
-  ];
-
   const handleBook = async () => {
     const id = row.original.i9eventId ?? "";
     if (id === "") {
@@ -97,7 +80,7 @@ export default function BookingDialog({ row }: RowProps) {
     }
     console.log("My Boat:", boat);
     console.log("EventID:", eventId, "id", id);
-    const dto: BoatTimeBookingDto = {
+    const dto: BoatBookingDto = {
       boatId: boat?.boatId ?? "",
       message: "Sent by " + user.name,
       type: itype,
@@ -171,7 +154,13 @@ export default function BookingDialog({ row }: RowProps) {
                 </Select>
               </FormControl>
 
-              <BookingTimePicker mintime={minTime} maxtime={maxTime} timesBooked={timesBooked} setTime={setItime} />
+              <BookingTimePicker
+                mintime={minTime}
+                maxtime={maxTime}
+                type={itype}
+                timesBooked={row.original.bookings}
+                setTime={setItime}
+              />
 
               <List component="div" role="group">
                 <ListItemText
@@ -200,62 +189,5 @@ export default function BookingDialog({ row }: RowProps) {
         </Dialog>
       </React.Fragment>
     )
-  );
-}
-
-function BookingTimePicker({ mintime, maxtime, timesBooked, setTime }: { mintime: dayjs.Dayjs, maxtime: dayjs.Dayjs, timesBooked: string[], setTime: Dispatch<SetStateAction<dayjs.Dayjs>> }) {
-
-  const disabledTimes = timesBooked.map((dateTime) => dayjs(dateTime));
-
-  const shouldDisableTime: TimePickerProps<Dayjs>["shouldDisableTime"] = (
-    value: Dayjs,
-    view: TimeView,
-//    timesBooked: string[],
-    minutesStepValue: number = 10,
-  ) => {
-    let shouldDisable = false;
-
-    for (let i = 0; i < disabledTimes.length; i++) {
-      const disabled = disabledTimes[i];
-      const disLength = disabledTimes.filter(
-        (x) => x.date() === value.date() && x.hour() - 1 === value.hour(),
-      ).length;
-
-      if (
-        minutesStepValue > 1 &&
-        view === "hours" &&
-        disabled.date() === value.date() &&
-        disabled.hour() - 1 === value.hour() &&
-        (disLength === 60 / minutesStepValue ||
-          disLength % (60 / minutesStepValue) === 0)
-      ) {
-        shouldDisable = true;
-        break;
-      } else if (
-        view === "minutes" &&
-        disabled.date() === value.date() &&
-        disabled.hour() - 1 === value.hour() &&
-        disabled.minute() === value.minute()
-      ) {
-        shouldDisable = true;
-        break;
-      }
-    }
-    return shouldDisable;
-  };
-
-  const [value, setValue] = useState<dayjs.Dayjs | null>(null);
-  return (
-      <TimePicker
-        label="Välj besiktningstid"
-        value={value}
-        onChange={(newValue) => { setValue(newValue); !!newValue && setTime(newValue) }}
-        timeSteps={{ minutes: 10 }}
-        minTime={mintime}
-        maxTime={maxtime}
-        referenceDate={dayjs(mintime)}
-        shouldDisableTime={(value, view) => shouldDisableTime(value, view)}
-        ampm={false}
-      />
   );
 }

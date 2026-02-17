@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -128,19 +129,7 @@ public class I9EventService {
         if (dto == null || dto.boatId() == null) throw new NullPointerException();
         I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
         if (event.getBoats().stream().noneMatch(b -> b.getBoatId().equals(dto.boatId()))) {
-            event.addBoat(dto.boatId(), dto.message());
-            I9EventEntity newEvent = eventRepository.save(event);
-            return mapper.toDTO(newEvent);
-        }
-        throw new BookingExistsException(dto.boatId());
-    }
-
-    @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
-    public I9EventDto assignBoatTimeToEvent(UUID id, BoatTimeBookingDto dto) {
-        if (dto == null || dto.boatId() == null) throw new NullPointerException();
-        I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
-        if (event.getBoats().stream().noneMatch(b -> b.getBoatId().equals(dto.boatId()))) {
-            event.addBoat(dto.boatId(), dto.message());
+            event.addBoat(dto.boatId(), dto.message(), dto.type(), dto.time());
             I9EventEntity newEvent = eventRepository.save(event);
             return mapper.toDTO(newEvent);
         }
@@ -164,7 +153,7 @@ public class I9EventService {
         if (dto == null || dto.boatId() == null) throw new NullPointerException();
         I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
 //        if (eventId.getBoats().stream().noneMatch(b -> b.getBoatId().equals(dto.boatId()))) {
-            event.markBoat(dto.boatId(), dto.message(), dto.taken());
+            event.markBoat(dto.boatId(), dto.message(), dto.type(), dto.time(), dto.taken());
             I9EventEntity newEvent = eventRepository.save(event);
             return mapper.toDTO(newEvent);
 //        }

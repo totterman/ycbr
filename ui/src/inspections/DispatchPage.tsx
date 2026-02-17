@@ -58,6 +58,8 @@ export default function DispatchPage() {
         const dto: BoatBookingDto = {
           boatId: boat.boatId,
           message: "Sent by " + user.name,
+          type: "",
+          time: "",
           taken: true,
         };
         const booking = i9event.boats.find(

@@ -41,14 +41,14 @@ class I9EventControllerTest {
     private final UUID id1 = UUID.randomUUID();
     private final UUID id2 = UUID.randomUUID();
     private final UUID id3 = UUID.randomUUID();
-    private final I9EventDto dto1 = new I9EventDto(id1, "Björkholmen", "2024-07-15T00:00:00.000+02:00","2024-07-15T10:00:00.000+02:00","2024-07-15T16:00:00.000+02:00",2, 6);
-    private final I9EventDto dto2 = new I9EventDto(id2, "Blekholmen", "2024-08-20T00:00:00.000+02:00","2024-08-20T09:00:00.000+02:00","2024-08-20T15:00:00.000+02:00",3, 8);
-    private final I9EventDto dto3 = new I9EventDto(id3, "Barösund", "2024-09-10T00:00:00.000+02:00","2024-09-10T11:00:00.000+02:00","2024-09-10T17:00:00.000+02:00",1, 5);
+    private final I9EventDto dto1 = new I9EventDto(id1, "Björkholmen", "2024-07-15T00:00:00.000+02:00","2024-07-15T10:00:00.000+02:00","2024-07-15T16:00:00.000+02:00", null,2, 6);
+    private final I9EventDto dto2 = new I9EventDto(id2, "Blekholmen", "2024-08-20T00:00:00.000+02:00","2024-08-20T09:00:00.000+02:00","2024-08-20T15:00:00.000+02:00", null,3, 8);
+    private final I9EventDto dto3 = new I9EventDto(id3, "Barösund", "2024-09-10T00:00:00.000+02:00","2024-09-10T11:00:00.000+02:00","2024-09-10T17:00:00.000+02:00", null,1, 5);
     private final List<I9EventDto> dtos = List.of(dto1, dto2, dto3);
 
     private final UUID boatId = UUID.randomUUID();
     private final InspectorRegistrationDto idto = new InspectorRegistrationDto("Inspector Name", "Short Message");
-    private final BoatBookingDto bdto = new BoatBookingDto(boatId, "Dock P1 42", false);
+    private final BoatBookingDto bdto = new BoatBookingDto(boatId, "Dock P1 42", "Y", "2024-09-10T01:00:00.000+02:00", false);
 
     @Test
     @DisplayName("GET /api/i9events returns 200 OK")
@@ -102,7 +102,7 @@ class I9EventControllerTest {
                 "  \"starts\": \"2024-08-20T09:00:00+02:00\",\n" +
                 "  \"ends\": \"2024-08-20T15:00:00.000+02:00\"\n" +
                 "}";
-        I9EventDto dto = new I9EventDto(id3, "Blekholmen", "2024-08-20", "2024-08-20T09:00:00+02:00", "2024-08-20T15:00:00.000+02:00", 0, 0);
+        I9EventDto dto = new I9EventDto(id3, "Blekholmen", "2024-08-20", "2024-08-20T09:00:00+02:00", "2024-08-20T15:00:00.000+02:00", null, 0, 0);
         when(eventService.upsert(id3, dto)).thenReturn(dto);
         mockMvc.perform(put("/i9events/" + id3)
                         .principal(authentication)
@@ -169,7 +169,7 @@ class I9EventControllerTest {
     @DisplayName("POST /api/i9events/1001/boats returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void addBoat() throws Exception {
-        String json = "{ \"boatId\": \"" +  boatId + "\", \"message\": \"Dock P1 42\" }";
+        String json = "{ \"boatId\": \"" +  boatId + "\", \"message\": \"Dock P1 42\", \"type\": \"Y\", \"time\": \"2024-09-10T01:00:00.000+02:00\" }";
         when(eventService.assignBoatToEvent(id2, bdto)).thenReturn(dto1);
         mockMvc.perform(post("/i9events/" + id2 + "/boats").principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -182,7 +182,7 @@ class I9EventControllerTest {
     @DisplayName("DELETE /api/i9events/1001/boats returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void removeBoat() throws Exception {
-        String json = "{ \"boatId\": \"" + boatId + "\", \"message\": \"Dock P1 42\" }";
+        String json = "{ \"boatId\": \"" + boatId + "\", \"message\": \"Dock P1 42\", \"type\": \"Y\", \"time\": \"2024-09-10T01:00:00.000+02:00\" }";
         when(eventService.removeBoatFromEvent(id3, boatId)).thenReturn(dto1);
         mockMvc.perform(delete("/i9events/" + id3 + "/boats").principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)

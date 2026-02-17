@@ -9,6 +9,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -64,25 +65,35 @@ public class I9EventEntity {
         this.version = version;
     }
 
-    public void addBoat(UUID boatId, String message) {
-        boats.add(createBoatBooking(boatId, message));
+    public void addBoat(UUID boatId, String message, String type, String time) {
+        boats.add(createBoatBooking(boatId, message, type, time));
     }
 
     public void deleteBoat(UUID boatId) {
         boats.removeIf(b -> b.getBoatId().equals(boatId));
     }
 
-    public void markBoat(UUID boatId, String message, boolean taken) {
-        deleteBoat(boatId);
-        boats.add(markBoatBooking(boatId, message, taken));
+    public void markBoat(UUID boatId, String message, String type, String time, boolean taken) {
+        BoatBooking booking = boats.stream().filter(b -> b.getBoatId().equals(boatId)).findFirst().orElse(null);
+        if (booking == null) {
+            boats.add(markBoatBooking(boatId, message, type, time, taken));
+        } else {
+            /*
+            * Since BoatBooking is immutable, we need to remove the old booking and add a new one with the updated 'taken' status.
+            * This is necessary because we cannot modify the existing BoatBooking instance directly.
+            * Furthermore, we do not want to delete existing Inspection Type and Time.
+            */
+            boats.remove(booking);
+            boats.add(markBoatBooking(boatId, booking.getMessage(), booking.getType(), booking.getTime(), taken));
+        }
     }
 
-    private BoatBooking createBoatBooking(UUID boatId, String message) {
-        return new BoatBooking(boatId, message, false);
+    private BoatBooking createBoatBooking(UUID boatId, String message, String type, String time) {
+        return new BoatBooking(boatId, message, type, time, false);
     }
 
-    private BoatBooking markBoatBooking(UUID boatId, String message, boolean taken) {
-        return new BoatBooking(boatId, message, taken);
+    private BoatBooking markBoatBooking(UUID boatId, String message, String type, String time, boolean taken) {
+        return new BoatBooking(boatId, message, type, time, taken);
     }
 
     public void addInspector(String inspectorName, String message) {
@@ -95,6 +106,15 @@ public class I9EventEntity {
 
     private InspectorRegistration createRegistration(String inspectorName, String message) {
         return new InspectorRegistration(inspectorName, message);
+    }
+
+   /*
+    * BUSINESS LOGIC HERE
+    * Returns a list of all boat bookings for this event. This is used to return the bookings in the DTO.
+    * Since the bookings are stored in a Set of BoatBooking objects, we need to flatten the list of bookings for each boat into a single list of strings.
+    */
+    public List<String> getBookings() {
+        return boats.stream().flatMap(bb -> bb.getBookings().stream()).toList();
     }
 
     public UUID getI9eventId() {

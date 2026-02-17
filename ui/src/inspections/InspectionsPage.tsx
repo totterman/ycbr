@@ -41,12 +41,17 @@ export default function InspectionsPage() {
     });
   };
 
+  //
+  // Release this inspection for some reason
+  // Leave it in a clean state so that another inspector can take over
   const handleReleaseClick = async (inspection: MyInspectionsDto) => {
     console.log("Inspection:", inspection);
 
     const dto: BoatBookingDto = {
       boatId: inspection.boatId,
       message: "Sent by " + inspection.inspectorName,
+      type: "",
+      time: "",
       taken: false,
     };
 
@@ -90,7 +95,6 @@ export default function InspectionsPage() {
                   primary={inspection.boatName}
                   secondary={placeday}
                 />
-                <ListItemText primary={inspection.inspectionClass} />
               </ListItemButton>
               <ListItemIcon>
                 {inspection.completed === null && (
