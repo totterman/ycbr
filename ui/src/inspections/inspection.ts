@@ -71,6 +71,7 @@ export interface EngineData {
   fuel_system: boolean;
   cooling: boolean;
   strainer: boolean;
+  electrical: boolean;
   separate_batteries: boolean;
   shore_power: boolean;
   aggregate: boolean;

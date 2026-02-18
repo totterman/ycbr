@@ -102,7 +102,7 @@ export default function EngineDataForm({ data }: InspectionProps) {
             )}
             {isOfClass(category, '1234') && (
               <form.AppField
-                name="cooling"
+                name="electrical"
                 children={(field) => (
                   <field.YcbrCheckBoxField nr="3.6" label={content.electrical.value} />
                 )}

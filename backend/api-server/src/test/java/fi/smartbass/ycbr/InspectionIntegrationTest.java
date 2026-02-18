@@ -52,7 +52,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     private InspectionDataDto getInspectionDataDto() {
         HullDataDto hullData = new HullDataDto(false, false, false, false, false, false, false, false, false, false, 30);
         RigDataDto rigData = new RigDataDto(false, false, false, false);
-        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false, false);
+        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false, false, false);
         EquipmentDataDto equipmentData = new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         NavigationDataDto navigationData = new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         SafetyDataDto safetyData = new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);

@@ -48,7 +48,7 @@ class InspectionServiceTest {
     private @NotNull InspectionData getInspectionData() {
         HullData hullData = new HullData(false, false, false, false, false, false, false, false, false, false, 30);
         RigData rigData = new RigData(false, false, false, false);
-        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false, false);
+        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false, false, false);
         EquipmentData equipmentData = new EquipmentData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         NavigationData navigationData = new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         SafetyData safetyData = new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
@@ -58,7 +58,7 @@ class InspectionServiceTest {
     private @NotNull InspectionDataDto getInspectionDataDto() {
         HullDataDto hullData = new HullDataDto(false, false, false, false, false, false, false, false, false, false, 30);
         RigDataDto rigData = new RigDataDto(false, false, false, false);
-        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false, false);
+        EngineDataDto engineData = new EngineDataDto(false, false, false, false, false, false, false, false, false, false);
         EquipmentDataDto equipmentData = new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         NavigationDataDto navigationData = new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         SafetyDataDto safetyData = new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);

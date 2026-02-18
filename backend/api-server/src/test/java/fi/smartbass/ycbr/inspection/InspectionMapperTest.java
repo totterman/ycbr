@@ -40,7 +40,7 @@ class InspectionMapperTest {
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, true, false, false, false, false, false, false, 20),
                         new RigDataDto(false, false, false, false),
-                        new EngineDataDto(false, true, false, false, false, false, false, false, false),
+                        new EngineDataDto(false, true, false, false, false, false, false, false, false, false),
                         new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
@@ -57,7 +57,7 @@ class InspectionMapperTest {
                 new InspectionData(
                         new HullData(false, false, false, false, false, false, false, false, false, false, 30),
                         new RigData(true, false, true, false),
-                        new EngineData(false, false, false, false, false, false, false, false, false),
+                        new EngineData(false, false, false, false, false, false, false, false, false, false),
                         new EquipmentData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)

@@ -137,6 +137,7 @@ CREATE TABLE IF NOT EXISTS engine_data (
 	fuel_system bool NULL,
   	cooling bool NULL,
   	strainer bool NULL,
+  	electrical bool NULL,
   	separate_batteries bool NULL,
   	shore_power bool NULL,
   	"aggregate" bool NULL,

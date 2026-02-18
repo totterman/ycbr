@@ -39,6 +39,7 @@ const initialDto: InspectionDto = {
                 fuel_system: false,
                 cooling: false,
                 strainer: false,
+                electrical: false,
                 separate_batteries: false,
                 shore_power: false,
                 aggregate: false,

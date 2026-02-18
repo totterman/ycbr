@@ -38,7 +38,7 @@ class InspectionRepositoryTest {
     void setUp() {
         HullData hullData = new HullData(false, false, false, false, false, false, false, false, false, false, 30);
         RigData rigData = new RigData(false, false, false, false);
-        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false, false);
+        EngineData engineData = new EngineData(false, false, false, false, false, false, false, false, false, false);
         EquipmentData equipmentData = new EquipmentData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         NavigationData navigationData = new NavigationData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         SafetyData safetyData = new SafetyData(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);

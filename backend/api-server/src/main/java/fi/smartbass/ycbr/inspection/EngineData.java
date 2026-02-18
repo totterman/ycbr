@@ -9,17 +9,19 @@ public class EngineData {
     private final boolean fuel_system;
     private final boolean cooling;
     private final boolean strainer;
+    private final boolean electrical;
     private final boolean separate_batteries;
     private final boolean shore_power;
     private final boolean aggregate;
     private final boolean reserve;
 
-    public EngineData(boolean installation, boolean controls, boolean fuel_system, boolean cooling, boolean strainer, boolean separate_batteries, boolean shore_power, boolean aggregate, boolean reserve) {
+    public EngineData(boolean installation, boolean controls, boolean fuel_system, boolean cooling, boolean strainer, boolean electrical, boolean separate_batteries, boolean shore_power, boolean aggregate, boolean reserve) {
         this.installation = installation;
         this.controls = controls;
         this.fuel_system = fuel_system;
         this.cooling = cooling;
         this.strainer = strainer;
+        this.electrical = electrical;
         this.separate_batteries = separate_batteries;
         this.shore_power = shore_power;
         this.aggregate = aggregate;
@@ -46,6 +48,8 @@ public class EngineData {
         return strainer;
     }
 
+    public boolean isElectrical() { return electrical; }
+
     public boolean isSeparate_batteries() {
         return separate_batteries;
     }
@@ -68,6 +72,7 @@ public class EngineData {
                 ", fuel_system=" + fuel_system +
                 ", cooling=" + cooling +
                 ", strainer=" + strainer +
+                ", electrical=" + electrical +
                 ", separate_batteries=" + separate_batteries +
                 ", shore_power=" + shore_power +
                 ", aggregate=" + aggregate +

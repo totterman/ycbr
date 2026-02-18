@@ -67,7 +67,7 @@ public class InspectionService {
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, false, false, false, false, false, false, false, 0),
                         new RigDataDto(false, false, false, false),
-                        new EngineDataDto(false, false, false, false, false, false, false, false, false),
+                        new EngineDataDto(false, false, false, false, false, false, false, false, false, false),
                         new EquipmentDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new NavigationDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
                         new SafetyDataDto(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
