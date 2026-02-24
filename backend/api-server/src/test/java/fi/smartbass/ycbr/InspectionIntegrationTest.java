@@ -209,7 +209,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     }
 
     private BoatDto createBoat() throws Exception {
-        NewBoatDto newBoatDto = new NewBoatDto("owner11", "BoatName", "S", "Reg11234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
+        NewBoatDto newBoatDto = new NewBoatDto("club1","cert1", "BoatName", "M", "Goodsail", "2020", "Reg1234", "1977", 9.5, 3.2, 1.5, 14.5, 4.7, "D", null, "Owner1", null);
         String newBoatJson = om.writeValueAsString(newBoatDto);
         MvcTestResult addNew = mvc.post()
                 .uri("/boats")

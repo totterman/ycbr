@@ -39,6 +39,8 @@ import { useIntlayer, useLocale } from "react-intlayer";
 import { MRT_Localization_EN } from "material-react-table/locales/en";
 import { MRT_Localization_FI } from "material-react-table/locales/fi";
 import { MRT_Localization_SV } from "material-react-table/locales/sv";
+import { BoatDetailPanel } from "./BoatDetailPanel";
+import { static_boats } from "./static_boatdata.ts"
 
 export default function BoatsPage() {
   const content = useIntlayer("boats");
@@ -55,50 +57,37 @@ export default function BoatsPage() {
       {
         accessorKey: "name",
         header: content.boatName,
+        size: 20,
       },
       {
         accessorKey: "sign",
         header: content.boatSign,
+        size: 10,
       },
       {
         accessorKey: "kind",
         header: content.boatKind,
+        size: 20,
       },
       {
         accessorKey: "owner",
         header: content.owner,
+        size: 20,
       },
       {
         accessorKey: "make",
         header: content.make,
+        size: 20,
       },
       {
         accessorKey: "model",
+        size: 20,
         header: content.model,
       },
       {
         accessorKey: "year",
         header: content.year,
-      },
-      {
-        accessorKey: "engines",
-        header: content.engine,
-      },
-      {
-        accessorKey: "loa",
-        header: content.loa,
-      },
-      {
-        accessorKey: "beam",
-        header: content.beam,
-      },
-      {
-        accessorKey: "draft",
-        header: content.draft,
-      },
-      {
-        accessorKey: "deplacement",
-        header: content.deplacement,
+        size: 10,
       },
     ],
     [locale]
@@ -106,6 +95,7 @@ export default function BoatsPage() {
 
   const { user, myBoats } = useUser();
   const boats = (user.isStaff ? useSuspenseQuery(boatsQueryOptions).data : myBoats) || [] as BoatType[];
+//  const boats = static_boats;
 
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string | undefined>
@@ -154,11 +144,11 @@ export default function BoatsPage() {
     const boatDetails = boatQuery.data;
     //    if (isLoading) return <CircularProgress />;
     //    if (isError) return <Alert severity="error">Error Loading User Info</Alert>;
-    const { engines, year } = boatDetails ?? {};
+    const { drive, year } = boatDetails ?? {};
     return (
       <Stack gap="0.5rem" minHeight="00px">
         <div>
-          <b>{content.engine}: </b> {engines}
+          <b>{content.engine}: </b> {drive}
         </div>
         <div>
           <b>{content.year}: </b> {year}
@@ -195,11 +185,6 @@ export default function BoatsPage() {
         "make",
         "model",
         "year",
-        "engines",
-        "loa",
-        "beam",
-        "draft",
-        "deplacement",
       ],
     },
     localization: mrtLocalization[locale],
@@ -213,7 +198,7 @@ export default function BoatsPage() {
     renderDetailPanel: ({ row }) => (
       <>
       {(user.hasAnyRole("staff", "boatowner", "inspector")) && (
-      <DetailPanel row={row} />)}
+      <BoatDetailPanel row={row} />)}
       </>
     ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (

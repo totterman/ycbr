@@ -4,19 +4,64 @@ import axios, { AxiosError } from "axios";
 export interface BoatType {
   // id: number;
   boatId: string;
+  club: string;
+  cert: string;
   name: string;
-  sign: string;
   kind: string;
   make: string;
-  model: string;
-  loa: number; // Length overall in meters
-  draft: number; // Draft in meters
-  beam: number; // Beam in meters
-  deplacement: number; // Displacement in kilograms
-  owner: string;
-  engines: string;
+  model?: string;
+  sign?: string;
+  sailnr?: string;
+  hullnr?: string;
+
+  material: string;
   year: string;
+  colour: string;
+  loa: number; // Length overall in meters
+  beam: number; // Beam in meters
+  draft: number; // Draft in meters
+  height: number // largest height
+  deplacement: number; // weight in tons
+  sailarea?: number;
+  drive?: string;
+  engines?: Engine[];
+
+  fuel?: number;
+  water?: number;
+  septi?: number;
+  berths?: number;
+
+  radio?: string;
+  home: string;
+  winter?: string;
+
+  owner: string;
+  owner2?: string;
 };
+
+export interface Engine {
+  pos: number;
+  year: string;
+  make: string;
+  model: string;
+  serial: string;
+  power: number;  // power in kW
+}
+
+export const materials = [
+    { code: 'G', text: 'Glasfiber' },
+    { code: 'A', text: 'Aluminium' },
+    { code: 'S', text: 'Stål' },
+    { code: 'M', text: 'Mahogny' },
+    { code: 'W', text: 'Annat träslag' },
+    { code: 'O', text: 'Annat material' },
+];
+
+export const drives = [
+    { code: 'D', text: 'Inombord' },
+    { code: 'N', text: 'Inu-drev' },
+    { code: 'U', text: 'Utombord' },
+];
 
 export class BoatNotFoundError extends Error {}
 

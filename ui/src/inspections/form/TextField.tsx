@@ -17,8 +17,8 @@ export default function YcbrTextField({ label, help, placeholder }: { label: str
           onBlur={field.handleBlur}
           onChange={(e) => field.handleChange(e.target.value)}
           placeholder={placeholder}
-          sx={{ mt: 4 }}
-          variant="outlined"
+          sx={{ mt: 0 }}
+          variant="standard"
         />
       {errors.map((error: string) => (
         <div key={error} style={{ color: "red" }}>

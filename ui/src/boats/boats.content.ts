@@ -88,6 +88,16 @@ const boatContent = {
             fi: "Muuta veneen tietoja",
             sv: "Ändra båtens uppgifter",
         }),
+        submit: t({
+            en: "Submit",
+            fi: "Tallenna",
+            sv: "Spara",
+        }),
+        reset: t({
+            en: "Reset",
+            fi: "Palauta",
+            sv: "Återställ",
+        }),
         edit: t({
             en: "Edit",
             fi: "Muokkaa",

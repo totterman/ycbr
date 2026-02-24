@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS i9events;
 DROP INDEX IF EXISTS idx_i9events_place;
 DROP INDEX IF EXISTS idx_i9events_starts;
 
+DROP TABLE IF EXISTS engines;
+
 DROP TABLE IF EXISTS boat_bookings;
 DROP TABLE IF EXISTS inspector_registrations;
 
@@ -26,18 +28,38 @@ DROP TABLE IF EXISTS remarks;
 
 CREATE TABLE IF NOT EXISTS boats (
 	boat_id UUID DEFAULT uuidv7() UNIQUE NOT NULL,
-	"owner" varchar(50) NOT NULL,
+	club varchar(20) NOT NULL,
+	cert varchar(20) NOT NULL,
 	"name" varchar(50) NOT NULL,
-	kind varchar(1) NOT NULL,
-	sign varchar(50) NULL,
+	kind varchar(1) NULL,
 	make varchar(50) NULL,
 	model varchar(50) NULL,
-	loa float8 NULL,
-	draft float8 NULL,
-	beam float8 NULL,
-	deplacement float8 NULL,
-	engines varchar(50) NULL,
+	sign varchar(20) NULL,
+	sailnr varchar(20) NULL,
+	hullnr varchar(20) NULL,
+
+    material varchar(1) NULL,
 	"year" varchar(4) NULL,
+	colour varchar(20) NULL,
+	loa float8 NULL,
+	beam float8 NULL,
+	draft float8 NULL,
+	height float8 NULL,
+	deplacement float8 NULL,
+    sailarea float8 NULL,
+	drive varchar(1) NULL,
+
+	fuel float8 NULL,
+	water float8 NULL,
+	septi float8 NULL,
+	berths float8 NULL,
+	radio varchar(10) NULL,
+	home varchar(50) NULL,
+	winter varchar(50) NULL,
+
+	"owner" varchar(50) NOT NULL,
+	"owner2" varchar(50) NULL,
+
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	created_by varchar(50) NOT NULL,
 	modified_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
@@ -50,6 +72,16 @@ CREATE INDEX IF NOT EXISTS idx_boats_boat_id ON boats USING btree (boat_id);
 CREATE INDEX IF NOT EXISTS idx_boats_make ON boats USING btree (make);
 CREATE INDEX IF NOT EXISTS idx_boats_name ON boats USING btree (name);
 CREATE INDEX IF NOT EXISTS idx_boats_owner ON boats USING btree (owner);
+
+CREATE TABLE engines (
+    boats UUID NULL,
+    pos int NOT NULL,
+    "year" varchar(4) NULL,
+    make varchar(50) NOT NULL,
+    model varchar(50) NULL,
+    serial varchar(20) NULL,
+    power float8 NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS i9events (
 	i9event_id UUID DEFAULT uuidv7() UNIQUE NOT NULL,

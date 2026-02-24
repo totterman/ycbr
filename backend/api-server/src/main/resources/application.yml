@@ -20,7 +20,8 @@ spring:
     password: ${POSTGRES_PASSWORD:ycbr-secret}
     url: jdbc:postgresql://${hostname}:5432/${POSTGRES_DB:ycbr}
     hikari:
-      connection-timeout: 2000
+      connection-timeout: 30000
+      max-lifetime: 1020000
       maximum-pool-size: 30
   lifecycle:
     timeout-per-shutdown-phase: 10s

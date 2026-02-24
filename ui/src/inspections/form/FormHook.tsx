@@ -5,7 +5,8 @@ import { Button } from "@mui/material";
 
 const YcbrTextField = lazy(() => import("./TextField.tsx"));
 const YcbrCheckBoxField = lazy(() => import("./CheckBoxField.tsx"));
-const NumberSelect = lazy(() => import("./NumberSelect.tsx"))
+const NumberSelect = lazy(() => import("./NumberSelect.tsx"));
+const YcbrTextSelect = lazy(() => import("./TextSelect.tsx"));
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext();
@@ -23,7 +24,7 @@ function SubscribeButton({ label }: { label: string }) {
 function ResetButton({ label }: { label: string }) {
   const form = useFormContext();
   return (
-    <Button type="reset" onClick={() => form.reset()}>
+    <Button type="reset" variant="outlined" onClick={() => form.reset()}>
       {label}
     </Button>
   );
@@ -34,6 +35,7 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
     YcbrTextField: YcbrTextField,
     YcbrCheckBoxField: YcbrCheckBoxField,
     NumberSelect,
+    YcbrTextSelect: YcbrTextSelect,
   },
   formComponents: {
     SubscribeButton,

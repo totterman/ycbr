@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,12 +15,14 @@ public class BoatMapperTest {
 
     private BoatMapper mapper = Mappers.getMapper(BoatMapper.class);
 
-    private final BoatDto dto1 = new BoatDto(UUID.randomUUID(), "owner1", "BoatName", "M", "Reg1234", "Goodsail", "2020", 9.5, 1.5, 3.2, 4000.0, "VP", "1988");
-    private final BoatDto dto2 = new BoatDto(UUID.randomUUID(), "owner2", "AnotherBoat", "S", "Reg5678", "SailsRUs", "2019", 10.0, 2.0, 3.5, 4500.0, "Inboard", "1995");
+    private final Set<EngineDto> engineDtos = Set.of(new EngineDto(0, "1995", "Yamaha", "ModelZ", "Serial123", 75.0));
+    private final Set<EngineEntity> engineEntities = Set.of(new EngineEntity(0, "1995", "Yamaha", "ModelZ", "Serial123", 75.0));
+    private final BoatDto dto1 = new BoatDto(UUID.randomUUID(), "club1", "cert1", "BoatName", "M", "Goodsail", "2020", "Reg1234", "L1234", "028", "W", "1977", "white", 9.5, 3.2, 1.5, 14.5, 4.7, 42.0, "D", engineDtos, 120.0,  200.0, 50.0, 6, "DK1234", "Cuxhaven", null, "Owner1", "Owner2");
+    private final BoatDto dto2 = new BoatDto(UUID.randomUUID(), "club2", "cert2", "AnotherBoat", "S", "SailsRUs", "2019", "Reg5678", "S6554", "22", "G", "2006", "Navy Blue", 10.0, 3.5, 2.0, 17.2,6.8, 64.0, "S", engineDtos, 150.0, 250.0, 70.0, 8, "DK5678", "Hamburg", null, "Owner3", "Owner4");
     private final List<BoatDto> dtos = List.of(dto1, dto2);
 
-    private final BoatEntity boat1 = new BoatEntity(UUID.randomUUID(), "OwnerName", "BoatName", "M", "Sign123", "MakeX", "ModelY", 10.5, 2.5, 3.5, 5000.0, "", "1982", null, "null", null, null, 0);
-    private final BoatEntity boat2 = new BoatEntity(UUID.randomUUID(), "AnotherOwner", "AnotherBoat", "S", "Sign456", "MakeA", "ModelB", 12.0, 3.0, 4.0, 6000.0, "", "1990", null, "null", null, null, 0);
+    private final BoatEntity boat1 = new BoatEntity(UUID.randomUUID(), "club1", "cert1", "BoatName", "M", "Goodsail", "2020", "Reg1234", "L1234", "028", "W", "1977", "white", 9.5, 3.2, 1.5, 14.5, 4.7, 42.0, "D", engineEntities, 120.0,  200.0, 50.0, 6, "DK1234", "Cuxhaven", null, "Owner1", "Owner2", null, null, null, null, 0);
+    private final BoatEntity boat2 = new BoatEntity(UUID.randomUUID(), "club2", "cert2", "AnotherBoat", "S", "SailsRUs", "2019", "Reg5678", "S6554", "22", "G", "2006", "Navy Blue", 10.0, 3.5, 2.0, 17.2,6.8, 64.0, "S", engineEntities, 150.0, 250.0, 70.0, 8, "DK5678", "Hamburg", null, "Owner3", "Owner4", null, null, null, null, 0);
     private final List<BoatEntity> boats = List.of(boat1, boat2);
 
     @Test

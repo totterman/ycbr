@@ -64,7 +64,7 @@ rm -f .env
 cp ui-template.env .env
 $SED "s/LOCALHOST_NAME/${host}/g" .env
 $SED "s/REVERSE_PROXY_PORT/${reverse_proxy_port}/g" .env
-npm ci
+npm install
 npm run build
 docker build -t ycbr/ui .
 cd ..

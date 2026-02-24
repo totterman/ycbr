@@ -1,5 +1,6 @@
+import { useUser } from "@/auth/useUser";
 import InspectionsPage from "@/inspections/InspectionsPage";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/inspect/")({
   component: InspectionsPage,
@@ -19,4 +20,15 @@ export const Route = createFileRoute("/inspect/")({
       </div>
     );
   },
+  beforeLoad: () => {
+    const { user } = useUser();
+    if(!user.isAuthenticated) {
+      throw redirect({
+        to: '/',
+        search: {
+          redirect: location.href,
+        },
+      })
+    }
+  }
 });

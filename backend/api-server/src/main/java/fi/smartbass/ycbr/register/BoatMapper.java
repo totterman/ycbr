@@ -3,6 +3,7 @@ package fi.smartbass.ycbr.register;
 import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface BoatMapper {
@@ -21,6 +22,18 @@ public interface BoatMapper {
 
     @Mappings({
             @Mapping(target = "boatId", ignore = true),
+            @Mapping(target = "sailnr", ignore = true),
+            @Mapping(target = "hullnr", ignore = true),
+            @Mapping(target = "material", ignore = true),
+            @Mapping(target = "colour", ignore = true),
+            @Mapping(target = "sailarea", ignore = true),
+            @Mapping(target = "fuel", ignore = true),
+            @Mapping(target = "water", ignore = true),
+            @Mapping(target = "septi", ignore = true),
+            @Mapping(target = "berths", ignore = true),
+            @Mapping(target = "radio", ignore = true),
+            @Mapping(target = "home", ignore = true),
+            @Mapping(target = "winter", ignore = true),
             @Mapping(target = "createdAt", ignore = true),
             @Mapping(target = "createdBy", ignore = true),
             @Mapping(target = "modifiedAt", ignore = true),
@@ -35,4 +48,8 @@ public interface BoatMapper {
     Iterable<BoatDto> toDTOs(Iterable<BoatEntity> entities);
     Iterable<BoatEntity> toEntities(Iterable<BoatDto> dtos);
 
+    EngineEntity toEngineEntity(EngineDto dto);
+    Set<EngineEntity> toEngineEntitys(Set<EngineDto> dtos);
+    EngineDto toEngineDTO(EngineEntity entity);
+    Set<EngineDto> toEngineDTOs(Set<EngineEntity> entities);
 }

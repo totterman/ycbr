@@ -57,7 +57,6 @@ public class BoatService {
         boatRepository.deleteByBoatId(boatId);
     }
 
-
     @Transactional(readOnly = false, isolation = Isolation.SERIALIZABLE)
     public BoatDto upsert(UUID boatId, BoatDto dto) {
         if (boatId != null && !boatId.equals(dto.boatId())) {

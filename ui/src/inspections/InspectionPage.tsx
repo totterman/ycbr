@@ -92,7 +92,7 @@ export default function InspectionPage() {
               <Typography variant="body2">
                 {content.owner}: {boat?.owner}
                 <br />
-                {content.engine}: {boat?.engines}
+                {content.engine}: {boat?.drive}
               </Typography>
             </CardContent>
           </Card>
