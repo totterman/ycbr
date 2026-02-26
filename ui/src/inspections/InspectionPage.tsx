@@ -76,10 +76,10 @@ export default function InspectionPage() {
           id="panel1-header"
         >
            <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
-            {boat?.name} {boat?.sign}
+            {boat?.kind === 'M' ? content.motor_boat : content.sail_boat} {boat?.name} {boat?.sign}
           </Typography>
           <Typography component="span" sx={{ color: 'text.secondary' }}>
-            {i9event?.place} {dayjs(i9event?.day).toDate().toLocaleDateString(tlds)} {data.inspectorName} [{dayjs(data.timestamp).toDate().toLocaleTimeString(locale.substring(0, 2))}]
+            {i9event?.place} {dayjs(i9event?.day).toDate().toLocaleDateString(tlds)} [{data.inspectorName} {dayjs(data.timestamp).toDate().toLocaleTimeString(locale.substring(0, 2))}]
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
