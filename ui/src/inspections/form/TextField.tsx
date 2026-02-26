@@ -2,15 +2,15 @@ import { useStore } from "@tanstack/react-form";
 import { useFieldContext } from "./formContext";
 import TextField from "@mui/material/TextField";
 
-export default function YcbrTextField({ label, help, placeholder }: { label: string, help?: string, placeholder?: string }) {
+export default function YcbrTextField({ label, ro = false, help, placeholder }: { label: string, ro?: boolean, help?: string, placeholder?: string }) {
   const field = useFieldContext<string>();
-
   const errors = useStore(field.store, (state) => state.meta.errors);
 
   return (
     <div>
         <TextField
           defaultValue={field.state.value}
+          disabled={ro}
           fullWidth
           helperText={help}
           label={label}

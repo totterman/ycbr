@@ -48,21 +48,6 @@ export interface Engine {
   power: number;  // power in kW
 }
 
-export const materials = [
-    { code: 'G', text: 'Glasfiber' },
-    { code: 'A', text: 'Aluminium' },
-    { code: 'S', text: 'Stål' },
-    { code: 'M', text: 'Mahogny' },
-    { code: 'W', text: 'Annat träslag' },
-    { code: 'O', text: 'Annat material' },
-];
-
-export const drives = [
-    { code: 'D', text: 'Inombord' },
-    { code: 'N', text: 'Inu-drev' },
-    { code: 'U', text: 'Utombord' },
-];
-
 export class BoatNotFoundError extends Error {}
 
 export const boatsQueryOptions = queryOptions({

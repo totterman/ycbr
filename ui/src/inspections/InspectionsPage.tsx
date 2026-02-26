@@ -30,7 +30,8 @@ export default function InspectionsPage() {
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
 
-  const inspections = user.isInspector ? myInspections : useSuspenseQuery(allInspectionsQueryOptions).data;
+  // const inspections = user.isInspector ? myInspections : useSuspenseQuery(allInspectionsQueryOptions).data;
+  const inspections = myInspections;
 
   const handleListItemClick = (id: string) => {
     console.log("Inspection id", id, "selected.");

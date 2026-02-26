@@ -15,20 +15,9 @@ export const Route = createFileRoute("/inspect/")({
   errorComponent: () => {
     return (
       <div>
-        <p>This is the ErrorComponent configured on inspect route</p>
-        <Link to="/inspect">Try again</Link>
+        <p>Something unexpected happened on inspect route</p>
+        <Link to="/">Home</Link>
       </div>
     );
   },
-  beforeLoad: () => {
-    const { user } = useUser();
-    if(!user.isAuthenticated) {
-      throw redirect({
-        to: '/',
-        search: {
-          redirect: location.href,
-        },
-      })
-    }
-  }
 });

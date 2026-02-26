@@ -4,6 +4,9 @@ import { inspectionQueryOptions } from "./inspection";
 import InspectionStepper from "./InspectionStepper";
 import { Card } from "./form/Card";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   CardContent,
   FormControl,
   Grid2,
@@ -13,6 +16,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useGetBoat } from "@/boats/boat";
 import { useGetI9Event } from "@/inspectionevents/inspectionevent";
 import dayjs from "dayjs";
@@ -20,6 +24,7 @@ import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
 import { useState } from "react";
 import { Category, CategoryContext } from "./categorycontext";
+import { BoatDetailPanel } from "@/boats/BoatDetailPanel";
 
 export default function InspectionPage() {
   const route = getRouteApi("/inspect/$inspectionId");
@@ -50,10 +55,10 @@ export default function InspectionPage() {
 
   const [inspectionClass, setInspectionClass] = useState<string>("1");
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setInspectionClass(event.target.value);
-    console.log("Inspection Class:", inspectionClass);
-  };
+//  const handleChange = (event: SelectChangeEvent) => {
+//    setInspectionClass(event.target.value);
+//    console.log("Inspection Class:", inspectionClass);
+//  };
 
   const category: Category = {
     kind: boat?.kind || "S",
@@ -64,67 +69,24 @@ export default function InspectionPage() {
 
   return (
     <>
-      <Grid2
-        container
-        spacing={2}
-        columns={12}
-        sx={{
-          mb: (theme: { spacing: (arg0: number) => any }) => theme.spacing(2),
-        }}
-      >
-        <Grid2 size={{ xs: 12, md: 6 }}>
-          <Card variant="outlined" sx={{ width: "100%" }}>
-            <CardContent>
-              <Typography
-                gutterBottom
-                sx={{ color: "text.secondary", fontSize: 14 }}
-              >
-                {boat?.kind === "M"
-                  ? content.motor_boat.value
-                  : content.sail_boat.value}
-              </Typography>
-              <Typography variant="h5" component="div">
-                {boat?.name}
-              </Typography>
-              <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                {boat?.year} {boat?.make} {boat?.model}
-              </Typography>
-              <Typography variant="body2">
-                {content.owner}: {boat?.owner}
-                <br />
-                {content.engine}: {boat?.drive}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 6 }}>
-          <Card variant="outlined" sx={{ width: "100%" }}>
-            <CardContent>
-              <Typography
-                gutterBottom
-                sx={{ color: "text.secondary", fontSize: 14 }}
-              >
-                {content.inspection_event}
-              </Typography>
-              <Typography variant="h5" component="div">
-                {i9event?.place}
-              </Typography>
-              <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                {dayjs(i9event?.day).toDate().toLocaleDateString(tlds)}
-              </Typography>
-              <Typography variant="body2">
-                {content.inspector}: {data.inspectorName}
-                <br />
-                {content.started}:{" "}
-                {dayjs(data.timestamp)
-                  .toDate()
-                  .toLocaleTimeString(locale.substring(0, 2))}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid2>
-      </Grid2>
-
+    <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+           <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
+            {boat?.name} {boat?.sign}
+          </Typography>
+          <Typography component="span" sx={{ color: 'text.secondary' }}>
+            {i9event?.place} {dayjs(i9event?.day).toDate().toLocaleDateString(tlds)} {data.inspectorName} [{dayjs(data.timestamp).toDate().toLocaleTimeString(locale.substring(0, 2))}]
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {!!boat && <BoatDetailPanel boat={boat} ro={true} />}
+        </AccordionDetails>
+      </Accordion>
+      
       <Stack
         direction="row"
         spacing={4}

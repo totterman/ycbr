@@ -198,7 +198,7 @@ export default function BoatsPage() {
     renderDetailPanel: ({ row }) => (
       <>
       {(user.hasAnyRole("staff", "boatowner", "inspector")) && (
-      <BoatDetailPanel row={row} />)}
+      <BoatDetailPanel boat={row.original} ro={false} />)}
       </>
     ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (

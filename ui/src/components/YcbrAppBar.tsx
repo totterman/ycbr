@@ -78,7 +78,7 @@ export default function YcbrAppBar() {
             <StyledCustomLink to="/dispatch">{content.dispatch}</StyledCustomLink>
           )}
           {user.hasAnyRole("staff", "inspector") && (
-            <StyledCustomLink to="/inspect/">{content.inspections}</StyledCustomLink>
+            <StyledCustomLink to="/inspect">{content.inspections}</StyledCustomLink>
           )}
           {user.hasAnyRole("staff") && (
             <StyledCustomLink to="/office/">{content.office}</StyledCustomLink>

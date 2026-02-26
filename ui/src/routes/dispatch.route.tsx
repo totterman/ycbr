@@ -21,7 +21,7 @@ export const Route = createFileRoute("/dispatch")({
     return (
       <div>
         <p>This is the ErrorComponent configured on dispatch route</p>
-        <Link to="/inspect">Try again</Link>
+        <Link to="/dispatch">Try again</Link>
       </div>
     );
   },

@@ -5,10 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 
 interface Props {
   label: string;
+  ro?: boolean;
   options: { code: string, text: string }[],
 }
 
-export default function TextSelect(props: Props) {
+// export default function TextSelect(props: Props) {
+export default function TextSelect({ label, ro = false, options }: { label: string, ro?: boolean, options: { code: string, text: string }[] }) {
   const field = useFieldContext<string>();
 
   const errors = useStore(field.store, (state) => state.meta.errors);
@@ -18,13 +20,14 @@ export default function TextSelect(props: Props) {
       <TextField
         select
         defaultValue={field.state.value}
-        label={props.label}
+        disabled={ro}
+        label={label}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
         sx={{ mt: 0 }}
         variant="standard"
       >
-        {props.options.map((opt) => (
+        {options.map((opt) => (
           <MenuItem key={opt.code} value={opt.code}>
             {opt.text}
           </MenuItem>
