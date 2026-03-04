@@ -49,8 +49,8 @@ com:
           - /me
 #          - /i9events/**
 #          - /inspections/**
-#          - /v1/api-docs/**
-#          - /swagger-ui/**
+#          - /v3/api-docs/**
+          - /openapi/**
           - /actuator/info
           - /actuator/health
           - /actuator/health/readiness
@@ -74,6 +74,19 @@ management:
       enabled: true
     readinessstate:
       enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /openapi/swagger-ui.html
+  api-docs:
+    path: /openapi/v3/api-docs
+
+api:
+  common:
+    version: 1.0.0
+    title: Yacht Club Boat Register API
+    description: |-
+      API for Yacht Club Boat Register application
 
 logging:
   level:

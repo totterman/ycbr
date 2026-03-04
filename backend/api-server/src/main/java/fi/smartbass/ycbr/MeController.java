@@ -3,6 +3,10 @@ package fi.smartbass.ycbr;
 import java.time.Instant;
 import java.util.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
@@ -13,11 +17,17 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Me API", description = "API for retrieving information about the authenticated user")
 @RestController
 public class MeController {
 
     private static final Logger LOGGER = LogManager.getLogger(MeController.class);
 
+    @Operation(summary = "Get information about the authenticated user",
+            description = "Returns information about the authenticated user based on the JWT token claims and Spring authorities. If not authenticated, ANONYMOUS user information is returned.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User information retrieved successfully"),
+    })
     @GetMapping("/me")
     public UserInfoDto getMe(Authentication auth) {
         LOGGER.info("getMe() called: {}", auth);

@@ -67,6 +67,9 @@ http {
       limit_req zone=back burst=5 nodelay;
       proxy_pass https://host.docker.internal:7082;
     }
+    location /openapi {
+      proxy_pass https://host.docker.internal:7082/openapi;
+    }
     location /auth {
       proxy_pass https://host.docker.internal:8443/auth;
     }

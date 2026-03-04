@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Paper,
   Stack,
@@ -46,6 +46,7 @@ function IndexComponent() {
     createData("Bengt Besiktare", "bengt", "bengt", content.inspector_title),
 //    createData("Jenny Gast", "jenny", "jenny", content.guest_title),
   ];
+  const openApiUri = `${import.meta.env.VITE_REVERSE_PROXY}/openapi/swagger-ui/index.html`;
 
   return (
     <>
@@ -113,7 +114,9 @@ function IndexComponent() {
       <Typography variant="body2" sx={{ mt: 24 }}>
         {content.about}
       </Typography>
-
+      <Typography variant="body2">
+        {content.openapi} <a href={openApiUri}>OpenAPI</a>
+      </Typography>
       <Typography variant="body2">{content.author}</Typography>
     </>
   );

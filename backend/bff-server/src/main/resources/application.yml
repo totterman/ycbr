@@ -38,7 +38,9 @@ spring:
           - id: direct-access
             uri: ${scheme}://${hostname}:${api-server-port}
             predicates:
-              - Path=/resources/**
+              - Path=/openapi/**
+            filters:
+              - StripPrefix=1
   security:
     oauth2:
       client:
@@ -90,8 +92,7 @@ com:
           permit-all:
             - /login-options
             - /error
-            - /v1/api-docs/**
-            - /swagger-ui/**
+            - /openapi/**
             - /actuator/info
             - /actuator/health
             - /actuator/health/readiness

@@ -30,6 +30,7 @@ interface RoutesPageContent {
     guest_text: string;
     loginerror_title: string;
     loginerror_text: string;
+    openapi: string;
 }
 
 export default {
@@ -179,6 +180,11 @@ export default {
             en: "Start Over",
             fi: "Aloitussivulle",
             sv: "Till startsidan",
+        }),
+        openapi: t({
+            en: "API description:",
+            fi: "API kuvaus:",
+            sv: "API beskrivning:",
         }),
  },
 } satisfies Dictionary<RoutesPageContent>;
