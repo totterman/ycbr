@@ -1,5 +1,5 @@
 import { MRT_Row } from "material-react-table";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useUser } from "@/auth/useUser";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -27,6 +27,7 @@ import { BoatType } from "@/boats/boat";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
 import dayjs from "dayjs";
+import { calculateSlots } from "./bookings";
 import { BookingTimePicker } from "./BookingTimePicker";
 
 type RowProps = {
@@ -55,6 +56,18 @@ export default function BookingDialog({ row }: RowProps) {
   const [itime, setItime] = useState(minTime);
 
   const { mutateAsync: createBooking } = useAddBoatBooking();
+
+  const static_bookings = [
+    "2026-05-07T18:00:00+03:00",
+    "2026-05-07T19:00:00+03:00",
+    "2026-05-07T19:20:00+03:00"
+  ];
+
+  const bookings = row.original.bookings;
+
+  const slots = useMemo(() => {
+    return calculateSlots(minTime, maxTime, bookings, itype);
+  }, [bookings, itype]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -157,8 +170,7 @@ export default function BookingDialog({ row }: RowProps) {
               <BookingTimePicker
                 mintime={minTime}
                 maxtime={maxTime}
-                type={itype}
-                timesBooked={row.original.bookings}
+                timesBooked={slots}
                 setTime={setItime}
               />
 

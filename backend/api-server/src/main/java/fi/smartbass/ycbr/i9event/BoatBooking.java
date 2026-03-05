@@ -1,6 +1,7 @@
 package fi.smartbass.ycbr.i9event;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,6 +21,7 @@ public class BoatBooking {
     @Size(max = 50, message = "Booking Message must be at most 50 characters")
     private final String message;
     @Size(max = 1, message = "Inspection Type must be at just 1 character")
+    @Pattern(regexp = "Y|H|B", message = "Inspection Type must be one of 'Y', 'H', or 'B'")
     private String type;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Size(max = 30, message = "Inspection Start Time must be at most 30 characters")
@@ -47,28 +49,20 @@ public class BoatBooking {
     public List<String> getBookings() {
         switch (type) {
             case "Y" -> {
-                return List.of(time, nextOne());
+                return List.of(time);
             }
             case "H" -> {
-                return List.of(time, nextOne(), nextTwo());
+                return List.of(time, nextOne());
             }
             case "B" -> {
-                return List.of(time, nextOne(), nextTwo(), nextThree());
+                return List.of(time, nextOne());
             }
             default -> throw new IllegalArgumentException("Unknown inspection type: " + type);
         }
     }
 
     private String nextOne() {
-        return OffsetDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME).plusMinutes(10).format(DateTimeFormatter.ISO_DATE_TIME);
-    }
-
-    private String nextTwo() {
         return OffsetDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME).plusMinutes(20).format(DateTimeFormatter.ISO_DATE_TIME);
-    }
-
-    private String nextThree() {
-        return OffsetDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME).plusMinutes(30).format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
     @Override

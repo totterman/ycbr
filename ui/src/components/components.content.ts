@@ -19,7 +19,7 @@ export default {
     loading: t({
       en: "Loading",
       fi: "Ladataan",
-      sv: "Laddar new",
+      sv: "Laddar",
     }),
     home: t({
       en: "Home",
