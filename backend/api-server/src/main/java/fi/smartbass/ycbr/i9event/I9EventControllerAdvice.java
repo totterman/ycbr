@@ -38,6 +38,12 @@ public class I9EventControllerAdvice {
         return ex.getMessage();
     }
 
+    @ExceptionHandler(BookingFullException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String bookingFullHandler(BookingFullException ex) {
+        return ex.getMessage();
+    }
+
     @ExceptionHandler(InspectorExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     String inspectorExistsHandler(InspectorExistsException ex) {

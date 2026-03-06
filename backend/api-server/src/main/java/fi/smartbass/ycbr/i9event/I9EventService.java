@@ -128,6 +128,13 @@ public class I9EventService {
     public I9EventDto assignBoatToEvent(UUID id, BoatBookingDto dto) {
         if (dto == null || dto.boatId() == null) throw new NullPointerException();
         I9EventEntity event = eventRepository.findById(id).orElseThrow(() -> new I9EventNotFoundException(id));
+        long booked = event.getBookings()
+                .stream()
+                .filter(b -> b.equals(dto.time()))
+                .count();
+        if (booked >= event.getInspectors().size()) {
+            throw new BookingFullException(dto.time());
+        }
         if (event.getBoats().stream().noneMatch(b -> b.getBoatId().equals(dto.boatId()))) {
             event.addBoat(dto.boatId(), dto.message(), dto.type(), dto.time());
             I9EventEntity newEvent = eventRepository.save(event);

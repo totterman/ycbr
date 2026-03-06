@@ -229,7 +229,29 @@ public class I9EventIntegrationTest extends BaseIntegrationTest {
                 .content(bookingJson)
                 .exchange();
         assertThat(updateOne)
+                .hasStatus(HttpStatus.CONFLICT);
+        /*
+         * Since there are no inspectors registered for this event, the booking should fail with a 409 CONFLICT status. This is because the business logic in the service layer checks if the number of bookings for the given time exceeds the number of inspectors, and if there are no inspectors, any booking would exceed that limit.
+         * To be able to continue we create an inspector.
+         */
+            InspectorRegistrationDto registrationDTO = new InspectorRegistrationDto("Inspector Name", "Inspector Message");
+            String registrationJson = om.writeValueAsString(registrationDTO);
+            MvcTestResult updateFour = mvc.post()
+                    .uri("/i9events/" + created.i9eventId() + "/inspectors")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(registrationJson)
+                    .exchange();
+            assertThat(updateFour)
+                    .hasStatus(HttpStatus.CREATED);
+
+        updateOne = mvc.post()
+                .uri("/i9events/" + created.i9eventId() + "/boats")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(bookingJson)
+                .exchange();
+        assertThat(updateOne)
                 .hasStatus(HttpStatus.CREATED);
+
         I9EventDto updated = om.readValue(updateOne.getResponse().getContentAsString(), I9EventDto.class);
         System.out.println("Updated JSON: " + updateOne.getResponse().getContentAsString());
         assertThat(updated.boats()).isEqualTo(1);

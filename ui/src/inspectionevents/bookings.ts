@@ -22,6 +22,7 @@ export function calculateSlots(
   maxTime: dayjs.Dayjs,
   bookings: string[],
   itype: string,
+  capacity: number,
 ): TimeSlot[] {
   const duration = itype === "Y" ? 20 : 40;
   const slots: TimeSlot[] = [];
@@ -34,7 +35,7 @@ export function calculateSlots(
     let isAvailable = true;
 
     // 1. Check if the inspection duration pushes past closing time (21:00)
-    // E.g., a hull or base (40 min) inspection starting at 20:40 ends at 21:20 -> NOT available
+    //    E.g., a hull or base (40 min) inspection starting at 20:40 ends at 21:20 -> NOT available
     if (!slotStart.add(duration - 1, 'minutes').isBefore(maxTime)) {
         isAvailable = false;
     }
@@ -44,15 +45,35 @@ export function calculateSlots(
         isAvailable = false;
     }
 
-    // 3. Check for overlap with existing bookings
+    // 3. Check for capacity
+    else if (capacity < 1) {
+        isAvailable = false;
+    }
+
+    // 4. Check for overlap with existing bookings considering capacity
+    //    Bookings are ordered - this is crucial!
+    //    Overlapping bookings = equal booking values so we check for similarity with previous to count vacants
+    //    Builtin weakness: no way to tell if the SAME inspector is available for consequent timeslots.
+    //    We assume that 80% of inspections are annuals = 1 slot, thus problems will be infrequent.
     else {
+        let vacant = capacity;
+        let bPrev = minTime.subtract(1, 'minutes'); // an initial value that can not exist in bookings
+    
         for (const booking of bookings) {
             const bStart = dayjs(booking);
             const bEnd = bStart.add(20, 'minutes');
-            if (slotStart.isBefore(bEnd) && slotEnd.isAfter(bStart)) {
-                isAvailable = false;
-                break;
+            if (!bStart.isSame(bPrev)) {
+                vacant = capacity;
             }
+            if (slotStart.isBefore(bEnd) && slotEnd.isAfter(bStart)) {
+                vacant--;
+                // console.log('Slot:', slotStart.format('HH:mm'), '-', slotEnd.format('HH:mm'), 'Booking:', bStart.format('HH:mm'), '-', bEnd.format('HH:mm'), 'vacant:', vacant, 'bPrev:', bPrev.format('HH:mm'));                
+                if (vacant < 1) {
+                    isAvailable = false;
+                    break;
+                }
+            }
+            bPrev = bStart;
         }
     }
     slots.push({ time: slotStart, available: isAvailable });

@@ -57,16 +57,11 @@ export default function BookingDialog({ row }: RowProps) {
 
   const { mutateAsync: createBooking } = useAddBoatBooking();
 
-  const static_bookings = [
-    "2026-05-07T18:00:00+03:00",
-    "2026-05-07T19:00:00+03:00",
-    "2026-05-07T19:20:00+03:00"
-  ];
-
-  const bookings = row.original.bookings;
+  const bookings = row.original.bookings.toSorted();
+  const capacity = row.original.inspectors;
 
   const slots = useMemo(() => {
-    return calculateSlots(minTime, maxTime, bookings, itype);
+    return calculateSlots(minTime, maxTime, bookings, itype, capacity);
   }, [bookings, itype]);
 
   const handleClickOpen = () => {
@@ -78,9 +73,9 @@ export default function BookingDialog({ row }: RowProps) {
   };
 
   const types = [
-    { key: "Y", text: "Årsbesiktning" },
-    { key: "H", text: "Skrovbesiktning" },
-    { key: "B", text: "Grundbesiktning" },
+    { key: "Y", text: content.annual },
+    { key: "H", text: content.hull },
+    { key: "B", text: content.base },
   ];
 
   const handleBook = async () => {
@@ -148,12 +143,12 @@ export default function BookingDialog({ row }: RowProps) {
 
               <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
                 <InputLabel id="booking-type-label">
-                  Typ av besiktning
+                  {content.inspection_type}
                 </InputLabel>
                 <Select
-                  labelId="booking-boatname-label"
-                  id="booking-boatname"
-                  label="Typ av besiktning"
+                  labelId="booking-type-label"
+                  id="booking-type"
+                  label={content.inspection_type.value}
                 >
                   {types.map((type) => (
                     <MenuItem

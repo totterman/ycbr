@@ -32,6 +32,11 @@ interface I9EventsContent {
   start_time_required: string;
   end_time_required: string;
   start_before_end: string;
+  inspection_type: string;
+  annual: string;
+  hull: string;
+  base: string;
+  select_time: string;
 }
 
 export default {
@@ -191,6 +196,31 @@ export default {
       en: "End Time must be after Start Time",
       fi: "Päätösajan on oltava aloitusajan jälkeen",
       sv: "Avslutning måste vara efter start",
+    }),
+    inspection_type: t({
+      en: "Inspection Type",
+      fi: "Katsastuksen laji",
+      sv: "Typ av besiktning",
+    }),
+    annual: t({
+      en: "Annual inspection",
+      fi: "Vuosikatsastus",
+      sv: "Årsbesiktning",
+    }),
+    hull: t({
+      en: "Hull inspection",
+      fi: "Runkokatsastus",
+      sv: "Skrovbesiktning",
+    }),
+    base: t({
+      en: "Base inspection",
+      fi: "Peruskatsastus",
+      sv: "Grundbesiktning",
+    }),
+    select_time: t({
+      en: "Select inspection time",
+      fi: "Valitse katsastusaika",
+      sv: "Välj besiktningstid",
     }),
   },
 } satisfies Dictionary<I9EventsContent>;

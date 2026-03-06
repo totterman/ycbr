@@ -45,7 +45,7 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Find eventId by ID")
     void findById_returnsEvent_whenFound() {
-        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         when(eventRepository.findById(i9eventId)).thenReturn(Optional.of(event));
         I9EventDto result = eventService.findById(i9eventId);
         assertThat(result.place()).isEqualTo(event.getPlace());
@@ -62,9 +62,9 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Find events between timestamps")
     void findByStartsBetween() {
-        OffsetDateTime fromDate = OffsetDateTime.parse("2024-04-01T10:00:00.000+02:00");
-        OffsetDateTime toDate = OffsetDateTime.parse("2024-12-31T10:00:00.000+02:00");
-        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        OffsetDateTime fromDate = OffsetDateTime.parse("2026-04-01T10:00:00.000+02:00");
+        OffsetDateTime toDate = OffsetDateTime.parse("2026-12-31T10:00:00.000+02:00");
+        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         when(eventRepository.findByStartsBetween(fromDate, toDate)).thenReturn(List.of(event));
         Iterable<I9EventDto> result = eventService.findByStartsBetween(fromDate, toDate);
         assertThat(result.iterator().next().place().equals(event.getPlace()));
@@ -73,8 +73,8 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Create eventId")
     void createOk() {
-        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
-        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2024-07-15T00:00:00.000+02:00", "2024-07-15T10:00:00.000+02:00", "2024-07-15T16:00:00.000+02:00", null, 0, 0);
+        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2026-07-15T00:00:00.000+02:00", "2026-07-15T10:00:00.000+02:00", "2026-07-15T16:00:00.000+02:00", null, 0, 0);
         when(eventRepository.existsById(event.getI9eventId())).thenReturn(false);
         when(eventRepository.save(event)).thenReturn(event);
         I9EventDto result = eventService.create(dto);
@@ -85,8 +85,8 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Create throws if eventId exists")
     void createThrows() {
-        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
-        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2024-07-15T00:00:00.000+02:00", "2024-07-15T10:00:00.000+02:00", "2024-07-15T16:00:00.000+02:00", null, 0, 0);
+        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2026-07-15T00:00:00.000+02:00", "2026-07-15T10:00:00.000+02:00", "2026-07-15T16:00:00.000+02:00", null, 0, 0);
         when(eventRepository.existsById(event.getI9eventId())).thenReturn(true);
 //        when(eventRepository.save(eventId)).thenReturn(eventId);
         assertThatThrownBy(() -> eventService.create(dto))
@@ -96,9 +96,9 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Update eventId")
     void upsertOk() {
-        I9EventEntity before = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
-        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2024-07-15T00:00:00.000+02:00", "2024-07-15T10:00:00.000+02:00", "2024-07-15T16:00:00.000+02:00", null, 0, 0);
-        I9EventEntity after = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T15:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        I9EventEntity before = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2026-07-15T00:00:00.000+02:00", "2026-07-15T10:00:00.000+02:00", "2026-07-15T16:00:00.000+02:00", null, 0, 0);
+        I9EventEntity after = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T15:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         when(eventRepository.findById(i9eventId)).thenReturn(Optional.of(before));
         when(eventRepository.save(any(I9EventEntity.class))).thenReturn(after);
 
@@ -109,7 +109,7 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Update throws if malformed request")
     void upsertThrows() {
-        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2024-07-15T00:00:00.000+02:00", "2024-07-15T10:00:00.000+02:00", "2024-07-15T16:00:00.000+02:00", null, 0, 0);
+        I9EventDto dto = new I9EventDto(i9eventId, "Björkholmen", "2026-07-15T00:00:00.000+02:00", "2026-07-15T10:00:00.000+02:00", "2026-07-15T16:00:00.000+02:00", null, 0, 0);
         assertThatThrownBy(() -> eventService.upsert(UUID.randomUUID(), dto))
                 .isInstanceOf(I9EventRequestMalformedException.class);
     }
@@ -133,7 +133,7 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Finds inspectorName registration")
     void findInspectorsByEventId() {
-        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
         event.addInspector("inspector1", "message1");
         when(eventRepository.findById(event.getI9eventId())).thenReturn(Optional.of(event));
         InspectorRegistrationDto result = eventService.findInspectorsByEventId(event.getI9eventId()).iterator().next();
@@ -145,8 +145,8 @@ class I9EventServiceTest {
     @DisplayName("Finds boatId booking")
     void findBoatsByEventId() {
         UUID boatId = UUID.randomUUID();
-        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2024-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2024-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
-        event.addBoat(boatId, "message2", "Y", "2024-07-15T12:00:00.000+02:00");
+        I9EventEntity event = new I9EventEntity(i9eventId, "Björkholmen", OffsetDateTime.parse("2026-07-15T10:00:00.000+02:00"), OffsetDateTime.parse("2026-07-15T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
+        event.addBoat(boatId, "message2", "Y", "2026-07-15T12:00:00.000+02:00");
         when(eventRepository.findById(event.getI9eventId())).thenReturn(Optional.of(event));
         BoatBookingDto result = eventService.findBoatsByEventId(event.getI9eventId()).iterator().next();
         assertThat(result.boatId().equals(boatId));

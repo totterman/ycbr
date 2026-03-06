@@ -2,6 +2,7 @@ import { TimePickerProps, TimeView, TimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { Dispatch, SetStateAction, useState } from "react";
 import { TimeSlot } from "./bookings";
+import { useIntlayer } from "react-intlayer";
 
 export function BookingTimePicker({
   mintime,
@@ -14,28 +15,29 @@ export function BookingTimePicker({
   timesBooked: TimeSlot[];
   setTime: Dispatch<SetStateAction<dayjs.Dayjs>>;
 }) {
+  const content = useIntlayer("i9events");
+
   const shouldDisableTime: TimePickerProps<Dayjs>["shouldDisableTime"] = (
     value: Dayjs,
     view: TimeView,
   ) => {
-    const theSlot = timesBooked.find((x) => x.time.isSame(value));
-    const hourSlots = timesBooked.filter(
+    // find available timeslots during current hour
+    const freeSlots = timesBooked.filter(
       (x) =>
         x.time.year() === value.year() &&
         x.time.month() === value.month() &&
         x.time.date() === value.date() &&
         x.time.hour() === value.hour() &&
-        x.available === false,
+        x.available === true,
     );
-
-    // if all times for this hour are booked, disable hour
-    if (view === "hours" && hourSlots.length === 3) {
-      console.log("HOURLY:", hourSlots);
+    // disable current hour if no availability
+    if (view === "hours" && freeSlots.length === 0) {
       return true;
     } else {
-      // disable exact time if booked
-      if (view === "minutes" && !!theSlot) {
-        return !theSlot.available;
+      // find current timeslot and disable if booked
+      const thisSlot = timesBooked.find((x) => x.time.isSame(value));
+      if (view === "minutes" && !!thisSlot) {
+        return !thisSlot.available;
       }
     }
     return false;
@@ -44,7 +46,7 @@ export function BookingTimePicker({
   const [value, setValue] = useState<dayjs.Dayjs | null>(null);
   return (
     <TimePicker
-      label="Välj besiktningstid"
+      label={content.select_time}
       value={value}
       onChange={(newValue) => {
         setValue(newValue);
@@ -52,7 +54,7 @@ export function BookingTimePicker({
       }}
       timeSteps={{ minutes: 20 }}
       minTime={mintime}
-      maxTime={maxtime.subtract(20, 'minutes')}
+      maxTime={maxtime.subtract(20, "minutes")}
       referenceDate={dayjs(mintime)}
       shouldDisableTime={(value, view) => shouldDisableTime(value, view)}
       ampm={false}

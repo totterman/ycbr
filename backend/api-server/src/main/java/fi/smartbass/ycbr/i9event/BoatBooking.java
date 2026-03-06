@@ -22,10 +22,10 @@ public class BoatBooking {
     private final String message;
     @Size(max = 1, message = "Inspection Type must be at just 1 character")
     @Pattern(regexp = "Y|H|B", message = "Inspection Type must be one of 'Y', 'H', or 'B'")
-    private String type;
+    private final String type;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Size(max = 30, message = "Inspection Start Time must be at most 30 characters")
-    private String time;
+    private final String time;
     private final boolean taken;
 
     public BoatBooking(UUID boatId, String message, String type, String time, boolean taken) {
