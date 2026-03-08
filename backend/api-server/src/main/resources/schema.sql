@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS inspections (
 	boat_id uuid NOT NULL,
 	event_id uuid NOT NULL,
 	inspection_class varchar(1) NOT NULL,
+	inspection_type varchar(1) NOT NULL,
 	completed timestamptz(6) NULL,
 	created_at timestamptz(6) NULL,
 	created_by varchar(50) NULL,

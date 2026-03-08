@@ -50,13 +50,14 @@ class InspectionControllerTest {
             inspectorName,
             eventId,
             boatId,
-            "1",
+            InspectionClass.COASTAL,
+            InspectionType.ANNUAL,
             getInspectionDataDto(),
             null,
             remarks
     );
     private final List<InspectionDto> dtos = List.of(dto);
-    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, "Place X", OffsetDateTime.now(), null);
+    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, InspectionType.ANNUAL, "Place X", OffsetDateTime.now(), null);
     private final List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
     private final ObjectMapper om = new ObjectMapper();
 
@@ -105,15 +106,16 @@ class InspectionControllerTest {
     @DisplayName("POST /inspections returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void postInspection() throws Exception {
-        NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.COASTAL);
+        NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.COASTAL, InspectionType.ANNUAL);
         String newInspectionJson = """
                 {
                     "inspectorName": "%s",
                     "eventId": "%s",
                     "boatId": "%s",
-                    "inspectionClass": "%s"
+                    "inspectionClass": "%s",
+                    "inspectionType": "%s"
                 }
-                """.formatted(inspectorName, eventId, boatId, InspectionClass.COASTAL);
+                """.formatted(inspectorName, eventId, boatId, InspectionClass.COASTAL, InspectionType.ANNUAL);
         when(service.create(newInspectionDto)).thenReturn(dto);
         mockMvc.perform(post("/inspections")
                         .principal(authentication)

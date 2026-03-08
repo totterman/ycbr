@@ -52,7 +52,7 @@ export default function BookingDialog({ row }: RowProps) {
   const eventId = row.original.i9eventId;
 
   const [boat, setBoat] = useState<BoatType>();
-  const [itype, setItype] = useState("Y");
+  const [itype, setItype] = useState("A");
   const [itime, setItime] = useState(minTime);
 
   const { mutateAsync: createBooking } = useAddBoatBooking();
@@ -73,7 +73,7 @@ export default function BookingDialog({ row }: RowProps) {
   };
 
   const types = [
-    { key: "Y", text: content.annual },
+    { key: "A", text: content.annual },
     { key: "H", text: content.hull },
     { key: "B", text: content.base },
   ];

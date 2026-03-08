@@ -21,7 +21,7 @@ public class BoatBooking {
     @Size(max = 50, message = "Booking Message must be at most 50 characters")
     private final String message;
     @Size(max = 1, message = "Inspection Type must be at just 1 character")
-    @Pattern(regexp = "Y|H|B", message = "Inspection Type must be one of 'Y', 'H', or 'B'")
+    @Pattern(regexp = "[AHBX]", message = "Inspection Type must be one of 'A', 'H', 'B', or 'X'")
     private final String type;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Size(max = 30, message = "Inspection Start Time must be at most 30 characters")

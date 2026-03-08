@@ -71,12 +71,12 @@ class InspectionServiceTest {
         Instant instantNow = Instant.now();
         Remark remark = new Remark(0, "7.1", "Needs overhaul");
         Set<Remark> remarks = Set.of(remark);
-        newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, remarks, instantNow, "system", instantNow, "system", 0);
-        oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, getInspectionData(), null, remarks, instantNow, "system", instantNow, "system", 1);
+        newEntity = new InspectionEntity(null, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, InspectionType.ANNUAL, getInspectionData(), null, remarks, instantNow, "system", instantNow, "system", 0);
+        oldEntity = new InspectionEntity(inspectionId, now, inspectorName, eventId, boatId, InspectionClass.INSHORE, InspectionType.ANNUAL, getInspectionData(), null, remarks, instantNow, "system", instantNow, "system", 1);
         entityList = List.of(oldEntity);
-        myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.UNDEFINED, "Place X", OffsetDateTime.now(), null);
+        myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.UNDEFINED, InspectionType.UNDEFINED, "Place X", OffsetDateTime.now(), null);
         myInspectionsDtoList = List.of(myInspectionsDto);
-        newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.UNDEFINED);
+        newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.UNDEFINED, InspectionType.UNDEFINED);
     }
 
     @Test

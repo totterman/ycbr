@@ -33,7 +33,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     Set<RemarkDto> remarkDtos = Set.of(remarkDto);
 
 
-    private final NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.PROTECTED_WATERS);
+    private final NewInspectionDto newInspectionDto = new NewInspectionDto(inspectorName, eventId, boatId, InspectionClass.PROTECTED_WATERS, InspectionType.ANNUAL);
     private final InspectionDto dto = new InspectionDto(
             inspectionId,
             OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
@@ -41,12 +41,13 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
             eventId,
             boatId,
             InspectionClass.PROTECTED_WATERS,
+            InspectionType.ANNUAL,
             getInspectionDataDto(),
             null,
             remarkDtos
     );
     private final List<InspectionDto> dtos = List.of(dto);
-    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, "Place X", OffsetDateTime.now(), null);
+    private final MyInspectionsDto myInspectionsDto = new MyInspectionsDto(inspectionId, eventId, boatId, inspectorName, "Boat A", InspectionClass.INSHORE, InspectionType.BASE, "Place X", OffsetDateTime.now(), null);
     private final List<MyInspectionsDto> myInspectionsDtoList = List.of(myInspectionsDto);
 
     private InspectionDataDto getInspectionDataDto() {
@@ -103,7 +104,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         I9EventDto eventDto = createEvent();
 
         String anotherInspector = "Another Inspector";
-        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId(), InspectionClass.UNDEFINED));
+        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId(), InspectionClass.UNDEFINED, InspectionType.UNDEFINED));
 
         MvcTestResult getMyInspections = mvc.get()
                 .uri("/inspections/my?name=" + created.inspectorName())
@@ -128,7 +129,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
         I9EventDto eventDto = createEvent();
 
         String anotherInspector = "Another Inspector";
-        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId(), InspectionClass.UNDEFINED));
+        InspectionDto created = createOne(new NewInspectionDto(anotherInspector, eventDto.i9eventId(), boatDto.boatId(), InspectionClass.UNDEFINED, InspectionType.UNDEFINED));
 
         MvcTestResult getAllInspections = mvc.get()
                 .uri("/inspections/all")
@@ -158,6 +159,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
                 created.eventId(),
                 created.boatId(),
                 created.inspectionClass(),
+                created.inspectionType(),
                 created.inspection(),
                 created.completed(),
                 remarkDtos
@@ -180,7 +182,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Insert throws on invalid data")
     @WithJwt("bengt.json")
     void insertThrows() throws Exception {
-        NewInspectionDto newDto = new NewInspectionDto("All_too_long_name_breaks_50_characters_limit_and_validation_fails",eventId, boatId, InspectionClass.PROTECTED_WATERS);
+        NewInspectionDto newDto = new NewInspectionDto("All_too_long_name_breaks_50_characters_limit_and_validation_fails",eventId, boatId, InspectionClass.PROTECTED_WATERS, InspectionType.ANNUAL);
         String newJson = om.writeValueAsString(newDto);
         MvcTestResult addNew = mvc.post()
                 .uri("/inspections")

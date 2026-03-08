@@ -105,5 +105,6 @@ const initialDto: InspectionDto = {
         inspectorName: "",
         eventId: "",
         boatId: "",
-        inspectionClass: ""
+        inspectionClass: "",
+        inspectionType: "",
     };

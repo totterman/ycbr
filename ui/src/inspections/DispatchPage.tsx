@@ -1,4 +1,4 @@
-import { User, useUser } from "@/auth/useUser";
+import { useUser } from "@/auth/useUser";
 import {
   BoatBookingDto,
   CompleteEventDto,
@@ -10,7 +10,7 @@ import SendIcon from "@mui/icons-material/Send";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -33,9 +33,8 @@ export default function DispatchPage() {
   const { user } = useUser();
   const { mutateAsync: markBooking } = useMarkBoatBooking();
   const { mutateAsync: createInspection } = useCreateInspection();
-
   const [i9event, setI9event] = useState<CompleteEventDto>();
-  const [boatId, setBoatId] = useState<string>('');
+  const [booking, setBooking] = useState<BoatBookingDto>();
 
   const navigate = useNavigate();
   const content = useIntlayer("inspections");
@@ -43,14 +42,15 @@ export default function DispatchPage() {
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
 
   const startInspection = async () => {
-    if (i9event && boatId) {
-      const boat = boats.find((b) => b.boatId === boatId);
+    if (i9event && booking?.boatId) {
+      const boat = boats.find((b) => b.boatId === booking.boatId);
       if (boat) {
         const ni: NewInspection = {
           inspectorName: user.name,
           eventId: i9event.i9eventId,
           boatId: boat.boatId,
           inspectionClass: "0",
+          inspectionType: booking.type,
         };
         const newInspection = await createInspection(ni);
         const inspectionStr = newInspection ? newInspection.inspectionId : '';
@@ -58,15 +58,13 @@ export default function DispatchPage() {
         const dto: BoatBookingDto = {
           boatId: boat.boatId,
           message: "Sent by " + user.name,
-          type: "",
-          time: "",
+          type: booking?.type || "",
+          time: booking?.time || "",
           taken: true,
         };
-        const booking = i9event.boats.find(
-          (booking) => booking.boatId === boat.boatId
-        );
         if (booking) {
           booking.taken = true;
+          setBooking(booking);
         }
         setI9event(i9event);
         await markBooking({ id: i9event.i9eventId, dto: dto });
@@ -79,6 +77,19 @@ export default function DispatchPage() {
       }
     }
   };
+
+  function decodeType(type: string) {
+    switch (type) {
+      case "A":
+        return content.annual_insp;
+      case "H":
+        return content.hull_insp;
+      case "B":
+        return content.base_insp;
+      default:
+        return "";
+    }
+  }
 
   return (
     <div>
@@ -113,16 +124,17 @@ export default function DispatchPage() {
             labelId="dispatch-boatname-label"
             id="dispatch-boatname"
             label={content.boat_name.value}
-            value={boatId}
+            value={booking}
           >
-            {i9event?.boats.map((b) => (
+            {i9event?.boats.sort((a, b) => a.time.localeCompare(b.time)).map((dto) => (
               <MenuItem
-                key={b.boatId}
-                value={b.boatId}
-                onClick={() => setBoatId(b.boatId)}
-                disabled={b.taken}
+                key={dto.boatId}
+                value={dto.boatId}
+                /* onClick={() => setBoatId(dto.boatId)} */
+                onClick={() => setBooking(dto)}
+                disabled={dto.taken}
               >
-                {boats.find((boat) => boat.boatId === b.boatId)?.name}
+                {dayjs(dto.time).format('HH:mm')} {boats.find((boat) => boat.boatId === dto.boatId)?.name} {decodeType(dto.type)}
               </MenuItem>
             ))}
           </Select>

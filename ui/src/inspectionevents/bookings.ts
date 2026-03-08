@@ -24,7 +24,7 @@ export function calculateSlots(
   itype: string,
   capacity: number,
 ): TimeSlot[] {
-  const duration = itype === "Y" ? 20 : 40;
+  const duration = itype === "A" ? 20 : 40;
   const slots: TimeSlot[] = [];
 
   let current = minTime;

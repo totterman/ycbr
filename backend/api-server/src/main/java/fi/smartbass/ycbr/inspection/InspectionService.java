@@ -64,6 +64,7 @@ public class InspectionService {
                 newDto.eventId(),
                 newDto.boatId(),
                 newDto.inspectionClass(),
+                newDto.inspectionType(),
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, false, false, false, false, false, false, false, 0),
                         new RigDataDto(false, false, false, false),
@@ -104,6 +105,7 @@ public class InspectionService {
                 from.eventId(),
                 from.boatId(),
                 from.inspectionClass(),
+                from.inspectionType(),
                 from.inspection(),
                 from.completed(),
                 from.remarks());

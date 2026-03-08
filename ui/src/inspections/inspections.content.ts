@@ -36,6 +36,10 @@ interface InspectionsContent {
   protected_waters: string;
   motor_boat: string;
   sail_boat: string;
+  inspection_type: string;
+  annual_insp: string;
+  hull_insp: string;
+  base_insp: string;
 }
 
 export default {
@@ -215,6 +219,26 @@ export default {
       en: "Sail Boat",
       fi: "Purjevene",
       sv: "Segelbåt",
+    }),
+    inspection_type: t({
+      en: "Inspection Type",
+      fi: "Katsastuksen laji",
+      sv: "Typ av besiktning",
+    }),
+    annual_insp: t({
+      en: "Annual inspection",
+      fi: "Vuosikatsastus",
+      sv: "Årsbesiktning",
+    }),
+    hull_insp: t({
+      en: "Hull inspection",
+      fi: "Runkokatsastus",
+      sv: "Skrovbesiktning",
+    }),
+    base_insp: t({
+      en: "Base inspection",
+      fi: "Peruskatsastus",
+      sv: "Grundbesiktning",
     }),
   },
 } satisfies Dictionary<InspectionsContent>;

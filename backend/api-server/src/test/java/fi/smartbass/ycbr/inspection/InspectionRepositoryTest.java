@@ -46,7 +46,7 @@ class InspectionRepositoryTest {
         Remark remark = new Remark(0, "7.1", "Needs overhaul");
         Set<Remark> remarks = Set.of(remark);
 
-        InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, InspectionClass.COASTAL, inspectionData, null, remarks, Instant.now(), "system", Instant.now(), "system", 0);
+        InspectionEntity entity = new InspectionEntity(null, OffsetDateTime.now(), "inspector1", eventId, boatId, InspectionClass.COASTAL, InspectionType.ANNUAL, inspectionData, null, remarks, Instant.now(), "system", Instant.now(), "system", 0);
         repository.save(entity);
     }
 

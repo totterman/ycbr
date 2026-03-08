@@ -16,6 +16,7 @@ export interface NewInspection {
   eventId: string;
   boatId: string;
   inspectionClass: string;
+  inspectionType: string;
 }
 
 interface BaseInspection extends NewInspection {

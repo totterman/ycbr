@@ -2,17 +2,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
 import { inspectionQueryOptions } from "./inspection";
 import InspectionStepper from "./InspectionStepper";
-import { Card } from "./form/Card";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  CardContent,
   FormControl,
-  Grid2,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material";
@@ -26,7 +22,9 @@ import { useState } from "react";
 import { Category, CategoryContext } from "./categorycontext";
 import { BoatDetailPanel } from "@/boats/BoatDetailPanel";
 
+
 export default function InspectionPage() {
+
   const route = getRouteApi("/inspect/$inspectionId");
   const id = route.useParams().inspectionId;
   const { data, isLoading, refetch } = useSuspenseQuery(
@@ -55,15 +53,23 @@ export default function InspectionPage() {
 
   const [inspectionClass, setInspectionClass] = useState<string>("1");
 
-//  const handleChange = (event: SelectChangeEvent) => {
-//    setInspectionClass(event.target.value);
-//    console.log("Inspection Class:", inspectionClass);
-//  };
-
   const category: Category = {
     kind: boat?.kind || "S",
     inspectionClass: inspectionClass,
   };
+
+  function decodeType(type: string) {
+    switch (type) {
+      case "A":
+        return content.annual_insp;
+      case "H":
+        return content.hull_insp;
+      case "B":
+        return content.base_insp;
+      default:
+        return "X";
+    }
+  }
 
   if (isLoading) return <p>Loading..</p>;
 
@@ -78,7 +84,10 @@ export default function InspectionPage() {
            <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
             {boat?.kind === 'M' ? content.motor_boat : content.sail_boat} {boat?.name} {boat?.sign}
           </Typography>
-          <Typography component="span" sx={{ color: 'text.secondary' }}>
+          <Typography component="span" sx={{ width: '33%', flexShrink: 0, color: 'text.secondary' }}>
+            {decodeType(data.inspectionType)}
+          </Typography>
+          <Typography component="span" sx={{ width: '33%', flexShrink: 0, color: 'text.secondary' }}>
             {i9event?.place} {dayjs(i9event?.day).toDate().toLocaleDateString(tlds)} [{data.inspectorName} {dayjs(data.timestamp).toDate().toLocaleTimeString(locale.substring(0, 2))}]
           </Typography>
         </AccordionSummary>

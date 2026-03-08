@@ -36,7 +36,8 @@ class InspectionMapperTest {
                 "Inspector Name",
                 eventId,
                 boatId,
-                "2",
+                InspectionClass.COASTAL,
+                InspectionType.HULL,
                 new InspectionDataDto(
                         new HullDataDto(false, false, false, true, false, false, false, false, false, false, 20),
                         new RigDataDto(false, false, false, false),
@@ -53,7 +54,8 @@ class InspectionMapperTest {
                 "Inspector Name",
                 eventId,
                 boatId,
-                "2",
+                InspectionClass.COASTAL,
+                InspectionType.HULL,
                 new InspectionData(
                         new HullData(false, false, false, false, false, false, false, false, false, false, 30),
                         new RigData(true, false, true, false),
