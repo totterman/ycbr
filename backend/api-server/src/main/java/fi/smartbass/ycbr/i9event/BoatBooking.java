@@ -1,5 +1,6 @@
 package fi.smartbass.ycbr.i9event;
 
+import fi.smartbass.ycbr.inspection.InspectionType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -48,13 +49,13 @@ public class BoatBooking {
 
     public List<String> getBookings() {
         switch (type) {
-            case "Y" -> {
+            case InspectionType.ANNUAL -> {
                 return List.of(time);
             }
-            case "H" -> {
+            case InspectionType.BASE -> {
                 return List.of(time, nextOne());
             }
-            case "B" -> {
+            case InspectionType.HULL -> {
                 return List.of(time, nextOne());
             }
             default -> throw new IllegalArgumentException("Unknown inspection type: " + type);

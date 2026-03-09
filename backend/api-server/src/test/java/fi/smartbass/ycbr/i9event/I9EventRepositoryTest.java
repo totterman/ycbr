@@ -1,5 +1,6 @@
 package fi.smartbass.ycbr.i9event;
 
+import fi.smartbass.ycbr.inspection.InspectionType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -126,7 +127,7 @@ public class I9EventRepositoryTest {
     void testBoatBookings() {
         UUID boatId = UUID.randomUUID();
         I9EventEntity event = new I9EventEntity(null, "Gumbostrand", OffsetDateTime.parse("2026-05-17T10:00:00.000+02:00"), OffsetDateTime.parse("2026-05-17T16:00:00.000+02:00"), null, null, Instant.now(), "system", Instant.now(), "system", 0);
-        event.addBoat(boatId, "message2", "Y", "2026-05-17T12:00:00.000+02:00");
+        event.addBoat(boatId, "message2", InspectionType.ANNUAL, "2026-05-17T12:00:00.000+02:00");
         LOGGER.info("BOATS Event before save: {}", event);
         I9EventEntity saved = eventRepository.save(event);
         LOGGER.info("BOATS Event after save: {}", event);
