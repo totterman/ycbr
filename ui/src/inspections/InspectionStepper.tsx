@@ -4,12 +4,12 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import HullDataForm from "./HullDataForm";
-import { EngineData, EquipmentData, HullData, InspectionProps, NavigationData, RigData, SafetyData, useUpdateInspection } from "./inspection";
+import { EngineData, EquipmentData, HullData, InspectionDto, InspectionProps, NavigationData, RigData, SafetyData, useUpdateInspection } from "./inspection";
 import RigDataForm from "./RigDataForm";
 import EngineDataForm from "./EngineDataForm";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { Locale } from "intlayer";
 import EquipmentForm from "./EquipmentForm";
@@ -18,20 +18,33 @@ import SafetyForm from "./SafetyForm";
 import { Divider } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import RemarkForm from "./RemarkForm";
-import { Engine } from "@/boats/boat";
+import { CategoryContext } from "./categorycontext";
 
 export default function InspectionStepper({ data }: InspectionProps) {
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
   const navigate = useNavigate();
-
+  const category = useContext(CategoryContext);
+  
   const [hulldata, setHulldata] = useState<HullData>(data.inspection.hullData);
   const [rigdata, setRigdata] = useState<RigData>(data.inspection.rigData);
   const [enginedata, setEnginedata] = useState<EngineData>(data.inspection.engineData);
   const [equipmentdata, setEquipmentdata] = useState<EquipmentData>(data.inspection.equipmentData);
   const [navigationdata, setNavigationdata] = useState<NavigationData>(data.inspection.navigationData);
   const [safetydata, setSafetydata] = useState<SafetyData>(data.inspection.safetyData);
+
+  async function saveData() {
+    data.inspectionClass = category.inspectionClass;
+    data.inspection.hullData = hulldata;
+    data.inspection.rigData = rigdata;
+    data.inspection.engineData = enginedata;
+    data.inspection.equipmentData = equipmentdata;
+    data.inspection.navigationData = navigationdata;
+    data.inspection.safetyData = safetydata;
+    console.log("Inspection:", data);
+    await updateInspection(data);
+  }
 
   /* *************************************************************************
    *
@@ -47,21 +60,22 @@ export default function InspectionStepper({ data }: InspectionProps) {
     content.navigation,
     content.safety,
   ];
+
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <HullDataForm data={data} />;
+        return <HullDataForm hullData={hulldata} setHullData={setHulldata} />;
       case 1:
         return <RigDataForm rigData={rigdata} setRigData={setRigdata} />;
  //       return <RigDataForm data={data} />;
       case 2:
-        return <EngineDataForm data={data} />;
+        return <EngineDataForm engineData={enginedata} setEngineData={setEnginedata} />;
       case 3:
-        return <EquipmentForm data={data} />;
+        return <EquipmentForm equipmentData={equipmentdata} setEquipmentData={setEquipmentdata} />;
       case 4:
-        return <NavigationForm data={data} />;
+        return <NavigationForm navigationData={navigationdata} setNavigationData={setNavigationdata} />;
       case 5:
-        return <SafetyForm data={data} />;
+        return <SafetyForm safetyData={safetydata} setSafetyData={setSafetydata} />;
       default:
         throw new Error("Unknown step");
     }
@@ -93,6 +107,7 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleNext = async () => {
+    await saveData();
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -103,11 +118,13 @@ export default function InspectionStepper({ data }: InspectionProps) {
   };
 
   const handleBack = async () => {
+    await saveData();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleStep = (step: number) => () => {
     setActiveStep(step);
+    saveData();
   };
 
   const handleComplete = async () => {
@@ -130,7 +147,8 @@ export default function InspectionStepper({ data }: InspectionProps) {
   const handleDone = async () => {
     data.completed = dayjs().format("YYYY-MM-DDTHH:mm:ssZ");
     console.log("Completed:", data);
-    await updateInspection(data);
+//    await updateInspection(data);
+    await saveData();
     navigate({
       to: "/inspect",
       replace: true,

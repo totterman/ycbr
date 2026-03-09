@@ -1,5 +1,5 @@
 import { formOptions } from "@tanstack/react-form";
-import { InspectionProps, RigData, useUpdateInspection } from "./inspection";
+import { RigData } from "./inspection";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
@@ -9,25 +9,23 @@ import { Dispatch, SetStateAction, useContext } from "react";
 import { CategoryContext, isOfClass } from "./categorycontext";
 
 export default function RigDataForm({ rigData, setRigData }: {rigData: RigData, setRigData: Dispatch<SetStateAction<RigData>>}) {
-//  const defaultRig: RigData = rigData;
   const rigOptions = formOptions({
     defaultValues: rigData,
   });
   const content = useIntlayer("rigdata");
-//  const { mutateAsync: updateInspection } = useUpdateInspection(
-//    data.inspectionId,
-//  );
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
     ...rigOptions,
     // validators:
     onSubmit: async ({ value }) => {
-      // Do something with form data
-//      data.inspectionClass = category.inspectionClass;
       console.log("RigData:", value);
-      setRigData(value);
-//      await updateInspection(data);
+    },
+    listeners: {
+      onBlur: ({ formApi }) => {
+        console.log('onBlur:', formApi.state.values);
+        setRigData(formApi.state.values);
+      }
     },
   });
 
@@ -120,19 +118,6 @@ export default function RigDataForm({ rigData, setRigData }: {rigData: RigData, 
           </Stack>
         </FormGroup>
 
-        <Stack
-          direction="row"
-          justifyContent="left"
-          spacing={4}
-          sx={{ mt: 2 }}
-        >
-          <form.AppForm>
-            <form.SubscribeButton label={content.submit.value} />
-          </form.AppForm>
-          <form.AppForm>
-            <form.ResetButton label={content.reset.value} />
-          </form.AppForm>
-        </Stack>
       </form>
     </Stack>
   );

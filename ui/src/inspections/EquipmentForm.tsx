@@ -1,25 +1,18 @@
 import { formOptions } from "@tanstack/react-form";
-import {
-  EquipmentData,
-  InspectionProps,
-  useUpdateInspection,
-} from "./inspection";
+import { EquipmentData } from "./inspection";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
-import { FormGrid } from "./form/FormGrid";
 import { useIntlayer } from "react-intlayer";
 import Stack from "@mui/material/Stack";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { CategoryContext, isMotorboat, isOfClass } from "./categorycontext";
 
-export default function EquipmentForm({ data }: InspectionProps) {
-  const equipment: EquipmentData = data.inspection.equipmentData;
+export default function EquipmentForm({ equipmentData, setEquipmentData }: {equipmentData: EquipmentData, setEquipmentData: Dispatch<SetStateAction<EquipmentData>>}) {
   const equipmentOptions = formOptions({
-    defaultValues: equipment,
+    defaultValues: equipmentData,
   });
   const content = useIntlayer("equipment");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
@@ -27,10 +20,13 @@ export default function EquipmentForm({ data }: InspectionProps) {
     // validators:
     onSubmit: async ({ value }) => {
       // Do something with form data
-      data.inspectionClass = category.inspectionClass;
-      data.inspection.equipmentData = value;
       console.log("EquipmentData:", value);
-      await updateInspection(data);
+    },
+    listeners: {
+      onBlur: ({ formApi }) => {
+        console.log('onBlur:', formApi.state.values);
+        setEquipmentData(formApi.state.values);
+      }
     },
   });
 
@@ -245,19 +241,6 @@ export default function EquipmentForm({ data }: InspectionProps) {
               />}
             </Stack>
         </FormGroup>
-        <Stack
-          direction="row"
-          justifyContent="left"
-          spacing={4}
-          sx={{ mt: 2 }}
-        >
-          <form.AppForm>
-            <form.SubscribeButton label={content.submit.value} />
-          </form.AppForm>
-          <form.AppForm>
-            <form.ResetButton label={content.reset.value} />
-          </form.AppForm>
-        </Stack>
       </form>
     </Stack>
   );

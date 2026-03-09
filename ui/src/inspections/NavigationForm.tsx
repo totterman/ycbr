@@ -1,24 +1,18 @@
 import { formOptions } from "@tanstack/react-form";
-import {
-  InspectionProps,
-  NavigationData,
-  useUpdateInspection,
-} from "./inspection";
+import { NavigationData } from "./inspection";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
 import { useIntlayer } from "react-intlayer";
 import Stack from "@mui/material/Stack";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { CategoryContext, isMotorboat, isOfClass } from "./categorycontext";
 
-export default function NavigationForm({ data }: InspectionProps) {
-  const navigation: NavigationData = data.inspection.navigationData;
+export default function NavigationForm({ navigationData, setNavigationData }: { navigationData: NavigationData, setNavigationData: Dispatch<SetStateAction<NavigationData>>}) {
   const navigationOptions = formOptions({
-    defaultValues: navigation,
+    defaultValues: navigationData,
   });
   const content = useIntlayer("navigation");
-  const { mutateAsync: updateInspection } = useUpdateInspection(data.inspectionId);
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
@@ -26,10 +20,13 @@ export default function NavigationForm({ data }: InspectionProps) {
     // validators:
     onSubmit: async ({ value }) => {
       // Do something with form data
-      data.inspectionClass = category.inspectionClass;
-      data.inspection.navigationData = value;
       console.log("NavigationData:", value);
-      await updateInspection(data);
+    },
+    listeners: {
+      onBlur: ({ formApi }) => {
+        console.log('onBlur:', formApi.state.values);
+        setNavigationData(formApi.state.values);
+      }
     },
   });
 
@@ -235,19 +232,6 @@ export default function NavigationForm({ data }: InspectionProps) {
               />}
             </Stack>
         </FormGroup>
-        <Stack
-          direction="row"
-          justifyContent="left"
-          spacing={4}
-          sx={{ mt: 2 }}
-        >
-          <form.AppForm>
-            <form.SubscribeButton label={content.submit.value} />
-          </form.AppForm>
-          <form.AppForm>
-            <form.ResetButton label={content.reset.value} />
-          </form.AppForm>
-        </Stack>
       </form>
     </Stack>
   );

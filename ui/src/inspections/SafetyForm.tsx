@@ -1,23 +1,19 @@
 import { formOptions } from "@tanstack/react-form";
-import { InspectionProps, SafetyData, useUpdateInspection } from "./inspection";
+import { SafetyData } from "./inspection";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
 import { useIntlayer } from "react-intlayer";
 import Stack from "@mui/material/Stack";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { CategoryContext, isMotorboat, isOfClass, isSailboat } from "./categorycontext";
 import ItemHeader from "./form/ItemHeader";
 
-export default function SafetyForm({ data }: InspectionProps) {
-  const safety: SafetyData = data.inspection.safetyData;
+export default function SafetyForm({ safetyData, setSafetyData }: { safetyData: SafetyData, setSafetyData: Dispatch<SetStateAction<SafetyData>>}) {
   const safetyOptions = formOptions({
-    defaultValues: safety,
+    defaultValues: safetyData,
   });
   const content = useIntlayer("safety");
-  const { mutateAsync: updateInspection } = useUpdateInspection(
-    data.inspectionId,
-  );
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
@@ -25,10 +21,13 @@ export default function SafetyForm({ data }: InspectionProps) {
     // validators:
     onSubmit: async ({ value }) => {
       // Do something with form data
-      data.inspectionClass = category.inspectionClass;
-      data.inspection.safetyData = value;
       console.log("SafetyData:", value);
-      await updateInspection(data);
+    },
+    listeners: {
+      onBlur: ({ formApi }) => {
+        console.log('onBlur:', formApi.state.values);
+        setSafetyData(formApi.state.values);
+      }
     },
   });
 
@@ -462,19 +461,6 @@ export default function SafetyForm({ data }: InspectionProps) {
             )}
           </Stack>
         </FormGroup>
-        <Stack
-          direction="row"
-          justifyContent="left"
-          spacing={4}
-          sx={{ mt: 2 }}
-        >
-          <form.AppForm>
-            <form.SubscribeButton label={content.submit.value} />
-          </form.AppForm>
-          <form.AppForm>
-            <form.ResetButton label={content.reset.value} />
-          </form.AppForm>
-        </Stack>
       </form>
     </Stack>
   );

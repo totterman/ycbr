@@ -1,31 +1,25 @@
 import { formOptions } from "@tanstack/react-form";
-import { HullData, InspectionProps, useUpdateInspection } from "./inspection";
+import { HullData } from "./inspection";
 import Typography from "@mui/material/Typography";
 import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
 import Stack from "@mui/material/Stack";
 import { useIntlayer } from "react-intlayer";
-import { useContext, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { CategoryContext, isOfClass } from "./categorycontext";
 
-export default function HullDataForm({ data }: InspectionProps) {
-  const defaultHull: HullData = data.inspection.hullData;
+export default function HullDataForm({ hullData, setHullData }: {hullData: HullData, setHullData: Dispatch<SetStateAction<HullData>>}) {
+
   const hullOptions = formOptions({
-    defaultValues: defaultHull,
+    defaultValues: hullData,
   });
   const content = useIntlayer("hulldata");
-  const { mutateAsync: updateInspection } = useUpdateInspection(
-    data.inspectionId,
-  );
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
     ...hullOptions,
     // validators:
     onSubmit: async ({ value }) => {
-      // Do something with form data
-      data.inspectionClass = category.inspectionClass;
-      data.inspection.hullData = value;
       console.log(
         "HullData:",
         value,
@@ -34,7 +28,12 @@ export default function HullDataForm({ data }: InspectionProps) {
         "Inspection Class:",
         category.inspectionClass,
       );
-      await updateInspection(data);
+    },
+    listeners: {
+      onBlur: ({ formApi }) => {
+        console.log('onBlur:', formApi.state.values);
+        setHullData(formApi.state.values);
+      }
     },
   });
 
@@ -211,19 +210,6 @@ export default function HullDataForm({ data }: InspectionProps) {
           </Stack>
         </FormGroup>
         
-        <Stack
-          direction="row"
-          justifyContent="left"
-          spacing={4}
-          sx={{ mt: 2 }}
-        >
-          <form.AppForm>
-            <form.SubscribeButton label={content.submit.value} />
-          </form.AppForm>
-          <form.AppForm>
-            <form.ResetButton label={content.reset.value} />
-          </form.AppForm>
-        </Stack>
       </form>
     </Stack>
   );
