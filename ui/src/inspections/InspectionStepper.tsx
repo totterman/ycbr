@@ -6,7 +6,7 @@ import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import { Fragment, useState } from "react";
 import HullDataForm from "./HullDataForm";
-import { InspectionProps, useUpdateInspection } from "./inspection";
+import { EngineData, EquipmentData, HullData, InspectionProps, NavigationData, RigData, SafetyData, useUpdateInspection } from "./inspection";
 import RigDataForm from "./RigDataForm";
 import EngineDataForm from "./EngineDataForm";
 import dayjs, { Dayjs } from "dayjs";
@@ -18,12 +18,20 @@ import SafetyForm from "./SafetyForm";
 import { Divider } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import RemarkForm from "./RemarkForm";
+import { Engine } from "@/boats/boat";
 
 export default function InspectionStepper({ data }: InspectionProps) {
   const content = useIntlayer("inspections");
   const { locale } = useLocale();
   const tlds: Locale = locale == "sv-FI" ? "fi-FI" : locale;
   const navigate = useNavigate();
+
+  const [hulldata, setHulldata] = useState<HullData>(data.inspection.hullData);
+  const [rigdata, setRigdata] = useState<RigData>(data.inspection.rigData);
+  const [enginedata, setEnginedata] = useState<EngineData>(data.inspection.engineData);
+  const [equipmentdata, setEquipmentdata] = useState<EquipmentData>(data.inspection.equipmentData);
+  const [navigationdata, setNavigationdata] = useState<NavigationData>(data.inspection.navigationData);
+  const [safetydata, setSafetydata] = useState<SafetyData>(data.inspection.safetyData);
 
   /* *************************************************************************
    *
@@ -44,7 +52,8 @@ export default function InspectionStepper({ data }: InspectionProps) {
       case 0:
         return <HullDataForm data={data} />;
       case 1:
-        return <RigDataForm data={data} />;
+        return <RigDataForm rigData={rigdata} setRigData={setRigdata} />;
+ //       return <RigDataForm data={data} />;
       case 2:
         return <EngineDataForm data={data} />;
       case 3:

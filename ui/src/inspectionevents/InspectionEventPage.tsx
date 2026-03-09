@@ -36,6 +36,7 @@ import { Locale } from "intlayer";
 import { MRT_Localization_EN } from "material-react-table/locales/en";
 import { MRT_Localization_FI } from "material-react-table/locales/fi";
 import { MRT_Localization_SV } from "material-react-table/locales/sv";
+import dayjs from "dayjs";
 
 export function InspectionEventPage() {
   const [validationErrors, setValidationErrors] = useState<
@@ -126,7 +127,9 @@ export function InspectionEventPage() {
 
   // const data = events;
   const eventsQuery = useSuspenseQuery(i9eventsQueryOptions);
-  const events = eventsQuery.data;
+  const events = eventsQuery.data
+   .filter((c) => !dayjs(c.starts).isBefore(dayjs()))
+      .sort((a, b) => (dayjs(a.starts).isAfter(dayjs(b.starts)) ? 1 : -1));
   const { user, isError } = useUser();
 
   const { mutateAsync: createI9Event, isPending: isCreatingI9Event } =

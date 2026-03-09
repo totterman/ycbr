@@ -5,18 +5,18 @@ import FormGroup from "@mui/material/FormGroup";
 import { useAppForm } from "./form/FormHook";
 import { useIntlayer } from "react-intlayer";
 import Stack from "@mui/material/Stack";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { CategoryContext, isOfClass } from "./categorycontext";
 
-export default function RigDataForm({ data }: InspectionProps) {
-  const defaultRig: RigData = data.inspection.rigData;
+export default function RigDataForm({ rigData, setRigData }: {rigData: RigData, setRigData: Dispatch<SetStateAction<RigData>>}) {
+//  const defaultRig: RigData = rigData;
   const rigOptions = formOptions({
-    defaultValues: defaultRig,
+    defaultValues: rigData,
   });
   const content = useIntlayer("rigdata");
-  const { mutateAsync: updateInspection } = useUpdateInspection(
-    data.inspectionId,
-  );
+//  const { mutateAsync: updateInspection } = useUpdateInspection(
+//    data.inspectionId,
+//  );
   const category = useContext(CategoryContext);
 
   const form = useAppForm({
@@ -24,10 +24,10 @@ export default function RigDataForm({ data }: InspectionProps) {
     // validators:
     onSubmit: async ({ value }) => {
       // Do something with form data
-      data.inspectionClass = category.inspectionClass;
-      data.inspection.rigData = value;
+//      data.inspectionClass = category.inspectionClass;
       console.log("RigData:", value);
-      await updateInspection(data);
+      setRigData(value);
+//      await updateInspection(data);
     },
   });
 
