@@ -54,10 +54,10 @@ class I9EventControllerTest {
     @DisplayName("GET /api/i9events returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void getAll() throws Exception {
-        when(eventService.findAll()).thenReturn(dtos);
+        when(eventService.findUpcoming()).thenReturn(dtos);
         mockMvc.perform(get("/i9events").principal(authentication))
                 .andExpect(status().isOk());
-        verify(eventService).findAll();
+        verify(eventService).findUpcoming();
     }
 
     @Test

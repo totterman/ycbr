@@ -127,9 +127,7 @@ export function InspectionEventPage() {
 
   // const data = events;
   const eventsQuery = useSuspenseQuery(i9eventsQueryOptions);
-  const events = eventsQuery.data
-   .filter((c) => !dayjs(c.starts).isBefore(dayjs()))
-      .sort((a, b) => (dayjs(a.starts).isAfter(dayjs(b.starts)) ? 1 : -1));
+  const events = eventsQuery.data;
   const { user, isError } = useUser();
 
   const { mutateAsync: createI9Event, isPending: isCreatingI9Event } =

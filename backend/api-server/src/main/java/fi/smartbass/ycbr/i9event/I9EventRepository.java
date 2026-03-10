@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface I9EventRepository extends CrudRepository<I9EventEntity, UUID> {
     Iterable<I9EventEntity> findByStartsBetween(OffsetDateTime fromDate, OffsetDateTime toDate);
+    Iterable<I9EventEntity> findByStartsAfter(OffsetDateTime fromDate);
 
     @Query("""
             SELECT i9events

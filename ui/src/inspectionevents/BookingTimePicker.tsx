@@ -49,7 +49,6 @@ export function BookingTimePicker({
       label={content.select_time}
       value={value}
       onChange={(newValue) => {
-        setValue(newValue);
         !!newValue && setTime(newValue);
       }}
       timeSteps={{ minutes: 20 }}

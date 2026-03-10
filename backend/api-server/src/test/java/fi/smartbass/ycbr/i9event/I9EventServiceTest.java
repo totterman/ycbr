@@ -36,11 +36,21 @@ class I9EventServiceTest {
 
     @Test
     @DisplayName("Find all events")
+    @Deprecated(since = "20260310", forRemoval = true)
     void findAll() {
         when(eventRepository.findAll()).thenReturn(Collections.emptyList());
         Iterable<I9EventDto> result = eventService.findAll();
         assertThat(result).isEmpty();
         verify(eventRepository).findAll();
+    }
+
+    @Test
+    @DisplayName("Find coming events")
+    void findUpcoming() {
+        when(eventRepository.findByStartsAfter(any(OffsetDateTime.class))).thenReturn(Collections.emptyList());
+        Iterable<I9EventDto> result = eventService.findUpcoming();
+        assertThat(result).isEmpty();
+        verify(eventRepository).findByStartsAfter(any(OffsetDateTime.class));
     }
 
     @Test

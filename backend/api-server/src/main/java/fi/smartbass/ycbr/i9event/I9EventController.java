@@ -25,7 +25,7 @@ public class I9EventController implements I9EventApi {
     @Override
     public Iterable<I9EventDto> getAll(Authentication auth) {
         LOGGER.info("getAll() called: {}", auth);
-        return service.findAll();
+        return service.findUpcoming();
     }
 
     @Override
