@@ -47,10 +47,10 @@ class I9EventServiceTest {
     @Test
     @DisplayName("Find coming events")
     void findUpcoming() {
-        when(eventRepository.findByStartsAfter(any(OffsetDateTime.class))).thenReturn(Collections.emptyList());
+        when(eventRepository.findByEndsAfter(any(OffsetDateTime.class))).thenReturn(Collections.emptyList());
         Iterable<I9EventDto> result = eventService.findUpcoming();
         assertThat(result).isEmpty();
-        verify(eventRepository).findByStartsAfter(any(OffsetDateTime.class));
+        verify(eventRepository).findByEndsAfter(any(OffsetDateTime.class));
     }
 
     @Test

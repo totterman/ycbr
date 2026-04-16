@@ -31,7 +31,7 @@ public class I9EventService {
 
     @Transactional(readOnly = true)
     public Iterable<I9EventDto> findUpcoming() {
-        return mapper.toDTOs(eventRepository.findByStartsAfter(OffsetDateTime.now()));
+        return mapper.toDTOs(eventRepository.findByEndsAfter(OffsetDateTime.now()));
     }
 
     @Transactional(readOnly = true)
