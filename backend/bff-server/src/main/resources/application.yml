@@ -13,6 +13,7 @@ authorities-json-path: $.realm_access.roles
 bff-port: 7081
 bff-prefix: /bff
 api-server-port: 7082
+api-uri: http://api-server:80
 audience:
 
 server:
@@ -158,6 +159,38 @@ server:
   http2:
     enabled: true
 scheme: https
+
+---
+spring:
+  config:
+    activate:
+      on-profile: minikube
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: bff
+              uri: ${api-uri}
+              predicates:
+                - Path=/api/**
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+                - TokenRelay=
+                - SaveSession
+                - StripPrefix=1
+            - id: direct-access
+              uri: ${api-uri}
+              predicates:
+                - Path=/openapi/**
+              filters:
+                - StripPrefix=1
+com:
+  c4-soft:
+    springaddons:
+      oidc:
+        client:
+          post-logout-redirect-path: ${post-logout-path:/ui}
 
 ---
 spring:

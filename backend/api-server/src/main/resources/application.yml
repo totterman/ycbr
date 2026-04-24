@@ -134,6 +134,13 @@ server:
   http2:
     enabled: true
 scheme: https
+
+---
+spring:
+  config:
+    activate:
+      on-profile: minikube
+
 ---
 spring:
   config:

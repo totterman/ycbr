@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /data/postgres
+  storageClassName: standard
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: postgres
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres
+type: Opaque
+data:
+  POSTGRES_USER: eWNicg==             # printf postgres | base64
+  POSTGRES_PASSWORD: eWNici1zZWNyZXQ= # printf password | base64
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  labels:
+    db: postgres
+    role: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      db: postgres
+      role: service
+  serviceName: postgres
+  template:
+    metadata:
+      labels:
+        db: postgres
+        role: service
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:18-alpine
+          env:
+            - name: LANG
+              value: sv_FI.utf8
+            - name: PGUSER
+              value: ycbr
+            - name: POSTGRES_DB
+              value: ycbr
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgres
+          ports:
+            - containerPort: 5432
+              name: postgres
+              protocol: TCP
+          volumeMounts:
+            - name: postgres
+              mountPath: /var/lib/postgresql/data
+          livenessProbe:
+            exec:
+              command:
+                - /usr/local/bin/pg_isready
+            failureThreshold: 5
+            initialDelaySeconds: 80
+            periodSeconds: 30
+            timeoutSeconds: 60
+      volumes:
+        - name: postgres
+          persistentVolumeClaim:
+            claimName: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    db: postgres
+    role: service
+spec:
+  selector:
+    db: postgres
+    role: service
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP

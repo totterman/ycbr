@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  key.pem: |
+    -----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgbNZOfwMRUCC7aXdW
+    M6hlNKITXMGzEaa4tSnt3knd3X6hRANCAATKPctQMJvskpHf1QF9sx67x7fYz9k4
+    JzT9MCFlEt5rUixacsKwvjzV4D0gYGGsLqFgDQozB8pPnFXIog4mMEZH
+    -----END PRIVATE KEY-----
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: bff-server
+  name: bff-server-cm1

@@ -21,3 +21,4 @@ db-data
 *.env
 monitoring/prometheus/prom_data/
 monitoring/prometheus/prometheus.yml
+ghcr.yaml

@@ -1,6 +1,6 @@
 services:
   reverse-proxy:
-    container_name: ycbr.reverse-proxy
+    container_name: reverse-proxy
     image: nginx:alpine
     volumes:
       - ./nginx-reverse-proxy/templates:/etc/nginx/templates
@@ -9,19 +9,13 @@ services:
     ports:
       - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
     mem_limit: 64m
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-      - "LOCALHOST_NAME:host-gateway"
     environment:
       NGINX_APP_HOST: LOCALHOST_NAME
       NGINX_APP_PORT: ${REVERSE_PROXY_PORT}
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-    networks:
-      - frontend
-      - backend
 
   postgres:
-    container_name: ycbr.db
+    container_name: db
     image: postgres:18-alpine
     restart: always
     ports:
@@ -42,14 +36,9 @@ services:
     volumes:
     - ./db-data/:/var/lib/postgresql
 #    - ${PWD}/init.sql:/docker-entrypoint-initdb.d/init.sql
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
-    networks:
-      - backend
 
   keycloak:
-    container_name: ycbr.auth
+    container_name: auth
     image: quay.io/keycloak/keycloak:24.0.0
     command:
     - start-dev
@@ -78,19 +67,14 @@ services:
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
       #KC_LOG_LEVEL: DEBUG
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
     healthcheck:
       test: ['CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)new java.net.URL(args[0]).openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:8080/auth/health/live']
       interval: 5s
       timeout: 5s
       retries: 20
-    networks:
-      - backend
 
   ui:
-    container_name: ycbr.ui
+    container_name: ui
     image: ycbr/ui
     volumes:
       - ./certs/cert.pem:/etc/nginx/ssl/certfile.pem
@@ -99,14 +83,9 @@ services:
     ports:
 #      - 7084:80
       - 7084:443
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-      - "LOCALHOST_NAME:host-gateway"
-    networks:
-      - frontend
 
   api-server:
-    container_name: ycbr.api-server
+    container_name: api-server
     image: ycbr/api-server
     ports:
     - 7082:7082
@@ -128,14 +107,9 @@ services:
         condition: service_healthy
       postgres:
         condition: service_healthy
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
-    networks:
-      - backend
 
   bff-server:
-    container_name: ycbr.bff-server
+    container_name: bff-server
     image: ycbr/bff-server
     ports:
     - 7081:7081
@@ -153,11 +127,6 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
-    - "LOCALHOST_NAME:host-gateway"
-    networks:
-      - backend
 
   prometheus:
     image: prom/prometheus
@@ -171,8 +140,6 @@ services:
     volumes:
       - ./monitoring/prometheus:/etc/prometheus
       - ./monitoring/prometheus/prom_data:/prometheus
-    networks:
-      - backend
 
   grafana:
     image: grafana/grafana
@@ -186,9 +153,3 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - ./monitoring/grafana:/etc/grafana/provisioning/datasources
-    networks:
-      - backend
-
-networks:
-  frontend:
-  backend:

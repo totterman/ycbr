@@ -1,0 +1,57 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: ui
+spec:
+  parentRefs:
+    - name: ycbr
+  hostnames:
+    - baatbesiktning.in.totterman.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /ui
+    backendRefs:
+    - name: ui
+      port: 80
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /bff
+    filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /
+    backendRefs:
+      - name: bff-server
+        port: 80
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /api-server
+    filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /
+    backendRefs:
+      - name: api-server
+        port: 80
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /openapi
+    backendRefs:
+      - name: api-server
+        port: 80
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /auth
+    backendRefs:
+      - name: keycloak
+        port: 8080

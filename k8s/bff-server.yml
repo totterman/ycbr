@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-server
+  labels:
+    app: bff-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bff-server
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: bff-server
+          image: ghcr.io/totterman/ycbr/bff-server:0.9.1
+          env:
+            - name: KEYCLOAK_CLIENT_ID
+              value: ycbr-confidential
+            - name: KEYCLOAK_CLIENT_SECRET
+              value: secret
+            - name: API_URI
+              value: http://api-server:80
+            - name: REVERSE_PROXY_URI
+              value: http://baatbesiktning.in.totterman.com:80
+            - name: SERVER_ADDRESS
+              value: 0.0.0.0
+            - name: SPRING_PROFILES_ACTIVE
+              value: minikube
+            - name: ISSUER
+              value: http://baatbesiktning.in.totterman.com/auth/realms/ycbr
+            - name: POST_LOGOUT_PATH
+              value: /ui
+          ports:
+            - containerPort: 7081
+              protocol: TCP
+          resources:
+            limits:
+              memory: "1073741824"
+          volumeMounts:
+#            - mountPath: /opt/certfile.pem
+#              name: bff-server-cm0
+#              subPath: certfile.pem
+#            - mountPath: /opt/keyfile.pem
+#              name: bff-server-cm1
+#              subPath: keyfile.pem
+      restartPolicy: Always
+      volumes:
+#        - configMap:
+#            items:
+#              - key: cert.pem
+#                path: certfile.pem
+#            name: bff-server-cm0
+#          name: bff-server-cm0
+#        - configMap:
+#            items:
+#              - key: key.pem
+#                path: keyfile.pem
+#            name: bff-server-cm1
+#          name: bff-server-cm1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff-server
+  labels:
+    app: bff-server
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7081
+  selector:
+    app: bff-server
+
