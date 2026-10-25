@@ -26,10 +26,6 @@ public class I9EventService {
     }
 
     @Transactional(readOnly = true)
-    @Deprecated(since = "20260310", forRemoval = true)
-    public Iterable<I9EventDto> findAll() { return mapper.toDTOs(eventRepository.findAll()); }
-
-    @Transactional(readOnly = true)
     public Iterable<I9EventDto> findUpcoming() {
         return mapper.toDTOs(eventRepository.findByEndsAfter(OffsetDateTime.now()));
     }

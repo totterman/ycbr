@@ -6,12 +6,13 @@ import com.c4_soft.springaddons.security.oauth2.test.webmvc.AutoConfigureAddonsW
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +38,8 @@ class I9EventControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    private ObjectMapper om = new ObjectMapper();
 
     private final UUID id1 = UUID.randomUUID();
     private final UUID id2 = UUID.randomUUID();
@@ -74,14 +77,7 @@ class I9EventControllerTest {
     @DisplayName("POST /api/i9events/ returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void postGood() throws Exception {
-        String jsonI9Event = """
-                {
-                  "place": "Blekholmen",
-                  "day": "2024-08-20",
-                  "starts": "2024-08-20T09:00:00+02:00",
-                  "ends": "2024-08-20T15:00:00.000+02:00"
-                }""";
-//        I9EventDto dto = new I9EventDto(id2, "Blekholmen", "2024-08-20", "2024-08-20T09:00:00+02:00", "2024-08-20T15:00:00.000+02:00", 0, 0);
+        String jsonI9Event = om.writeValueAsString(dto2);
         when(eventService.create(any(NewI9EventDto.class))).thenReturn(dto2);
         mockMvc.perform(post("/i9events")
                         .principal(authentication)
@@ -95,14 +91,8 @@ class I9EventControllerTest {
     @DisplayName("PUT /api/i9events/id3 returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void putGood() throws Exception {
-        String jsonI9Event = "{\n" +
-                "  \"i9eventId\": \"" + id3 + "\",\n" +
-                "  \"place\": \"Blekholmen\",\n" +
-                "  \"day\": \"2024-08-20\",\n" +
-                "  \"starts\": \"2024-08-20T09:00:00+02:00\",\n" +
-                "  \"ends\": \"2024-08-20T15:00:00.000+02:00\"\n" +
-                "}";
         I9EventDto dto = new I9EventDto(id3, "Blekholmen", "2024-08-20", "2024-08-20T09:00:00+02:00", "2024-08-20T15:00:00.000+02:00", null, 0, 0);
+        String jsonI9Event = om.writeValueAsString(dto);
         when(eventService.upsert(id3, dto)).thenReturn(dto);
         mockMvc.perform(put("/i9events/" + id3)
                         .principal(authentication)
@@ -169,11 +159,11 @@ class I9EventControllerTest {
     @DisplayName("POST /api/i9events/1001/boats returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void addBoat() throws Exception {
-        String json = "{ \"boatId\": \"" +  boatId + "\", \"message\": \"Dock P1 42\", \"type\": \"A\", \"time\": \"2024-09-10T01:00:00.000+02:00\" }";
+        String jsonString = om.writeValueAsString(bdto);
         when(eventService.assignBoatToEvent(id2, bdto)).thenReturn(dto1);
         mockMvc.perform(post("/i9events/" + id2 + "/boats").principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(jsonString))
                 .andExpect(status().isCreated());
         verify(eventService).assignBoatToEvent(id2, bdto);
     }
@@ -182,11 +172,11 @@ class I9EventControllerTest {
     @DisplayName("DELETE /api/i9events/1001/boats returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void removeBoat() throws Exception {
-        String json = "{ \"boatId\": \"" + boatId + "\", \"message\": \"Dock P1 42\", \"type\": \"A\", \"time\": \"2024-09-10T01:00:00.000+02:00\" }";
+        String jsonString = om.writeValueAsString(bdto);
         when(eventService.removeBoatFromEvent(id3, boatId)).thenReturn(dto1);
         mockMvc.perform(delete("/i9events/" + id3 + "/boats").principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(jsonString))
                 .andExpect(status().isOk());
         verify(eventService).removeBoatFromEvent(id3, boatId);
     }

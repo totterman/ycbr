@@ -4,20 +4,21 @@ import com.c4_soft.springaddons.security.oauth2.test.webflux.AddonsWebfluxTestCo
 import com.c4_soft.springaddons.security.oauth2.test.webflux.WebTestClientSupport;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.security.oauth2.client.autoconfigure.OAuth2ClientProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 
-@SpringBootTest
-@AutoConfigureWebTestClient
-@ImportAutoConfiguration(AddonsWebfluxTestConf.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @EnableConfigurationProperties({OAuth2ClientProperties.class})
+@AutoConfigureWebTestClient
+@Import({TestSecurityConf.class, AddonsWebfluxTestConf.class})
 class BffServerApplicationIntegrationTests {
+
     @Autowired
-    WebTestClientSupport api;
+    private WebTestClientSupport api;
 
     @Test
     @WithAnonymousUser
@@ -48,6 +49,14 @@ class BffServerApplicationIntegrationTests {
     @WithAnonymousUser
     void givenRequestIsAnonymous_whenGetReadiness_thenOk() throws Exception {
         api.get("/actuator/health/readiness")
+                .expectStatus()
+                .isOk();
+    }
+
+    @Test
+    @WithAnonymousUser
+    void givenRequestIsAnonymous_whenGetHealth_thenOk() throws Exception {
+        api.get("/actuator/health")
                 .expectStatus()
                 .isOk();
     }

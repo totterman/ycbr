@@ -5,12 +5,13 @@ import com.c4_soft.springaddons.security.oauth2.test.webmvc.AutoConfigureAddonsW
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +47,8 @@ class BoatControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    private ObjectMapper om = new ObjectMapper();
 
     private final UUID boatId1 = UUID.randomUUID();
     private final UUID boatId2 = UUID.randomUUID();
@@ -102,7 +105,7 @@ class BoatControllerTest {
     @DisplayName("POST /api/boats returns 201 Created")
     @WithMockAuthentication({ "guest" })
     void testPostBoat() throws Exception {
-        String jsonBoat = "{\"club\": \"club1\", \"cert\": \"cert1\", \"name\": \"BoatName\", \"kind\": \"S\", \"make\": \"Goodsail\",  \"model\": \"2020\", \"sign\": \"Reg1234\", \"year\": \"1994\", \"loa\": \"9.5\", \"beam\": \"3.2\", \"draft\": \"1.5\", \"height\": \"13.0\", \"deplacement\": \"4.0\", \"drive\": \"D\", \"engines\": null, \"owner\": \"owner One\", \"owner2\": \"owner Two\" }";
+        String jsonBoat = om.writeValueAsString(boat1);
         BoatDto boat = boat1;
         when(boatService.create(any(NewBoatDto.class))).thenReturn(boat);
         mockMvc.perform(post("/boats")
@@ -117,13 +120,13 @@ class BoatControllerTest {
     @DisplayName("PUT /api/boats/3 returns 200 OK")
     @WithMockAuthentication({ "guest" })
     void testPutBoat() throws Exception {
-        String jsonBoat = "{\"inspectionId\": \"" + boatId2 + "\", \"owner\": \"owner1\", \"name\": \"BoatName\", \"sign\": \"Reg1234\", \"make\": \"Goodsail\",  \"model\": \"2020\", \"loa\": \"9.5\", \"draft\": \"1.5\", \"beam\": \"3.2\", \"deplacement\": \"4000.0\", \"engines\": \"VP\", \"year\": \"1988\"\"owner\": \"owner One\", \"owner2\": \"owner Two\"  }";
+        String jsonBoat = om.writeValueAsString(boat2);
         BoatDto boat = boat2;
         when(boatService.upsert(eq(boatId2), any(BoatDto.class))).thenReturn(boat);
         mockMvc.perform(put("/boats/" + boatId2)
                         .principal(authentication)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
+                        .content(jsonBoat))
                 .andExpect(status().isOk());
         verify(boatService).upsert(eq(boatId2), any(BoatDto.class));
     }

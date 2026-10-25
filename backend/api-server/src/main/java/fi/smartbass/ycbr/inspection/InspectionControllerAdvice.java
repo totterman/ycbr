@@ -34,7 +34,7 @@ public class InspectionControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         var errors = new HashMap<String, String>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
@@ -46,11 +46,11 @@ public class InspectionControllerAdvice {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public String npeHandler(NullPointerException npe) { return  "Unknown attributes in payload."; }
 
     @ExceptionHandler(DateTimeParseException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public String dateTimeHandler(DateTimeParseException dpe) { return  "Unprocessable datetime values: " + dpe.getMessage(); }
 
 }

@@ -35,16 +35,6 @@ class I9EventServiceTest {
     private final UUID i9eventId = UUID.randomUUID();
 
     @Test
-    @DisplayName("Find all events")
-    @Deprecated(since = "20260310", forRemoval = true)
-    void findAll() {
-        when(eventRepository.findAll()).thenReturn(Collections.emptyList());
-        Iterable<I9EventDto> result = eventService.findAll();
-        assertThat(result).isEmpty();
-        verify(eventRepository).findAll();
-    }
-
-    @Test
     @DisplayName("Find coming events")
     void findUpcoming() {
         when(eventRepository.findByEndsAfter(any(OffsetDateTime.class))).thenReturn(Collections.emptyList());

@@ -190,7 +190,7 @@ public class InspectionIntegrationTest extends BaseIntegrationTest {
                 .content(newJson)
                 .exchange();
         assertThat(addNew)
-                .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+                .hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     private InspectionDto createOne(NewInspectionDto dto) throws JsonProcessingException, UnsupportedEncodingException {

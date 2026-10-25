@@ -1,18 +1,18 @@
 package fi.smartbass.ycbr;
 
+import com.c4_soft.springaddons.security.oauth2.test.webflux.AutoConfigureAddonsWebfluxClientSecurity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.security.oauth2.client.autoconfigure.OAuth2ClientProperties;
+import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 
-import com.c4_soft.springaddons.security.oauth2.test.webflux.AutoConfigureAddonsWebfluxResourceServerSecurity;
 import com.c4_soft.springaddons.security.oauth2.test.webflux.WebTestClientSupport;
 
-@WebFluxTest
-@AutoConfigureAddonsWebfluxResourceServerSecurity
+@WebFluxTest(controllers = LoginOptionsController.class)
+@AutoConfigureAddonsWebfluxClientSecurity
 @EnableConfigurationProperties({OAuth2ClientProperties.class})
 class LoginOptionsControllerUnitTest {
     @Autowired

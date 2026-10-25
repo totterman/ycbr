@@ -55,9 +55,15 @@ spring:
             client-secret: ${client-secret}
             scope: openid,profile,email,offline_access
 
+
+
 com:
   c4-soft:
     springaddons:
+      test:
+        web:
+          default-media-type: application/json
+          default-charset: utf-8
       oidc:
         ops:
         - iss: ${issuer}
