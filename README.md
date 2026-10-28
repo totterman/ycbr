@@ -119,7 +119,7 @@ Keycloak 24 running in a container. Should be interchangeable with any OAuth2 pr
 
 ### Application server
 
-Spring Boot 3.5.9 application in Java 25 running Tomcat with virtual threads (project loom). Using JDBC to connect to a Postgres database.
+Spring Boot 4.1.2 application in Java 25 running Tomcat with virtual threads (project loom). Using JDBC to connect to a Postgres database.
 
 Unit tests with `JUnit 5` and `Mockito`.
 Integration tests with `Testcontainers` and `Spring Boot Test`.
